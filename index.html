@@ -186,6 +186,43 @@ body.light .scout-meta{color:#4060a0;}
 .scout-lista.reuniao{background:rgba(46,204,142,0.15);color:#5ee8b2;border:1px solid rgba(46,204,142,0.3);}
 .scout-lista.successor{background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3);}
 .scout-lista.reserva{background:rgba(249,115,22,0.15);color:#fb923c;border:1px solid rgba(249,115,22,0.3);}
+.scout-lista.segunda{background:rgba(6,182,212,0.12);color:#22d3ee;border:1px solid rgba(6,182,212,0.3);}
+.scout-lista.segunda{background:rgba(100,116,139,0.18);color:#94a3b8;border:1px solid rgba(100,116,139,0.35);}
+/* ↗ add-to-queue button inside each scout card */
+.scout-add-btn{margin-left:auto;flex-shrink:0;padding:2px 7px;font-size:0.5rem;font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:.04em;background:rgba(212,168,67,0.12);color:var(--gold);border:1px solid rgba(212,168,67,0.32);border-radius:3px;cursor:pointer;transition:all .13s;white-space:nowrap;}
+.scout-add-btn:hover{background:rgba(212,168,67,0.25);border-color:var(--gold);}
+.scout-add-btn.added{background:rgba(46,204,142,0.15);color:#5ee8b2;border-color:rgba(46,204,142,0.4);}
+body.light .scout-add-btn{background:rgba(212,168,67,0.1);color:#b07820;border-color:rgba(212,168,67,0.4);}
+/* queue topbar button */
+.tb-queue-btn{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;border:1px solid rgba(212,168,67,0.3);background:rgba(212,168,67,0.08);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:700;cursor:pointer;transition:all .14s;letter-spacing:.04em;}
+.tb-queue-btn:hover{background:rgba(212,168,67,0.2);border-color:var(--gold);}
+.queue-badge{background:var(--gold);color:#0a0f1a;border-radius:8px;padding:0 5px;font-size:0.55rem;font-weight:800;min-width:16px;text-align:center;display:none;}
+/* queue modal overlay */
+#queueOverlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding-top:60px;}
+#queueOverlay.vis{display:flex;}
+#queueModal{background:#0e1726;border:1px solid rgba(212,168,67,0.3);border-radius:8px;width:min(600px,95vw);max-height:80vh;display:flex;flex-direction:column;overflow:hidden;}
+body.light #queueModal{background:#f0f4ff;border-color:rgba(212,168,67,0.5);}
+.qm-header{padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,168,67,0.18);flex-shrink:0;}
+.qm-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.07em;color:var(--gold);}
+.qm-close{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:0 4px;}
+.qm-close:hover{color:var(--text);}
+.qm-actions{padding:8px 18px;display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border2);flex-shrink:0;}
+.qm-act-btn{padding:4px 12px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:700;cursor:pointer;transition:all .13s;border:1px solid;}
+.qm-act-btn.danger{background:rgba(239,68,68,0.1);color:#f87171;border-color:rgba(239,68,68,0.3);}
+.qm-act-btn.danger:hover{background:rgba(239,68,68,0.22);}
+.qm-act-btn.export{background:rgba(46,204,142,0.1);color:#5ee8b2;border-color:rgba(46,204,142,0.3);}
+.qm-act-btn.export:hover{background:rgba(46,204,142,0.22);}
+.qm-act-btn.link{background:rgba(61,127,255,0.1);color:#7aaeff;border-color:rgba(61,127,255,0.3);}
+.qm-act-btn.link:hover{background:rgba(61,127,255,0.22);}
+.qm-list{overflow-y:auto;flex:1;padding:6px 0;}
+.qm-empty{padding:24px;text-align:center;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.7rem;}
+.qm-item{display:flex;align-items:center;gap:8px;padding:7px 18px;border-bottom:1px solid var(--border2);}
+.qm-item:last-child{border-bottom:none;}
+.qm-item-pos{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:#7aaeff;width:54px;flex-shrink:0;}
+.qm-item-name{font-size:0.8rem;font-weight:700;color:var(--text);flex:1;}
+.qm-item-team{font-family:'JetBrains Mono',monospace;font-size:0.52rem;color:#5a80b0;}
+.qm-item-del{background:none;border:none;color:rgba(239,68,68,0.5);cursor:pointer;font-size:0.8rem;padding:0 4px;transition:color .12s;}
+.qm-item-del:hover{color:#f87171;}
 
 /* ═══ CALENDÁRIO ═══════════════════════════════════════════ */
 .cal-toggle-btn{padding:2px 7px;border-radius:3px;border:1px solid var(--border2);background:var(--panel2);color:var(--muted2);cursor:pointer;font-size:0.75rem;transition:all 0.14s;margin-left:4px;}
@@ -311,21 +348,166 @@ body.light .ml{background:rgba(255,255,255,0.96);}
 
 /* ═══ PRINT ════════════════════════════════════════════════ */
 @media print{
-  body{background:#fff!important;color:#000!important;}
-  .topbar,.col-all,#map,.ml,.gacts,.scouts-bar,.scouts-list,button{display:none!important;}
-  .main{display:block!important;}
-  .col-route{width:100%!important;border:none!important;overflow:visible!important;height:auto!important;}
-  .col-scroll{overflow:visible!important;height:auto!important;}
-  .game-list{padding:0!important;}
-  .gi{border:1px solid #ccc!important;background:#fff!important;margin-bottom:8px!important;break-inside:avoid;}
+  /* ── Reset de overflow/altura em toda a árvore ── */
+  html,body{
+    overflow:visible!important;
+    height:auto!important;
+    background:#fff!important;
+    color:#000!important;
+    display:block!important;
+  }
+  .main{
+    display:block!important;
+    overflow:visible!important;
+    height:auto!important;
+    flex:none!important;
+  }
+  .col{
+    overflow:visible!important;
+    height:auto!important;
+  }
+  /* ── Ocultar tudo exceto a coluna de rota ── */
+  .topbar,.col-all,#map,.ml,.gacts,.scouts-bar,.scouts-list,
+  button,.col-hdr,.day-label{display:none!important;}
+  /* ── Coluna de rota ocupa a página inteira ── */
+  .col-route{
+    width:100%!important;
+    border:none!important;
+    overflow:visible!important;
+    height:auto!important;
+    display:block!important;
+    flex:none!important;
+  }
+  .col-scroll{
+    overflow:visible!important;
+    height:auto!important;
+    max-height:none!important;
+  }
+  .game-list{padding:4px 0!important;}
+  /* ── Cards de jogo ── */
+  .gi{
+    border:1px solid #ccc!important;
+    background:#fff!important;
+    margin-bottom:6px!important;
+    break-inside:avoid;
+    page-break-inside:avoid;
+    overflow:visible!important;
+  }
   .gm{color:#000!important;}
   .rnum{border:2px solid #000!important;background:transparent!important;color:#000!important;}
   .gt{border:1px solid #999!important;background:transparent!important;color:#444!important;}
   .print-header{display:block!important;}
+  /* ── Quebra de página nunca no meio de um card ── */
+  .gi + .gi{page-break-before:auto;}
 }
 .print-header{display:none;font-family:'Syne',sans-serif;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #000;}
 .print-header h1{font-size:1.3rem;font-weight:700;}
 .print-header p{font-size:0.78rem;color:#555;margin-top:3px;}
+/* ═══ RELATÓRIOS DE JOGADOR ══════════════════════════════════════════ */
+/* Botão "relatório" no card de jogo */
+.bico.rep{font-size:0.72rem;}
+.bico.rep:hover{border-color:#22d3ee;color:#22d3ee;}
+/* Botão topbar relatórios */
+.tb-rep-btn{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;
+  border:1px solid rgba(6,182,212,0.3);background:rgba(6,182,212,0.08);color:#22d3ee;
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:700;cursor:pointer;
+  transition:all .14s;letter-spacing:.04em;}
+.tb-rep-btn:hover{background:rgba(6,182,212,0.2);border-color:#22d3ee;}
+.rep-badge{background:#22d3ee;color:#0a0f1a;border-radius:8px;padding:0 5px;font-size:0.55rem;
+  font-weight:800;min-width:16px;text-align:center;display:none;}
+/* Overlays */
+#repListOverlay,#repFormOverlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:3000;
+  display:none;align-items:flex-start;justify-content:center;padding-top:40px;overflow-y:auto;}
+#repListOverlay.vis,#repFormOverlay.vis{display:flex;}
+/* Painéis */
+#repListPanel{background:#0d1117;border:1px solid rgba(6,182,212,0.25);border-radius:10px;
+  width:min(720px,96vw);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;margin-bottom:40px;}
+#repFormPanel{background:#0d1117;border:1px solid rgba(6,182,212,0.25);border-radius:10px;
+  width:min(760px,96vw);display:flex;flex-direction:column;margin-bottom:40px;}
+/* Cabeçalho dos painéis */
+.rp-hdr{padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(6,182,212,0.18);flex-shrink:0;}
+.rp-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.07em;color:#22d3ee;}
+.rp-close{background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:0 4px;}
+.rp-close:hover{color:#22d3ee;}
+/* Seções do formulário */
+.rp-section{border:1px solid var(--border2);border-radius:8px;padding:16px 18px;margin:0 18px 14px;}
+.rp-section-title{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:.18em;
+  text-transform:uppercase;color:#22d3ee;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.rp-row{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+.rp-field{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px;}
+.rp-field.full{flex-basis:100%;}
+.rp-label{font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted2);}
+.rp-input,.rp-select,.rp-textarea{background:var(--panel2);border:1px solid var(--border2);
+  border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.72rem;
+  padding:6px 9px;outline:none;width:100%;transition:border-color .14s;}
+.rp-input:focus,.rp-select:focus,.rp-textarea:focus{border-color:#22d3ee;}
+.rp-textarea{resize:vertical;min-height:64px;line-height:1.45;}
+.rp-select{cursor:pointer;}
+/* Atributos 1-10 */
+.attr-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.attr-row{display:flex;flex-direction:column;gap:4px;}
+.attr-label{font-family:'JetBrains Mono',monospace;font-size:0.54rem;color:var(--muted2);
+  text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;}
+.attr-val{font-weight:700;color:#22d3ee;}
+.attr-dots{display:flex;gap:3px;align-items:center;}
+.adot{width:18px;height:10px;border-radius:2px;background:var(--border2);cursor:pointer;
+  transition:all .1s;border:1px solid transparent;}
+.adot:hover{background:rgba(6,182,212,0.3);}
+.adot.on{background:#22d3ee;border-color:#22d3ee;}
+.adot.on.hi{background:#f0c96a;border-color:#f0c96a;}
+/* Card de relatório na lista */
+.rep-card{border:1px solid var(--border2);border-radius:7px;padding:12px 14px;margin:0 14px 10px;
+  background:var(--panel2);transition:border-color .13s;cursor:pointer;}
+.rep-card:hover{border-color:#22d3ee;}
+.rep-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.rep-card-name{font-size:0.88rem;font-weight:700;color:var(--text);}
+.rep-card-match{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--muted);margin-top:3px;}
+.rep-card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.rep-tag{font-family:'JetBrains Mono',monospace;font-size:0.52rem;padding:2px 6px;border-radius:3px;
+  background:rgba(6,182,212,0.1);color:#22d3ee;border:1px solid rgba(6,182,212,0.25);}
+.rep-tag.gold{background:rgba(212,168,67,0.1);color:var(--gold);border-color:rgba(212,168,67,0.3);}
+.rep-tag.green{background:rgba(46,204,142,0.1);color:#5ee8b2;border-color:rgba(46,204,142,0.3);}
+.rep-tag.red{background:rgba(232,64,64,0.1);color:#f87171;border-color:rgba(232,64,64,0.3);}
+.rep-score-circle{width:38px;height:38px;border-radius:50%;border:2px solid #22d3ee;
+  display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;
+  font-size:1.05rem;color:#22d3ee;flex-shrink:0;}
+.rep-btns{display:flex;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);}
+.rep-btn{padding:3px 10px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;
+  font-weight:700;cursor:pointer;border:1px solid;transition:all .13s;}
+.rep-btn.view{background:rgba(6,182,212,0.08);color:#22d3ee;border-color:rgba(6,182,212,0.3);}
+.rep-btn.view:hover{background:rgba(6,182,212,0.2);}
+.rep-btn.del{background:rgba(232,64,64,0.06);color:#f87171;border-color:rgba(232,64,64,0.25);}
+.rep-btn.del:hover{background:rgba(232,64,64,0.18);}
+.rep-btn.exp{background:rgba(37,211,102,0.06);color:#4ade80;border-color:rgba(37,211,102,0.25);}
+.rep-btn.exp:hover{background:rgba(37,211,102,0.18);}
+/* Footer do form */
+.rp-footer{padding:14px 18px;border-top:1px solid var(--border2);display:flex;justify-content:flex-end;
+  gap:10px;flex-shrink:0;background:var(--panel);}
+.rp-btn-cancel{padding:7px 18px;border-radius:4px;font-family:'JetBrains Neue',sans-serif;
+  font-size:0.8rem;cursor:pointer;border:1px solid var(--border2);background:var(--panel2);
+  color:var(--muted2);transition:all .13s;}
+.rp-btn-cancel:hover{border-color:var(--text);color:var(--text);}
+.rp-btn-save{padding:7px 22px;border-radius:4px;font-family:'Bebas Neue',sans-serif;
+  font-size:0.95rem;letter-spacing:.08em;cursor:pointer;border:none;
+  background:#22d3ee;color:#0a0f1a;font-weight:700;transition:all .13s;}
+.rp-btn-save:hover{background:#06b6d4;}
+/* Lista vazia */
+.rep-empty{padding:40px 20px;text-align:center;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;}
+.rep-list-scroll{flex:1;overflow-y:auto;padding-top:10px;}
+/* Cabeçalho lista com filtros */
+.rep-list-head{padding:10px 14px;display:flex;gap:8px;flex-shrink:0;
+  border-bottom:1px solid var(--border2);align-items:center;flex-wrap:wrap;}
+.rep-filter-input{flex:1;min-width:160px;background:var(--panel2);border:1px solid var(--border2);
+  border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+  padding:5px 9px;outline:none;}
+.rep-filter-input:focus{border-color:#22d3ee;}
+.rep-add-btn{padding:5px 14px;border-radius:4px;font-family:'Bebas Neue',sans-serif;
+  font-size:0.85rem;letter-spacing:.07em;cursor:pointer;border:none;background:#22d3ee;
+  color:#0a0f1a;font-weight:700;white-space:nowrap;}
+
 </style>
 </head>
 <body>
@@ -353,6 +535,8 @@ body.light .ml{background:rgba(255,255,255,0.96);}
     <div class="tb-actions">
       <div class="tb-btn" onclick="abrirNovo()">+ Jogo</div>
       <div class="tb-btn accent" onclick="exportCSV()">↓ CSV</div>
+      <button class="tb-queue-btn" onclick="showScoutQueue()" title="Jogadores na fila para o Scout System">📋 FILA <span class="queue-badge" id="queueBadge">0</span></button>
+      <button class="tb-rep-btn" onclick="showRepList()" title="Relatórios de jogadores">📝 RELATÓRIOS <span class="rep-badge" id="repBadge">0</span></button>
       <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Claro/Escuro">🌙</button>
     </div>
   </div>
@@ -370,6 +554,7 @@ body.light .ml{background:rgba(255,255,255,0.96);}
     <div class="chip active" data-comp="apertura" onclick="toggleChip(this)">Apertura 2026</div>
     <div class="chip active" data-comp="clausura" onclick="toggleChip(this)">Clausura 2026</div>
     <div class="chip" data-comp="reserva" onclick="toggleChip(this)">Proyección</div>
+    <div class="chip" data-comp="segunda" onclick="toggleChip(this)">1a Nacional</div>
     <div class="chip" data-comp="copa" onclick="toggleChip(this)">Copa ARG</div>
     <div class="chip" data-comp="conmebol" onclick="toggleChip(this)">Conmebol</div>
   </div>
@@ -396,6 +581,7 @@ body.light .ml{background:rgba(255,255,255,0.96);}
     <div class="cad-chip" data-cadcomp="conmebol" onclick="toggleCadChip(this)">Conmebol</div>
     <div class="cad-chip" data-cadcomp="copa" onclick="toggleCadChip(this)">Copa ARG</div>
     <div class="cad-chip" data-cadcomp="reserva" onclick="toggleCadChip(this)">Proyección</div>
+    <div class="cad-chip" data-cadcomp="segunda" onclick="toggleCadChip(this)">1a Nacional</div>
     <div class="cad-chip" data-cadcomp="custom" onclick="toggleCadChip(this)">⭐ Meus jogos</div>
   </div>
   <div class="cad-scroll">
@@ -493,6 +679,22 @@ body.light .ml{background:rgba(255,255,255,0.96);}
   </div>
 </div>
 
+<!-- QUEUE MODAL -->
+<div id="queueOverlay" onclick="if(event.target===this)closeQueue()">
+  <div id="queueModal">
+    <div class="qm-header">
+      <div class="qm-title">📋 FILA — SCOUT SYSTEM</div>
+      <button class="qm-close" onclick="closeQueue()">✕</button>
+    </div>
+    <div class="qm-actions">
+      <button class="qm-act-btn export" onclick="exportQueueJSON()">↓ Copiar JSON</button>
+      <button class="qm-act-btn link" onclick="exportQueueWhatsApp()">💬 WhatsApp</button>
+      <button class="qm-act-btn danger" onclick="clearQueue()">🗑 Limpar Fila</button>
+    </div>
+    <div class="qm-list" id="qmList"></div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 <!-- PRINT HEADER -->
@@ -524,7 +726,7 @@ body.light .ml{background:rgba(255,255,255,0.96);}
     <div class="mf"><label>Competição</label>
       <select id="fcp">
         <option value="apertura">Apertura 2026</option><option value="clausura">Clausura 2026</option>
-        <option value="reserva">Proyección</option><option value="copa">Copa ARG</option>
+        <option value="reserva">Proyección</option><option value="segunda">1a Nacional</option><option value="copa">Copa ARG</option>
         <option value="conmebol">Conmebol</option>
       </select>
     </div>
@@ -560,7 +762,7 @@ const EC={
 };
 const CORES={ba:"#d4a843",lp:"#3d7fff",ro:"#2ecc8e",co:"#a855f7",me:"#f97316",tu:"#06b6d4",sf:"#ec4899"};
 const CNOMES={ba:"Buenos Aires",lp:"La Plata",ro:"Rosário",co:"Córdoba",me:"Mendoza",tu:"Tucumán",sf:"Santa Fe"};
-const CPNOMES={apertura:"Apertura 2026",clausura:"Clausura 2026",reserva:"Proyección",copa:"Copa ARG",conmebol:"Conmebol"};
+const CPNOMES={apertura:"Apertura 2026",clausura:"Clausura 2026",reserva:"Proyección",segunda:"1a Nacional",copa:"Copa ARG",conmebol:"Conmebol"};
 const BASE=[
   // CÓRDOBA — Talleres
   {m:"Talleres",v:"Newell's",          d:"2026-01-24",h:"21:00",e:"Mario Alberto Kempes",   c:"co",cp:"apertura",r:"F1"},
@@ -899,6 +1101,235 @@ const BASE=[
   {m:"Racing",v:"Boca Juniors",  d:"2026-08-23",h:"21:00",e:"El Cilindro",c:"ba",cp:"clausura",r:"CL F6 · Interzonal"},
   {m:"Racing",v:"Atlético Tucumán",d:"2026-08-30",h:"17:00",e:"El Cilindro",c:"ba",cp:"clausura",r:"CL F8"},
   {m:"Racing",v:"Aldosivi",      d:"2026-10-18",h:"21:00",e:"El Cilindro",c:"ba",cp:"clausura",r:"CL F15 · Interzonal"},
+
+    // ══════════════════════════════════════════════════════════════════════
+  // PROYECCIÓN APERTURA 2026 — Home games por cidade (cp:"reserva")
+  // Fonte: screenshots LPF (F1-F18) · belgrano.com.ar · racingclub.com.ar
+  // Zonas, datas e horários confirmados por rodada · h:"10:00"=A CONFIRMAR
+  // ══════════════════════════════════════════════════════════════════════
+
+  // ─── CÓRDOBA — Talleres home ──────────────
+  {m:"Talleres",v:"Vélez",d:"2026-02-12",h:"15:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F2"},
+  {m:"Talleres",v:"Tigre",d:"2026-03-03",h:"15:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F4"},
+  {m:"Talleres",v:"Banfield",d:"2026-03-26",h:"15:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F6"},
+  {m:"Talleres",v:"Gimnasia Mza",d:"2026-04-15",h:"19:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F9"},
+  {m:"Talleres",v:"Belgrano",d:"2026-04-23",h:"18:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F10 · Interzonal · DÉRBI"},
+  {m:"Talleres",v:"Atlético Tucumán",d:"2026-05-06",h:"19:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F12"},
+  {m:"Talleres",v:"Gimnasia LP",d:"2026-05-20",h:"10:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F14"},
+  {m:"Talleres",v:"Argentinos",d:"2026-06-03",h:"10:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F16"},
+  {m:"Talleres",v:"Racing",d:"2026-06-17",h:"10:00",e:"Mario Alberto Kempes",c:"co",cp:"reserva",r:"PR F18"},
+
+  // ─── CÓRDOBA — Instituto home ─────────────
+  {m:"Instituto",v:"Tigre",d:"2026-02-04",h:"15:00",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F1"},
+  {m:"Instituto",v:"Rosario Central",d:"2026-02-16",h:"15:00",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F3"},
+  {m:"Instituto",v:"Banfield",d:"2026-03-17",h:"15:00",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F5"},
+  {m:"Instituto",v:"Talleres",d:"2026-04-03",h:"14:30",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F7"},
+  {m:"Instituto",v:"Barracas Central",d:"2026-04-16",h:"15:00",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F9"},
+  {m:"Instituto",v:"Gimnasia Mza",d:"2026-05-05",h:"15:00",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F12"},
+  {m:"Instituto",v:"Godoy Cruz",d:"2026-05-20",h:"10:00",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F14"},
+  {m:"Instituto",v:"Atlético Tucumán",d:"2026-06-03",h:"10:00",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F16"},
+  {m:"Instituto",v:"Unión",d:"2026-06-17",h:"10:00",e:"Monumental Alta Córdoba",c:"co",cp:"reserva",r:"PR F18"},
+
+  // ─── CÓRDOBA — Belgrano home ──────────────
+  {m:"Belgrano",v:"Boca Juniors",d:"2026-02-04",h:"15:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F1"},
+  {m:"Belgrano",v:"Huracán",d:"2026-02-18",h:"15:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F3"},
+  {m:"Belgrano",v:"Def. y Justicia",d:"2026-03-17",h:"15:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F5"},
+  {m:"Belgrano",v:"Lanús",d:"2026-03-31",h:"15:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F7"},
+  {m:"Belgrano",v:"Colón",d:"2026-04-07",h:"15:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F8"},
+  {m:"Belgrano",v:"Ind. Rivadavia",d:"2026-04-29",h:"15:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F11"},
+  {m:"Belgrano",v:"Central Córdoba",d:"2026-05-13",h:"10:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F13"},
+  {m:"Belgrano",v:"Quilmes",d:"2026-05-27",h:"10:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F15"},
+  {m:"Belgrano",v:"A Rafaela",d:"2026-06-10",h:"10:00",e:"Julio C. Villagra",c:"co",cp:"reserva",r:"PR F17"},
+
+  // ─── MENDOZA — Gimnasia Mza home ──────────
+  {m:"Gimnasia Mza",v:"Racing",d:"2026-02-10",h:"15:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F2"},
+  {m:"Gimnasia Mza",v:"Vélez",d:"2026-03-03",h:"15:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F4"},
+  {m:"Gimnasia Mza",v:"Tigre",d:"2026-03-25",h:"15:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F6"},
+  {m:"Gimnasia Mza",v:"Banfield",d:"2026-04-08",h:"15:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F8"},
+  {m:"Gimnasia Mza",v:"Ind. Rivadavia",d:"2026-04-23",h:"18:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F10 · Interzonal · DÉRBI"},
+  {m:"Gimnasia Mza",v:"Barracas Central",d:"2026-04-29",h:"19:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F11"},
+  {m:"Gimnasia Mza",v:"Atlético Tucumán",d:"2026-05-20",h:"10:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F14"},
+  {m:"Gimnasia Mza",v:"Gimnasia LP",d:"2026-06-03",h:"10:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F16"},
+  {m:"Gimnasia Mza",v:"Argentinos",d:"2026-06-17",h:"10:00",e:"Malvinas Argentinas",c:"me",cp:"reserva",r:"PR F18"},
+
+  // ─── MENDOZA — Ind. Rivadavia home ────────
+  {m:"Ind. Rivadavia",v:"A Rafaela",d:"2026-02-05",h:"15:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F1"},
+  {m:"Ind. Rivadavia",v:"Boca Juniors",d:"2026-02-17",h:"15:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F3"},
+  {m:"Ind. Rivadavia",v:"Huracán",d:"2026-03-19",h:"15:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F5"},
+  {m:"Ind. Rivadavia",v:"Def. y Justicia",d:"2026-03-31",h:"15:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F7"},
+  {m:"Ind. Rivadavia",v:"Lanús",d:"2026-04-14",h:"15:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F9"},
+  {m:"Ind. Rivadavia",v:"Dep. Riestra",d:"2026-05-07",h:"15:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F12"},
+  {m:"Ind. Rivadavia",v:"Colón",d:"2026-05-13",h:"10:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F13"},
+  {m:"Ind. Rivadavia",v:"Central Córdoba",d:"2026-05-27",h:"10:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F15"},
+  {m:"Ind. Rivadavia",v:"Quilmes",d:"2026-06-10",h:"10:00",e:"Estadio Ind. Rivadavia",c:"me",cp:"reserva",r:"PR F17"},
+
+  // ─── TUCUMÁN — Atlético Tucumán home ──────
+  {m:"Atlético Tucumán",v:"Argentinos",d:"2026-02-11",h:"15:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F2"},
+  {m:"Atlético Tucumán",v:"Racing",d:"2026-03-04",h:"15:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F4"},
+  {m:"Atlético Tucumán",v:"Vélez",d:"2026-03-26",h:"15:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F6"},
+  {m:"Atlético Tucumán",v:"Tigre",d:"2026-04-09",h:"18:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F8"},
+  {m:"Atlético Tucumán",v:"Cent. Córdoba",d:"2026-04-21",h:"18:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F10 · Interzonal"},
+  {m:"Atlético Tucumán",v:"Banfield",d:"2026-04-30",h:"19:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F11"},
+  {m:"Atlético Tucumán",v:"Barracas Central",d:"2026-05-13",h:"10:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F13"},
+  {m:"Atlético Tucumán",v:"Godoy Cruz",d:"2026-05-27",h:"10:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F15"},
+  {m:"Atlético Tucumán",v:"Gimnasia LP",d:"2026-06-17",h:"10:00",e:"José Fierro",c:"tu",cp:"reserva",r:"PR F18"},
+
+  // ─── SANTA FÉ — Unión home ────────────────
+  {m:"Unión",v:"Aldosivi",d:"2026-02-10",h:"15:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F2"},
+  {m:"Unión",v:"Sarmiento",d:"2026-03-02",h:"15:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F4"},
+  {m:"Unión",v:"River Plate",d:"2026-03-26",h:"15:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F6"},
+  {m:"Unión",v:"San Lorenzo",d:"2026-04-07",h:"15:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F8"},
+  {m:"Unión",v:"Colón",d:"2026-04-22",h:"15:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F10 · Interzonal · CLÁSSICO"},
+  {m:"Unión",v:"Rosario Central",d:"2026-04-29",h:"15:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F11"},
+  {m:"Unión",v:"Talleres",d:"2026-05-13",h:"10:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F13"},
+  {m:"Unión",v:"Gimnasia Mza",d:"2026-05-27",h:"10:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F15"},
+  {m:"Unión",v:"Atlético Tucumán",d:"2026-06-10",h:"10:00",e:"Brigadier López",c:"sf",cp:"reserva",r:"PR F17"},
+
+  // ─── ROSÁRIO — Rosario Central home ───────
+  {m:"Rosario Central",v:"Tigre",d:"2026-02-10",h:"15:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F2"},
+  {m:"Rosario Central",v:"Talleres",d:"2026-03-17",h:"15:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F5"},
+  {m:"Rosario Central",v:"Gimnasia Mza",d:"2026-04-02",h:"15:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F7"},
+  {m:"Rosario Central",v:"Atlético Tucumán",d:"2026-04-14",h:"15:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F9"},
+  {m:"Rosario Central",v:"Newell's",d:"2026-04-21",h:"15:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F10 · Interzonal · CLÁSSICO"},
+  {m:"Rosario Central",v:"Gimnasia LP",d:"2026-05-06",h:"15:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F12"},
+  {m:"Rosario Central",v:"Argentinos",d:"2026-05-20",h:"10:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F14"},
+  {m:"Rosario Central",v:"Racing",d:"2026-06-03",h:"10:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F16"},
+  {m:"Rosario Central",v:"Vélez",d:"2026-06-17",h:"10:00",e:"Gigante de Arroyito",c:"ro",cp:"reserva",r:"PR F18"},
+
+  // ─── ROSÁRIO — Newell's home ──────────────
+  {m:"Newell's",v:"Huracán",d:"2026-02-03",h:"15:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F1"},
+  {m:"Newell's",v:"Def. y Justicia",d:"2026-02-17",h:"15:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F3"},
+  {m:"Newell's",v:"Colón",d:"2026-03-02",h:"15:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F4"},
+  {m:"Newell's",v:"Belgrano",d:"2026-03-25",h:"15:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F6"},
+  {m:"Newell's",v:"Ind. Rivadavia",d:"2026-04-08",h:"15:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F8"},
+  {m:"Newell's",v:"Cent. Córdoba",d:"2026-04-28",h:"15:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F11"},
+  {m:"Newell's",v:"Quilmes",d:"2026-05-13",h:"10:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F13"},
+  {m:"Newell's",v:"A Rafaela",d:"2026-05-27",h:"10:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F15"},
+  {m:"Newell's",v:"Boca Juniors",d:"2026-06-10",h:"10:00",e:"Estadio Marcelo Bielsa",c:"ro",cp:"reserva",r:"PR F17"},
+
+  // ─── LA PLATA — Gimnasia LP home ──────────
+  {m:"Gimnasia LP",v:"Unión",d:"2026-02-03",h:"15:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F1"},
+  {m:"Gimnasia LP",v:"Instituto",d:"2026-02-10",h:"15:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F2"},
+  {m:"Gimnasia LP",v:"Argentinos",d:"2026-03-02",h:"15:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F4"},
+  {m:"Gimnasia LP",v:"Racing",d:"2026-03-25",h:"15:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F6"},
+  {m:"Gimnasia LP",v:"Vélez",d:"2026-04-08",h:"15:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F8"},
+  {m:"Gimnasia LP",v:"Tigre",d:"2026-04-28",h:"15:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F11"},
+  {m:"Gimnasia LP",v:"Banfield",d:"2026-05-13",h:"10:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F13"},
+  {m:"Gimnasia LP",v:"Barracas Central",d:"2026-05-27",h:"10:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F15"},
+  {m:"Gimnasia LP",v:"Godoy Cruz",d:"2026-06-10",h:"10:00",e:"Juan Carmelo Zerillo",c:"lp",cp:"reserva",r:"PR F17"},
+
+  // ─── LA PLATA — Estudiantes LP home ───────
+  {m:"Estudiantes LP",v:"Platense",d:"2026-02-18",h:"15:00",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F3"},
+  {m:"Estudiantes LP",v:"Independiente",d:"2026-03-19",h:"15:00",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F5"},
+  {m:"Estudiantes LP",v:"Ferro Carril R",d:"2026-04-01",h:"15:00",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F7"},
+  {m:"Estudiantes LP",v:"Estudiantes RC",d:"2026-04-16",h:"13:30",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F9"},
+  {m:"Estudiantes LP",v:"Gimnasia LP",d:"2026-04-21",h:"15:00",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F10 · Interzonal · CLÁSSICO"},
+  {m:"Estudiantes LP",v:"Newell's",d:"2026-05-07",h:"15:00",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F12"},
+  {m:"Estudiantes LP",v:"Belgrano",d:"2026-05-20",h:"10:00",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F14"},
+  {m:"Estudiantes LP",v:"Ind. Rivadavia",d:"2026-06-03",h:"10:00",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F16"},
+  {m:"Estudiantes LP",v:"Cent. Córdoba",d:"2026-06-17",h:"10:00",e:"Estadio Único La Plata",c:"lp",cp:"reserva",r:"PR F18"},
+
+  // ══════════════════════════════════════════════════════════════════════
+  // 1a NACIONAL 2026 — Home games por cidade (cp:"segunda")
+  // 36 equipes · 36 fechas · F1-F7 datas confirmadas · F8-F36 estimadas
+  // Pausa Copa do Mundo: Jun-Jul 2026 · h:"10:00"=horário A CONFIRMAR
+  // ══════════════════════════════════════════════════════════════════════
+
+  // ─── MENDOZA — Godoy Cruz home (1a Nacional) ──
+  {m:"Godoy Cruz",v:"Cdad. de Bolívar",d:"2026-02-14",h:"15:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F1"},
+  {m:"Godoy Cruz",v:"Dep. Madryn",d:"2026-03-01",h:"15:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F3"},
+  {m:"Godoy Cruz",v:"Ferro Carril Oeste",d:"2026-03-14",h:"15:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F5"},
+  {m:"Godoy Cruz",v:"Acassuso",d:"2026-04-14",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F8"},
+  {m:"Godoy Cruz",v:"San Miguel",d:"2026-04-28",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F10"},
+  {m:"Godoy Cruz",v:"Dep. Morón",d:"2026-05-12",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F12"},
+  {m:"Godoy Cruz",v:"Racing (Cba.)",d:"2026-05-19",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F13"},
+  {m:"Godoy Cruz",v:"All Boys",d:"2026-06-02",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F15"},
+  {m:"Godoy Cruz",v:"Mitre SE",d:"2026-07-21",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F17"},
+  {m:"Godoy Cruz",v:"Def. Belgrano",d:"2026-08-11",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F20"},
+  {m:"Godoy Cruz",v:"Ctral. Norte",d:"2026-08-25",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F22"},
+  {m:"Godoy Cruz",v:"Chaco For Ever",d:"2026-09-08",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F24"},
+  {m:"Godoy Cruz",v:"Dep. Maipú",d:"2026-09-15",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F25 · DÉRBI"},
+  {m:"Godoy Cruz",v:"San Telmo",d:"2026-09-29",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F27"},
+  {m:"Godoy Cruz",v:"Colón",d:"2026-10-13",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F29"},
+  {m:"Godoy Cruz",v:"Los Andes",d:"2026-11-03",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F32"},
+  {m:"Godoy Cruz",v:"Estudiantes BA",d:"2026-11-17",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F34"},
+  {m:"Godoy Cruz",v:"Alte. Brown",d:"2026-12-01",h:"10:00",e:"Estadio Malvinas Argentinas",c:"me",cp:"segunda",r:"PN F36"},
+
+  // ─── MENDOZA — Dep. Maipú home (1a Nacional) ─
+  {m:"Dep. Maipú",v:"A Rafaela",d:"2026-02-21",h:"15:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F2"},
+  {m:"Dep. Maipú",v:"F.C. Midland",d:"2026-03-22",h:"15:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F6"},
+  {m:"Dep. Maipú",v:"Godoy Cruz",d:"2026-03-29",h:"15:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F7 · DÉRBI"},
+  {m:"Dep. Maipú",v:"Colegiales",d:"2026-04-21",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F9"},
+  {m:"Dep. Maipú",v:"Almagro",d:"2026-05-05",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F11"},
+  {m:"Dep. Maipú",v:"Nueva Chicago",d:"2026-05-26",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F14"},
+  {m:"Dep. Maipú",v:"Chacarita Jrs",d:"2026-06-09",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F16"},
+  {m:"Dep. Maipú",v:"Agropecuario",d:"2026-08-04",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F19"},
+  {m:"Dep. Maipú",v:"San Martín T",d:"2026-08-18",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F21"},
+  {m:"Dep. Maipú",v:"Atlanta",d:"2026-09-01",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F23"},
+  {m:"Dep. Maipú",v:"Quilmes",d:"2026-09-22",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F26"},
+  {m:"Dep. Maipú",v:"Patronato",d:"2026-10-06",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F28"},
+  {m:"Dep. Maipú",v:"Gim. y Esgrima J",d:"2026-10-20",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F30"},
+  {m:"Dep. Maipú",v:"Temperley",d:"2026-10-27",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F31"},
+  {m:"Dep. Maipú",v:"San Martín SJ",d:"2026-11-10",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F33"},
+  {m:"Dep. Maipú",v:"Güemes SE",d:"2026-11-24",h:"10:00",e:"Estadio Ciudad de Maipú",c:"me",cp:"segunda",r:"PN F35"},
+
+  // ─── CÓRDOBA — Racing (Cba.) home (1a Nacional)
+  {m:"Racing (Cba.)",v:"Estudiantes BA",d:"2026-02-15",h:"15:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F1"},
+  {m:"Racing (Cba.)",v:"Mitre SE",d:"2026-03-01",h:"15:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F3"},
+  {m:"Racing (Cba.)",v:"Alte. Brown",d:"2026-03-13",h:"15:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F5"},
+  {m:"Racing (Cba.)",v:"Cdad. Bolívar",d:"2026-04-14",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F8"},
+  {m:"Racing (Cba.)",v:"Def. Belgrano",d:"2026-04-28",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F10"},
+  {m:"Racing (Cba.)",v:"Dep. Madryn",d:"2026-05-12",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F12"},
+  {m:"Racing (Cba.)",v:"Los Andes",d:"2026-06-02",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F15"},
+  {m:"Racing (Cba.)",v:"Godoy Cruz",d:"2026-07-21",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F17"},
+  {m:"Racing (Cba.)",v:"Ferro Carril Oeste",d:"2026-08-04",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F19"},
+  {m:"Racing (Cba.)",v:"San Miguel",d:"2026-08-25",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F22"},
+  {m:"Racing (Cba.)",v:"Acassuso",d:"2026-09-08",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F24"},
+  {m:"Racing (Cba.)",v:"Colón",d:"2026-09-29",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F27"},
+  {m:"Racing (Cba.)",v:"Dep. Morón",d:"2026-10-13",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F29"},
+  {m:"Racing (Cba.)",v:"Godoy Cruz",d:"2026-10-27",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F31"},
+  {m:"Racing (Cba.)",v:"Los Andes",d:"2026-11-10",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F33"},
+  {m:"Racing (Cba.)",v:"All Boys",d:"2026-11-24",h:"10:00",e:"Estadio Presidente Perón",c:"co",cp:"segunda",r:"PN F35"},
+
+  // ─── TUCUMÁN — San Martín T home (1a Nacional) 
+  {m:"San Martín T",v:"Patronato",d:"2026-02-15",h:"15:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F1"},
+  {m:"San Martín T",v:"Dep. Maipú",d:"2026-03-01",h:"15:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F3"},
+  {m:"San Martín T",v:"Nueva Chicago",d:"2026-03-15",h:"15:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F5"},
+  {m:"San Martín T",v:"Chacarita Jrs",d:"2026-04-14",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F8"},
+  {m:"San Martín T",v:"Güemes SE",d:"2026-04-28",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F10"},
+  {m:"San Martín T",v:"Atl. Rafaela",d:"2026-05-12",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F12"},
+  {m:"San Martín T",v:"Gimnasia J",d:"2026-05-26",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F14"},
+  {m:"San Martín T",v:"Dep. Madryn",d:"2026-06-09",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F16"},
+  {m:"San Martín T",v:"Tristán Suárez",d:"2026-07-28",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F18"},
+  {m:"San Martín T",v:"Dep. Maipú",d:"2026-08-18",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F21"},
+  {m:"San Martín T",v:"Almagro",d:"2026-09-01",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F23"},
+  {m:"San Martín T",v:"Dep. Madryn",d:"2026-09-15",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F25"},
+  {m:"San Martín T",v:"Güemes SE",d:"2026-09-29",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F27"},
+  {m:"San Martín T",v:"Agropecuario",d:"2026-10-13",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F29"},
+  {m:"San Martín T",v:"Gimnasia J",d:"2026-10-27",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F31"},
+  {m:"San Martín T",v:"Atl. Rafaela",d:"2026-11-10",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F33"},
+  {m:"San Martín T",v:"Quilmes",d:"2026-11-24",h:"10:00",e:"Estadio San Martín",c:"tu",cp:"segunda",r:"PN F35"},
+
+  // ─── SANTA FÉ — Colón home (1a Nacional) ──────
+  {m:"Colón",v:"Dep. Madryn",d:"2026-02-14",h:"15:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F1"},
+  {m:"Colón",v:"Ferro Carril Oeste",d:"2026-02-28",h:"15:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F3"},
+  {m:"Colón",v:"Acassuso",d:"2026-03-14",h:"15:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F5"},
+  {m:"Colón",v:"San Miguel",d:"2026-04-14",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F8"},
+  {m:"Colón",v:"Dep. Morón",d:"2026-04-28",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F10"},
+  {m:"Colón",v:"Godoy Cruz",d:"2026-05-05",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F11"},
+  {m:"Colón",v:"All Boys",d:"2026-05-19",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F13"},
+  {m:"Colón",v:"Mitre SE",d:"2026-06-02",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F15"},
+  {m:"Colón",v:"Racing Cba",d:"2026-07-21",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F17"},
+  {m:"Colón",v:"Def. Belgrano",d:"2026-08-04",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F19"},
+  {m:"Colón",v:"Ctral. Norte",d:"2026-08-18",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F21"},
+  {m:"Colón",v:"Chaco For Ever",d:"2026-09-08",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F24"},
+  {m:"Colón",v:"San Miguel",d:"2026-09-22",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F26"},
+  {m:"Colón",v:"Dep. Morón",d:"2026-10-06",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F28"},
+  {m:"Colón",v:"Los Andes",d:"2026-10-20",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F30"},
+  {m:"Colón",v:"Estudiantes BA",d:"2026-11-03",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F32"},
+  {m:"Colón",v:"Alte. Brown",d:"2026-11-17",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F34"},
+  {m:"Colón",v:"Acassuso",d:"2026-12-01",h:"10:00",e:"Estadio Brigadier López",c:"sf",cp:"segunda",r:"PN F36"},
+
 ];
 
 
@@ -908,117 +1339,191 @@ const BASE=[
 // Confirmações de clube via fontes públicas (jan-abr 2026)
 // ═══════════════════════════════════════════════
 const SCOUTS = {
+  // ── Buenos Aires ──────────────────────────────
   "Boca Juniors": [
-    {n:"Leandro Paredes",   pos:"MCD",         ano:1994, cont:"2028", pe:"D", listas:["reuniao"]},
-    {n:"Kevin Zenón",       pos:"Lateral/Int.Esq",ano:2001,cont:"2025",pe:"E", listas:["reuniao"]},
+    {n:"Leandro Paredes",   pos:"MCD",          ano:1994, cont:"2028", pe:"D", listas:["reuniao"]},
+    {n:"Kevin Zenón",       pos:"Lateral Esq",  ano:2001, cont:"2025", pe:"E", listas:["reuniao"]},
     {n:"Lautaro Blanco",    pos:"Lateral Esq",  ano:1999, cont:"2028", pe:"E", listas:["reuniao","pro"]},
     {n:"Marco Pellegrino",  pos:"Zag. Esq",     ano:2002, cont:"2029", pe:"E", listas:["reuniao"]},
     {n:"Lautaro Di Lollo",  pos:"Zag. Dir",     ano:2004, cont:"2028", pe:"D", listas:["reuniao"]},
     {n:"Juan Barinaga",     pos:"Lateral Dir",  ano:2000, cont:"2028", pe:"D", listas:["reuniao"]},
     {n:"Milton Delgado",    pos:"Interior Dir", ano:2005, cont:"2029", pe:"D", listas:["successor","u21"]},
     {n:"Dylan Gorosito",    pos:"Lateral Dir",  ano:2006, cont:"2028", pe:"D", listas:["successor","u21"]},
+    {n:"Manuel García",     pos:"MCD",          ano:1999, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"J. Soto",           pos:"Interior Dir", ano:2007, cont:"2029", pe:"D", listas:["reuniao","successor"]},
+    {n:"T. Andrada",        pos:"Interior Esq", ano:2007, cont:"2028", pe:"D", listas:["reuniao","successor","u21"]},
   ],
   "River Plate": [
-    {n:"Facundo Colidio",   pos:"Ext. Esquerdo",ano:2000, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"Facundo Colidio",   pos:"Ext. Esq",     ano:2000, cont:"2027", pe:"D", listas:["pro"]},
     {n:"Aníbal Moreno",     pos:"MCD",          ano:1999, cont:"2027", pe:"D", listas:["reuniao"]},
     {n:"Tomás Palacios",    pos:"Zag. Esq",     ano:2003, cont:"2029", pe:"E", listas:["reuniao","pro"]},
     {n:"Lautaro Rivero",    pos:"Zag. Esq",     ano:2003, cont:"2028", pe:"E", listas:["reuniao","pro"]},
+    {n:"E. Martínez",       pos:"Zag. Esq",     ano:1998, cont:"2028", pe:"E", listas:["pro"]},
+    {n:"F. Ortega",         pos:"Lateral Esq",  ano:1999, cont:"2028", pe:"E", listas:["reuniao"]},
   ],
   "Racing": [
-    {n:"M. Miljevic",       pos:"Meia Esq",     ano:2001, cont:"2029", pe:"D", listas:["pro"]},
+    {n:"M. Miljevic",       pos:"Interior Esq", ano:2001, cont:"2029", pe:"D", listas:["pro","reuniao"]},
     {n:"E. Cannavo",        pos:"Lateral Dir",  ano:2002, cont:"2026", pe:"D", listas:["reuniao","pro"]},
     {n:"F. Ibarra",         pos:"MCD",          ano:2001, cont:"2027", pe:"D", listas:["reuniao","pro"]},
-  ],
-  "Rosario Central": [
-    {n:"F. Ibarra",         pos:"MCD",          ano:2001, cont:"2027", pe:"D", listas:["reuniao","pro"]},
-  ],
-  "Argentinos": [
-    {n:"Tomás Molina",      pos:"Atacante",     ano:1995, cont:"2029", pe:"D", listas:["pro"]},
-    {n:"A. Lescano",        pos:"Meia Esq",     ano:2001, cont:"2027", pe:"E", listas:["reuniao","pro"]},
-    {n:"Jhon Rentería",     pos:"Ext. Direito",  ano:2005, cont:"2027", pe:"E", listas:["pro","u21","successor","reuniao"]},
-  ],
-  "Huracán": [
-    {n:"Ó. Cortés",         pos:"Ext. Esquerdo",ano:2003, cont:"2029", pe:"D", listas:["pro"]},
-  ],
-  "Ind. Rivadavia": [
-    {n:"S. Villa",          pos:"Ext. Esquerdo",ano:1996, cont:"2026", pe:"D", listas:["pro"]},
-    {n:"Rodrigo Atencio",   pos:"Ext. Direito",  ano:2002, cont:"2029", pe:"E", listas:["pro"]},
-  ],
-  "Sarmiento": [
-    {n:"Jhon Rentería",     pos:"Ext. Direito",  ano:2005, cont:"2027", pe:"E", listas:["pro","u21","successor","reuniao"]},
-  ],
-  "Estudiantes LP": [
-    {n:"Ian Subiabre",      pos:"Ext. Esq",     ano:2007, cont:"2026", pe:"E", listas:["u21","successor","reuniao"]},
-  ],
-  "Newell's": [
-    {n:"G. Mainero",        pos:"Ext. Direito",  ano:1995, cont:"2027", pe:"D", listas:["pro"]},
-  ],
-  "Belgrano": [
-    {n:"J. Caicedo",        pos:"Atacante",     ano:1997, cont:"2026", pe:"D", listas:["pro"]},
-  ],
-  "Unión": [
-    {n:"M. Galarza",        pos:"MCD",          ano:2002, cont:"2028", pe:"D", listas:["pro","reuniao"]},
-  ],
-  "Lanús": [
-    {n:"Rick",              pos:"Ext. Esquerdo",ano:1999, cont:"2028", pe:"D", listas:["pro"]},
-  ],
-  "Vélez": [
-    {n:"M. Iacobellis",     pos:"Ext. Direito",  ano:1999, cont:"2026", pe:"D", listas:["pro"]},
-    {n:"I. Galván",         pos:"Zag. Esq / Lat.",ano:2002,cont:"2026",pe:"E", listas:["pro"]},
-  ],
-  "Talleres": [
-    {n:"T. Porra",          pos:"Meia Dir",     ano:2004, cont:"2026", pe:"E", listas:["pro"]},
-    {n:"F. Juárez",         pos:"Meia Dir",     ano:1998, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"F. Lencioni",       pos:"Ext. Dir",     ano:2001, cont:"2025", pe:"E", listas:["pro"]},
   ],
   "San Lorenzo": [
-    {n:"A. Molinas",        pos:"Meia Esq",     ano:2000, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"A. Molinas",        pos:"Interior Esq", ano:2000, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"G. Baroni",         pos:"Interior Esq", ano:2009, cont:"2028", pe:"E", listas:["u21","successor","reuniao"]},
+    {n:"O. Gill",           pos:"Goleiro",      ano:2000, cont:"2027", pe:"E", listas:["reuniao"]},
   ],
   "Independiente": [
     {n:"Adrián Sánchez",    pos:"MCD",          ano:1999, cont:"2029", pe:"D", listas:["pro"]},
     {n:"A. Maidana",        pos:"Lateral Esq",  ano:2005, cont:"2025", pe:"E", listas:["pro","u21"]},
+    {n:"Matías Abaldo",     pos:"Ext. Esq",     ano:2004, cont:"2027", pe:"D", listas:["reuniao"]},
+    {n:"M. Del Blanco",     pos:"Lateral Esq",  ano:2003, cont:"2028", pe:"E", listas:["reuniao"]},
+    {n:"V. Acuña",          pos:"Interior Dir", ano:2006, cont:"2027", pe:"E", listas:["reuniao","successor"]},
+    {n:"T. Silvero",        pos:"Zag. Dir",     ano:2006, cont:"2026", pe:"D", listas:["reuniao","successor"]},
+    {n:"L. Vargas",         pos:"Lateral Dir",  ano:2005, cont:"2026", pe:"D", listas:["reuniao","u21"]},
+    {n:"C. Fiermarin",      pos:"Goleiro",      ano:1998, cont:"2028", pe:"D", listas:["reuniao"]},
+  ],
+  "Vélez": [
+    {n:"M. Iacobellis",     pos:"Ext. Dir",     ano:1999, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"I. Galván",         pos:"Zag./Lat.Esq", ano:2002, cont:"2026", pe:"E", listas:["pro"]},
+    {n:"Renzo Orihuela",    pos:"Zag. Dir",     ano:2001, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"I. Perruzzi",       pos:"MCD",          ano:2005, cont:"2027", pe:"D", listas:["u21","successor","reuniao"]},
+  ],
+  "Huracán": [
+    {n:"Ó. Cortés",         pos:"Ext. Esq",     ano:2003, cont:"2029", pe:"D", listas:["pro","reuniao"]},
+    {n:"B. Aguirre",        pos:"Ext. Esq",     ano:2003, cont:"2025", pe:"D", listas:["pro"]},
+  ],
+  "Lanús": [
+    {n:"Rick",              pos:"Ext. Esq",     ano:1999, cont:"2028", pe:"D", listas:["pro"]},
   ],
   "Banfield": [
     {n:"L. Carrizo",        pos:"Zag. Esq",     ano:1997, cont:"2026", pe:"E", listas:["pro"]},
-  ],
-  "Central Córdoba": [
-    {n:"S. Sosa",           pos:"MCD",          ano:1999, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"B. Palavecino",     pos:"Atacante",     ano:2003, cont:"2027", pe:"D", listas:["pro"]},
   ],
   "Platense": [
     {n:"I. Campo",          pos:"Lateral Dir",  ano:2005, cont:"2028", pe:"D", listas:["pro","u21"]},
   ],
   "Tigre": [
     {n:"L. Varaldo",        pos:"Atacante",     ano:2002, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"J. Romero",         pos:"Atacante",     ano:2003, cont:"2030", pe:"D", listas:["pro","reuniao"]},
+    {n:"L. Souto",          pos:"Lateral Dir",  ano:1998, cont:"2026", pe:"D", listas:["pro"]},
   ],
   "Dep. Riestra": [
     {n:"J. Saborido",       pos:"Lateral Dir",  ano:1998, cont:"2027", pe:"D", listas:["pro"]},
     {n:"M. Rodríguez",      pos:"Zag. Dir",     ano:2003, cont:"2025", pe:"D", listas:["reuniao","pro"]},
+    {n:"Pedro Silva",       pos:"Zag. Esq",     ano:1997, cont:"2026", pe:"E", listas:["pro"]},
+  ],
+  // ── La Plata ──────────────────────────────────
+  "Estudiantes LP": [
+    {n:"Ian Subiabre",      pos:"Ext. Esq",     ano:2007, cont:"2026", pe:"E", listas:["u21","successor","reuniao"]},
+    {n:"V. Pizarro",        pos:"Meia Dir",     ano:2002, cont:"2029", pe:"E", listas:["pro"]},
+  ],
+  "Gimnasia LP": [
+    {n:"Manuel Panaro",     pos:"Ext. Esq",     ano:2002, cont:"2027", pe:"D", listas:["pro","reuniao"]},
+    {n:"A. Steimbach",      pos:"Lateral Dir",  ano:2002, cont:"2026", pe:"D", listas:["reuniao"]},
+    {n:"J. García",         pos:"Lateral Dir",  ano:2001, cont:"2027", pe:"D", listas:["pro"]},
+  ],
+  // ── Rosário ───────────────────────────────────
+  "Rosario Central": [
+    {n:"S. Marcich",        pos:"Lateral Esq",  ano:1998, cont:"2028", pe:"E", listas:["reuniao"]},
+    {n:"B. Rodríguez",      pos:"Interior Esq", ano:2003, cont:"2027", pe:"D", listas:["pro"]},
+  ],
+  "Newell's": [
+    {n:"G. Mainero",        pos:"Ext. Dir",     ano:1995, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"R. Castillo",       pos:"Atacante",     ano:1999, cont:"2028", pe:"D", listas:["pro"]},
+  ],
+  // ── Córdoba ───────────────────────────────────
+  "Talleres": [
+    {n:"T. Porra",          pos:"Meia Dir",     ano:2004, cont:"2026", pe:"E", listas:["pro"]},
+    {n:"F. Juárez",         pos:"Meia Dir",     ano:1998, cont:"2027", pe:"D", listas:["pro"]},
+  ],
+  "Belgrano": [
+    {n:"J. Caicedo",        pos:"Atacante",     ano:1997, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"F. Cambeses",       pos:"Goleiro",      ano:1997, cont:"2027", pe:"D", listas:["reuniao"]},
+  ],
+  "Central Córdoba": [
+    {n:"S. Sosa",           pos:"MCD",          ano:1999, cont:"2027", pe:"D", listas:["pro","reuniao"]},
+  ],
+  // ── Mendoza ───────────────────────────────────
+  "Ind. Rivadavia": [
+    {n:"S. Villa",          pos:"Ext. Esq",     ano:1996, cont:"2026", pe:"D", listas:["pro","reuniao"]},
+    {n:"Rodrigo Atencio",   pos:"Ext. Dir",     ano:2002, cont:"2029", pe:"E", listas:["pro"]},
+  ],
+  "Godoy Cruz": [
+    {n:"Santiago Salle",    pos:"Meia Dir",     ano:2004, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"J. Romaña",         pos:"Zag. Dir",     ano:1998, cont:"2026", pe:"D", listas:["pro"]},
+  ],
+  // ── Tucumán ───────────────────────────────────
+  "Atlético Tucumán": [
+    {n:"E. Cetré",          pos:"Ext. Esq",     ano:1998, cont:"2026", pe:"D", listas:["reuniao"]},
+    {n:"L. Ríos",           pos:"MCD",          ano:2000, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"S. Studer",         pos:"Zag. Esq",     ano:2002, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"P. Ojeda",          pos:"MCD",          ano:1997, cont:"2028", pe:"D", listas:["pro"]},
+  ],
+  // ── Santa Fé ──────────────────────────────────
+  "Unión": [
+    {n:"M. Galarza",        pos:"MCD",          ano:2002, cont:"2028", pe:"D", listas:["pro","reuniao"]},
+    {n:"R. Profini",        pos:"MCD",          ano:2003, cont:"2025", pe:"E", listas:["pro"]},
+    {n:"F. Ortega",         pos:"Lateral Esq",  ano:1999, cont:"2028", pe:"E", listas:["reuniao"]},
+  ],
+  "Colón": [
+    {n:"F. Sartori",        pos:"Atacante",     ano:2002, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"J. Domínguez",      pos:"MCD",          ano:2000, cont:"2025", pe:"D", listas:["pro"]},
+  ],
+  // ── Buenos Aires (cont.) ──────────────────────
+  "Sarmiento": [
+    {n:"A. Cuello",         pos:"Atacante",     ano:2000, cont:"2027", pe:"D", listas:["pro","reuniao"]},
+  ],
+  "Argentinos": [
+    {n:"Tomás Molina",      pos:"Atacante",     ano:1995, cont:"2029", pe:"D", listas:["pro"]},
+    {n:"A. Lescano",        pos:"Interior Esq", ano:2001, cont:"2027", pe:"E", listas:["reuniao","pro"]},
+    {n:"Jhon Rentería",     pos:"Ext. Dir",     ano:2005, cont:"2027", pe:"E", listas:["pro","u21","successor","reuniao"]},
+  ],
+  "Instituto": [
+    {n:"J. Fernández",      pos:"Ext. Esq",     ano:2004, cont:"2027", pe:"E", listas:["pro"]},
+    {n:"Brandon Márquez",   pos:"Atacante",     ano:2005, cont:"2028", pe:"D", listas:["pro"]},
+  ],
+  "Def. y Justicia": [
+    {n:"I. Russo",          pos:"Atacante",     ano:2000, cont:"2028", pe:"D", listas:["pro"]},
+    {n:"R. Kida",           pos:"Ext. Esq",     ano:2005, cont:"2027", pe:"D", listas:["pro","u21"]},
+    {n:"D. Porcel",         pos:"Ext. Esq",     ano:2005, cont:"2028", pe:"D", listas:["pro","u21"]},
+  ],
+  "Barracas Central": [
+    {n:"J. Domínguez",      pos:"MCD",          ano:2000, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"Jhon Córdoba",      pos:"Ext. Dir",     ano:2000, cont:"2028", pe:"D", listas:["pro"]},
   ],
 };
 
 // Alias de nomes de times para lookup
 const TEAM_ALIAS = {
-  "Boca Juniors":["Boca Juniors","Boca"],
-  "River Plate":["River Plate","River"],
-  "Racing":["Racing","Racing Club","El Cilindro"],
-  "Rosario Central":["Rosario Central"],
-  "Argentinos":["Argentinos","Argentinos Juniors"],
-  "Huracán":["Huracán","Huracan"],
-  "Ind. Rivadavia":["Ind. Rivadavia","Independiente Rivadavia"],
-  "Sarmiento":["Sarmiento"],
-  "Estudiantes LP":["Estudiantes LP","Estudiantes"],
-  "Newell's":["Newell's","Newells"],
-  "Belgrano":["Belgrano"],
-  "Unión":["Unión","Union"],
-  "Lanús":["Lanús","Lanus"],
-  "Vélez":["Vélez","Velez"],
-  "Talleres":["Talleres"],
-  "San Lorenzo":["San Lorenzo"],
-  "Independiente":["Independiente"],
-  "Banfield":["Banfield"],
-  "Central Córdoba":["Central Córdoba","Central Cordoba"],
-  "Platense":["Platense"],
-  "Tigre":["Tigre"],
-  "Dep. Riestra":["Dep. Riestra","Deportivo Riestra"],
+  "Boca Juniors":     ["Boca Juniors","Boca"],
+  "River Plate":      ["River Plate","River"],
+  "Racing":           ["Racing","Racing Club"],
+  "San Lorenzo":      ["San Lorenzo"],
+  "Independiente":    ["Independiente"],
+  "Vélez":            ["Vélez","Velez"],
+  "Huracán":          ["Huracán","Huracan"],
+  "Lanús":            ["Lanús","Lanus"],
+  "Banfield":         ["Banfield"],
+  "Platense":         ["Platense"],
+  "Tigre":            ["Tigre"],
+  "Dep. Riestra":     ["Dep. Riestra","Deportivo Riestra"],
+  "Estudiantes LP":   ["Estudiantes LP","Estudiantes"],
+  "Gimnasia LP":      ["Gimnasia LP","Gimnasia","Gimnasia La Plata"],
+  "Rosario Central":  ["Rosario Central"],
+  "Newell's":        ["Newell's","Newells"],
+  "Talleres":         ["Talleres"],
+  "Belgrano":         ["Belgrano"],
+  "Central Córdoba":  ["Central Córdoba","Central Cordoba"],
+  "Ind. Rivadavia":   ["Ind. Rivadavia","Independiente Rivadavia"],
+  "Godoy Cruz":       ["Godoy Cruz"],
+  "Atlético Tucumán": ["Atlético Tucumán","Atletico Tucuman","At. Tucumán"],
+  "Unión":            ["Unión","Union"],
+  "Colón":            ["Colón","Colon"],
+  "Sarmiento":        ["Sarmiento"],
+  "Argentinos":       ["Argentinos","Argentinos Juniors"],
+  "Instituto":        ["Instituto","Instituto Atlético Central Córdoba"],
+  "Def. y Justicia":  ["Def. y Justicia","Defensa y Justicia","Defensa"],
+  "Barracas Central": ["Barracas Central","Barracas"],
 };
 
 // ═══════════════════════════════════════════════
@@ -1136,6 +1641,7 @@ function renderAll(){
             <div class="gi-btns">
               <button class="bico fav ${isFav?'on':''}" title="${isFav?'Remover da rota':'Adicionar à rota'}" onclick="toggleFav(${idx})">${isFav?'★':'☆'}</button>
               <button class="bico" title="Editar" onclick="editJ(${idx})">✎</button>
+              <button class="bico rep" title="Novo relatório de jogador" onclick="openRepForm({idx:${idx}})">📝</button>
             </div>
           </div>
         </div>
@@ -1501,13 +2007,19 @@ function scoutsHTML(idx,mandante,visitante){
   const pv=getScouts(visitante||'').map(s=>({...s,team:visitante}));
   const all=[...pm,...pv];
   if(!all.length)return'';
-  const items=all.map(s=>`<div class="scout-item">
+  const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
+  const items=all.map(s=>{
+    const key=s.n+'|'+s.team;
+    const inQueue=queue.some(p=>p.n===s.n&&p.team===s.team);
+    const payload=JSON.stringify({n:s.n,pos:s.pos,ano:s.ano,pe:s.pe,cont:s.cont,listas:s.listas,team:s.team}).replace(/'/g,"\\'");
+    return`<div class="scout-item">
     <div class="scout-pos">${s.pos}</div>
     <div class="scout-info">
       <div class="scout-name">${s.n} <span class="scout-team">${s.team}</span></div>
       <div class="scout-meta"><span>${2026-s.ano}a · ${s.ano}</span><span>${s.pe==="E"?"🦶E":"🦶D"}</span><span>até ${s.cont}</span>${s.listas.map(l=>`<span class="scout-lista ${l}">${LISTA_LABEL[l]||l}</span>`).join('')}</div>
     </div>
-  </div>`).join('');
+    <button class="scout-add-btn${inQueue?' added':''}" id="sqb_${idx}_${s.n.replace(/\s/g,'_')}" onclick="addToScoutQueue(${payload.replace(/"/g,"'")},this);event.stopPropagation();">${inQueue?'✓ NA FILA':'↗ SCOUT'}</button>
+  </div>`}).join('');
   const sid=`sc${idx}`;
   return`<div class="scouts-bar" id="sb${sid}" onclick="toggleScouts('${sid}')">
     <div class="scouts-bar-label"><div class="scouts-header-dot"></div>⚽ ${all.length} atleta${all.length>1?'s':''} nas listas <span class="scouts-bar-count">${all.length}</span></div>
@@ -1515,6 +2027,95 @@ function scoutsHTML(idx,mandante,visitante){
   </div>
   <div class="scouts-body" id="sl${sid}" style="display:none;">${items}</div>`;
 }
+// ─── SCOUT QUEUE ─────────────────────────────────────
+function addToScoutQueue(player, btn){
+  const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
+  const exists=queue.some(p=>p.n===player.n&&p.team===player.team);
+  if(exists){
+    // remove from queue (toggle off)
+    const updated=queue.filter(p=>!(p.n===player.n&&p.team===player.team));
+    localStorage.setItem('scoutArgQueue',JSON.stringify(updated));
+    if(btn){btn.textContent='↗ SCOUT';btn.classList.remove('added');}
+    toast(`${player.n} removido da fila`,false);
+  } else {
+    queue.push({...player, addedAt:new Date().toISOString()});
+    localStorage.setItem('scoutArgQueue',JSON.stringify(queue));
+    if(btn){btn.textContent='✓ NA FILA';btn.classList.add('added');}
+    toast(`↗ ${player.n} adicionado à fila!`,true);
+  }
+  updateQueueBadge();
+}
+function updateQueueBadge(){
+  const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
+  const badge=document.getElementById('queueBadge');
+  if(!badge)return;
+  badge.textContent=queue.length;
+  badge.style.display=queue.length>0?'inline-block':'none';
+}
+function showScoutQueue(){
+  const el=document.getElementById('queueOverlay');
+  if(el)el.classList.add('vis');
+  renderQueueModal();
+}
+function closeQueue(){
+  const el=document.getElementById('queueOverlay');
+  if(el)el.classList.remove('vis');
+}
+function renderQueueModal(){
+  const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
+  const list=document.getElementById('qmList');
+  if(!list)return;
+  if(!queue.length){
+    list.innerHTML=`<div class="qm-empty">Nenhum atleta na fila.<br>Clique em <b>↗ SCOUT</b> em qualquer atleta para adicioná-lo.</div>`;
+    return;
+  }
+  list.innerHTML=queue.map((p,i)=>`
+    <div class="qm-item">
+      <div class="qm-item-pos">${p.pos}</div>
+      <div style="flex:1">
+        <div class="qm-item-name">${p.n} <span class="qm-item-team">${p.team}</span></div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px;">${p.listas.map(l=>`<span class="scout-lista ${l}">${LISTA_LABEL[l]||l}</span>`).join('')}</div>
+      </div>
+      <button class="qm-item-del" onclick="removeFromQueue(${i})" title="Remover">✕</button>
+    </div>`).join('');
+}
+function removeFromQueue(i){
+  const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
+  queue.splice(i,1);
+  localStorage.setItem('scoutArgQueue',JSON.stringify(queue));
+  updateQueueBadge();
+  renderQueueModal();
+  // Re-render all scout bodies to reflect button states
+  renderAll();
+}
+function clearQueue(){
+  if(!confirm('Limpar toda a fila?'))return;
+  localStorage.removeItem('scoutArgQueue');
+  updateQueueBadge();
+  renderQueueModal();
+  renderAll();
+}
+function exportQueueJSON(){
+  const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
+  if(!queue.length){toast('Fila vazia',false);return;}
+  const out=JSON.stringify(queue,null,2);
+  navigator.clipboard.writeText(out).then(()=>toast('JSON copiado! Cole no Scout System 2026.',true));
+}
+function exportQueueWhatsApp(){
+  const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
+  if(!queue.length){toast('Fila vazia',false);return;}
+  const lines=['*📋 FILA ARGENTINA 2026 — Eagle Football*',''];
+  queue.forEach((p,i)=>{
+    const idades=2026-p.ano;
+    lines.push(`${i+1}. *${p.n}* (${p.team})`);
+    lines.push(`   ${p.pos} · ${idades}a · 🦶${p.pe} · Cont. ${p.cont}`);
+    lines.push(`   Listas: ${p.listas.map(l=>LISTA_LABEL[l]||l).join(', ')}`);
+    lines.push('');
+  });
+  const txt=lines.join('\n');
+  navigator.clipboard.writeText(txt).then(()=>toast('Texto WhatsApp copiado!',true));
+}
+
 function toggleScouts(sid){
   const body=document.getElementById('sl'+sid);
   const arrow=document.getElementById('sa'+sid);
@@ -1634,7 +2235,395 @@ function toggleTheme(){
 const hj=new Date(),f30=new Date();f30.setDate(hj.getDate()+30);
 document.getElementById('di').value=hj.toISOString().split('T')[0];
 document.getElementById('df').value=f30.toISOString().split('T')[0];
+updateQueueBadge();
+filtrar();
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// SISTEMA DE RELATÓRIOS DE JOGADORES
+// ═══════════════════════════════════════════════════════════════════════
+const REP_KEY = 'scoutARG_reports';
+let repEditId = null; // null = novo; string id = edição
+
+const ATTRS = [
+  {key:'technique',     label:'Técnica'},
+  {key:'speedAcc',      label:'Velocidade / Aceleração'},
+  {key:'physicalDuel',  label:'Físico / Duelo'},
+  {key:'positioning',   label:'Posicionamento'},
+  {key:'decisionMaking',label:'Tomada de Decisão'},
+  {key:'passingDist',   label:'Passe / Distribuição'},
+  {key:'dribbling',     label:'Drible / 1x1'},
+  {key:'aerialGame',    label:'Jogo Aéreo'},
+  {key:'visionAwareness',label:'Visão / Leitura de Jogo'},
+  {key:'workRate',      label:'Volume / Pressão'},
+  {key:'defensiveWork', label:'Trabalho Defensivo'},
+  {key:'mentality',     label:'Mentalidade / Liderança'},
+];
+
+function getReps(){
+  try{return JSON.parse(localStorage.getItem(REP_KEY)||'[]');}catch{return[];}
+}
+function saveReps(arr){
+  localStorage.setItem(REP_KEY, JSON.stringify(arr));
+  updateRepBadge();
+}
+function updateRepBadge(){
+  const n=getReps().length;
+  const b=document.getElementById('repBadge');
+  if(!b)return;
+  b.textContent=n;
+  b.style.display=n>0?'inline-block':'none';
+}
+
+// ─── Renderiza grid de atributos ───────────────────────────────────────
+function buildAttrGrid(vals={}){
+  const grid=document.getElementById('attrGrid');
+  if(!grid)return;
+  grid.innerHTML=ATTRS.map(a=>{
+    const v=vals[a.key]||0;
+    const dots=[...Array(10)].map((_,i)=>{
+      const n=i+1;
+      const cls='adot'+(v>=n?' on':'')+(v>=n&&n>=8?' hi':'');
+      return `<div class="${cls}" data-attr="${a.key}" data-val="${n}" onclick="clickDot(this)"></div>`;
+    }).join('');
+    return `<div class="attr-row">
+      <div class="attr-label"><span>${a.label}</span><span class="attr-val" id="av_${a.key}">${v||'–'}</span></div>
+      <div class="attr-dots">${dots}</div>
+    </div>`;
+  }).join('');
+}
+function clickDot(el){
+  const attr=el.dataset.attr, val=parseInt(el.dataset.val);
+  // Se clicar no mesmo dot que está selecionado, limpa
+  const cur=parseInt(document.getElementById('av_'+attr).textContent)||0;
+  const newVal=cur===val?0:val;
+  // Atualizar dots
+  document.querySelectorAll(`.adot[data-attr="${attr}"]`).forEach(d=>{
+    const dv=parseInt(d.dataset.val);
+    d.className='adot'+(newVal>=dv?' on':'')+(newVal>=dv&&dv>=8?' hi':'');
+  });
+  document.getElementById('av_'+attr).textContent=newVal||'–';
+}
+function getAttrValues(){
+  const vals={};
+  ATTRS.forEach(a=>{
+    const el=document.getElementById('av_'+a.key);
+    vals[a.key]=parseInt(el?.textContent)||0;
+  });
+  return vals;
+}
+
+// ─── Abrir formulário ──────────────────────────────────────────────────
+function openRepForm({idx=null, repId=null}={}){
+  repEditId=repId;
+  const ov=document.getElementById('repFormOverlay');
+  document.getElementById('repFormTitle').textContent=repId?'📝 Editar Relatório':'📝 Novo Relatório';
+
+  // Limpar campos
+  ['rf_matchDate','rf_matchHome','rf_matchAway','rf_matchComp','rf_matchCity','rf_matchScore',
+   'rf_name','rf_dob','rf_nat','rf_club','rf_height','rf_tmval','rf_tmlink','rf_besoccer',
+   'rf_contract','rf_strengths','rf_weaknesses','rf_notes','rf_just','rf_score']
+   .forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['rf_pos','rf_foot','rf_body','rf_rec','rf_prio']
+   .forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  buildAttrGrid({});
+
+  // Pré-preencher a partir do jogo
+  if(idx!==null && jogos[idx]){
+    const j=jogos[idx];
+    const d=document.getElementById('rf_matchDate'); if(d)d.value=j.d||'';
+    const h=document.getElementById('rf_matchHome'); if(h)h.value=j.m||'';
+    const a=document.getElementById('rf_matchAway'); if(a)a.value=j.v||'';
+    const c=document.getElementById('rf_matchComp'); if(c)c.value=CPNOMES[j.cp]||j.cp||'';
+    const ci=document.getElementById('rf_matchCity'); if(ci)ci.value=CNOMES[j.c]||j.c||'';
+  }
+
+  // Preencher se for edição
+  if(repId){
+    const rep=getReps().find(r=>r.id===repId);
+    if(rep){
+      const F=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
+      F('rf_matchDate',rep.matchDate);F('rf_matchHome',rep.matchHome);F('rf_matchAway',rep.matchAway);
+      F('rf_matchComp',rep.matchComp);F('rf_matchCity',rep.matchCity);F('rf_matchScore',rep.matchScore);
+      F('rf_name',rep.playerName);F('rf_dob',rep.dob);F('rf_nat',rep.nationality);
+      F('rf_club',rep.club);F('rf_height',rep.height);F('rf_tmval',rep.tmValue);
+      F('rf_tmlink',rep.tmLink);F('rf_besoccer',rep.besoccerLink);F('rf_contract',rep.contractEnd);
+      F('rf_strengths',rep.strengths);F('rf_weaknesses',rep.weaknesses);F('rf_notes',rep.generalNotes);
+      F('rf_just',rep.justification);F('rf_score',rep.overallScore);
+      ['rf_pos','rf_foot','rf_body','rf_rec','rf_prio'].forEach(id=>{
+        const key={rf_pos:'position',rf_foot:'foot',rf_body:'bodyType',rf_rec:'recommendation',rf_prio:'priority'}[id];
+        const el=document.getElementById(id);if(el&&rep[key])el.value=rep[key];
+      });
+      buildAttrGrid(rep.attrs||{});
+    }
+  }
+
+  ov.classList.add('vis');
+  // Fechar lista se estiver aberta
+  document.getElementById('repListOverlay').classList.remove('vis');
+}
+function closeRepForm(){
+  document.getElementById('repFormOverlay').classList.remove('vis');
+  repEditId=null;
+}
+
+// ─── Salvar relatório ──────────────────────────────────────────────────
+function saveReport(){
+  const G=id=>document.getElementById(id)?.value?.trim()||'';
+  const GS=id=>document.getElementById(id)?.value||'';
+  const playerName=G('rf_name');
+  if(!playerName){toast('Informe o nome do jogador.',false);return;}
+
+  const rep={
+    id: repEditId || Date.now().toString(),
+    createdAt: repEditId
+      ? (getReps().find(r=>r.id===repEditId)?.createdAt||Date.now())
+      : Date.now(),
+    updatedAt: Date.now(),
+    // Partida
+    matchDate:GS('rf_matchDate'), matchHome:G('rf_matchHome'), matchAway:G('rf_matchAway'),
+    matchComp:G('rf_matchComp'), matchCity:G('rf_matchCity'), matchScore:G('rf_matchScore'),
+    // Jogador
+    playerName, dob:GS('rf_dob'), nationality:G('rf_nat'), club:G('rf_club'),
+    position:GS('rf_pos'), foot:GS('rf_foot'), height:G('rf_height'),
+    bodyType:GS('rf_body'), contractEnd:GS('rf_contract'), tmValue:G('rf_tmval'),
+    tmLink:G('rf_tmlink'), besoccerLink:G('rf_besoccer'),
+    // Atributos
+    attrs: getAttrValues(),
+    // Análise
+    strengths:G('rf_strengths'), weaknesses:G('rf_weaknesses'), generalNotes:G('rf_notes'),
+    // Recomendação
+    recommendation:GS('rf_rec'), priority:GS('rf_prio'),
+    overallScore:G('rf_score'), justification:G('rf_just'),
+  };
+
+  const arr=getReps();
+  if(repEditId){
+    const i=arr.findIndex(r=>r.id===repEditId);
+    if(i>=0)arr[i]=rep; else arr.push(rep);
+  } else {
+    arr.push(rep);
+  }
+  saveReps(arr);
+  toast(`Relatório de ${playerName} salvo.`, true);
+  closeRepForm();
+  if(document.getElementById('repListOverlay').classList.contains('vis'))renderRepList();
+}
+
+// ─── Lista de relatórios ───────────────────────────────────────────────
+function showRepList(){
+  renderRepList();
+  document.getElementById('repListOverlay').classList.add('vis');
+}
+function closeRepList(){
+  document.getElementById('repListOverlay').classList.remove('vis');
+}
+
+const REC_LABELS={contratar:'✅ Contratar',monitorar:'👁 Monitorar',
+  nao_recomendar:'❌ Não Recomendar',reobservar:'🔄 Reobservar'};
+const PRIO_TAGS={alta:'red',media:'gold',baixa:'green'};
+
+function renderRepList(){
+  const scroll=document.getElementById('repListScroll');
+  const q=(document.getElementById('repSearch')?.value||'').toLowerCase();
+  let reps=getReps();
+  if(q)reps=reps.filter(r=>
+    (r.playerName||'').toLowerCase().includes(q)||
+    (r.club||'').toLowerCase().includes(q)||
+    (r.position||'').toLowerCase().includes(q)||
+    (r.matchHome||'').toLowerCase().includes(q)||
+    (r.matchAway||'').toLowerCase().includes(q)
+  );
+  reps.sort((a,b)=>b.updatedAt-a.updatedAt);
+
+  if(!reps.length){
+    scroll.innerHTML=`<div class="rep-empty">${q?'Nenhum relatório encontrado.':'Nenhum relatório criado ainda.<br>Clique em <b>＋ Novo Relatório</b> ou use o botão 📝 em um jogo.'}</div>`;
+    return;
+  }
+
+  scroll.innerHTML=reps.map(r=>{
+    const score=r.overallScore?`<div class="rep-score-circle">${r.overallScore}</div>`:'';
+    const recTag=r.recommendation?`<span class="rep-tag">${REC_LABELS[r.recommendation]||r.recommendation}</span>`:'';
+    const prioTag=r.priority?`<span class="rep-tag ${PRIO_TAGS[r.priority]||''}">${r.priority.toUpperCase()}</span>`:'';
+    const posTag=r.position?`<span class="rep-tag">${r.position}</span>`:'';
+    const clubTag=r.club?`<span class="rep-tag">${r.club}</span>`:'';
+    const matchInfo=[r.matchDate?fd(r.matchDate):'',r.matchHome&&r.matchAway?`${r.matchHome} × ${r.matchAway}`:'',r.matchComp].filter(Boolean).join('  ·  ');
+    const scoreAvg=Object.values(r.attrs||{}).filter(v=>v>0);
+    const avg=scoreAvg.length?'∅ '+(scoreAvg.reduce((a,b)=>a+b,0)/scoreAvg.length).toFixed(1):'';
+    return `<div class="rep-card">
+      <div class="rep-card-top">
+        <div>
+          <div class="rep-card-name">${r.playerName||'–'}</div>
+          <div class="rep-card-match">${matchInfo||'Partida não informada'}</div>
+          <div class="rep-card-tags">${posTag}${clubTag}${recTag}${prioTag}${avg?`<span class="rep-tag">${avg}</span>`:''}</div>
+        </div>
+        ${score}
+      </div>
+      <div class="rep-btns">
+        <button class="rep-btn view" onclick="openRepForm({repId:'${r.id}'})">✎ Editar</button>
+        <button class="rep-btn exp" onclick="exportRepJSON('${r.id}')">↓ JSON</button>
+        <button class="rep-btn del" onclick="deleteRep('${r.id}')">🗑 Deletar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function deleteRep(id){
+  if(!confirm('Deletar este relatório?'))return;
+  const arr=getReps().filter(r=>r.id!==id);
+  saveReps(arr);
+  renderRepList();
+  toast('Relatório deletado.',true);
+}
+
+function exportRepJSON(id){
+  const rep=getReps().find(r=>r.id===id);
+  if(!rep)return;
+  const a=document.createElement('a');
+  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(rep,null,2));
+  a.download=`relatorio_${(rep.playerName||'jogador').replace(/\s+/g,'_')}_${rep.id}.json`;
+  a.click();
+}
+
+// Inicializar
+document.addEventListener('DOMContentLoaded',()=>{updateRepBadge();});
 
 </script>
+
+<!-- ═══ RELATÓRIOS — LISTA ════════════════════════════════════════════ -->
+<div id="repListOverlay" onclick="if(event.target===this)closeRepList()">
+  <div id="repListPanel">
+    <div class="rp-hdr">
+      <div class="rp-title">📝 Relatórios de Jogadores</div>
+      <button class="rp-close" onclick="closeRepList()">✕</button>
+    </div>
+    <div class="rep-list-head">
+      <input class="rep-filter-input" id="repSearch" placeholder="Buscar por nome, clube, posição…" oninput="renderRepList()">
+      <button class="rep-add-btn" onclick="openRepForm({})">＋ Novo Relatório</button>
+    </div>
+    <div class="rep-list-scroll" id="repListScroll"></div>
+  </div>
+</div>
+
+<!-- ═══ RELATÓRIOS — FORMULÁRIO ════════════════════════════════════════ -->
+<div id="repFormOverlay" onclick="if(event.target===this)closeRepForm()">
+  <div id="repFormPanel">
+    <div class="rp-hdr">
+      <div class="rp-title" id="repFormTitle">📝 Novo Relatório</div>
+      <button class="rp-close" onclick="closeRepForm()">✕</button>
+    </div>
+    <div style="overflow-y:auto;flex:1;padding-top:16px;">
+
+      <!-- PARTIDA -->
+      <div class="rp-section">
+        <div class="rp-section-title">⚽ Partida</div>
+        <div class="rp-row">
+          <div class="rp-field"><div class="rp-label">Data</div><input type="date" class="rp-input" id="rf_matchDate"></div>
+          <div class="rp-field"><div class="rp-label">Mandante</div><input type="text" class="rp-input" id="rf_matchHome" placeholder="ex: Talleres"></div>
+          <div class="rp-field"><div class="rp-label">Visitante</div><input type="text" class="rp-input" id="rf_matchAway" placeholder="ex: Belgrano"></div>
+        </div>
+        <div class="rp-row">
+          <div class="rp-field"><div class="rp-label">Competição</div><input type="text" class="rp-input" id="rf_matchComp" placeholder="ex: Apertura 2026"></div>
+          <div class="rp-field"><div class="rp-label">Cidade</div><input type="text" class="rp-input" id="rf_matchCity" placeholder="ex: Córdoba"></div>
+          <div class="rp-field"><div class="rp-label">Placar</div><input type="text" class="rp-input" id="rf_matchScore" placeholder="ex: 2 – 1"></div>
+        </div>
+      </div>
+
+      <!-- PERFIL DO JOGADOR -->
+      <div class="rp-section">
+        <div class="rp-section-title">👤 Perfil do Jogador</div>
+        <div class="rp-row">
+          <div class="rp-field" style="flex:2;min-width:200px;"><div class="rp-label">Nome Completo</div><input type="text" class="rp-input" id="rf_name" placeholder="Nome do jogador"></div>
+          <div class="rp-field"><div class="rp-label">Data Nasc.</div><input type="date" class="rp-input" id="rf_dob"></div>
+          <div class="rp-field"><div class="rp-label">Nac.</div><input type="text" class="rp-input" id="rf_nat" placeholder="ARG"></div>
+        </div>
+        <div class="rp-row">
+          <div class="rp-field"><div class="rp-label">Clube</div><input type="text" class="rp-input" id="rf_club" placeholder="Clube atual"></div>
+          <div class="rp-field"><div class="rp-label">Posição</div>
+            <select class="rp-select" id="rf_pos">
+              <option value="">–</option>
+              <option>GK</option><option>RB</option><option>CB</option><option>LB</option>
+              <option>RWB</option><option>LWB</option><option>CDM</option><option>CM</option>
+              <option>CAM</option><option>RM</option><option>LM</option><option>RW</option>
+              <option>LW</option><option>CF</option><option>ST</option>
+            </select>
+          </div>
+          <div class="rp-field"><div class="rp-label">Pé</div>
+            <select class="rp-select" id="rf_foot">
+              <option value="">–</option><option>Direito</option><option>Esquerdo</option><option>Ambidestro</option>
+            </select>
+          </div>
+        </div>
+        <div class="rp-row">
+          <div class="rp-field"><div class="rp-label">Altura (cm)</div><input type="number" class="rp-input" id="rf_height" placeholder="185"></div>
+          <div class="rp-field"><div class="rp-label">Físico</div>
+            <select class="rp-select" id="rf_body">
+              <option value="">–</option><option>Magro</option><option>Médio</option><option>Forte</option><option>Robusto</option>
+            </select>
+          </div>
+          <div class="rp-field"><div class="rp-label">Fim Contrato</div><input type="date" class="rp-input" id="rf_contract"></div>
+          <div class="rp-field"><div class="rp-label">Val. TM (€)</div><input type="text" class="rp-input" id="rf_tmval" placeholder="500k"></div>
+        </div>
+        <div class="rp-row">
+          <div class="rp-field"><div class="rp-label">Link Transfermarkt</div><input type="url" class="rp-input" id="rf_tmlink" placeholder="https://www.transfermarkt.com.br/..."></div>
+          <div class="rp-field"><div class="rp-label">Link BeSoccer</div><input type="url" class="rp-input" id="rf_besoccer" placeholder="https://www.besoccer.com/player/..."></div>
+        </div>
+      </div>
+
+      <!-- ATRIBUTOS TÉCNICOS -->
+      <div class="rp-section">
+        <div class="rp-section-title">⚙ Atributos Técnicos <span style="font-size:0.5rem;color:var(--muted);font-weight:400;letter-spacing:.05em">CLIQUE PARA AVALIAR 1–10 · CLIQUE MESMO DOT PARA LIMPAR</span></div>
+        <div class="attr-grid" id="attrGrid"></div>
+      </div>
+
+      <!-- ANÁLISE -->
+      <div class="rp-section">
+        <div class="rp-section-title">📋 Análise</div>
+        <div class="rp-row">
+          <div class="rp-field"><div class="rp-label">Pontos Fortes</div><textarea class="rp-textarea" id="rf_strengths" placeholder="Qualidades observadas…"></textarea></div>
+          <div class="rp-field"><div class="rp-label">Pontos a Desenvolver</div><textarea class="rp-textarea" id="rf_weaknesses" placeholder="Áreas de melhoria…"></textarea></div>
+        </div>
+        <div class="rp-field full"><div class="rp-label">Notas Gerais</div><textarea class="rp-textarea" id="rf_notes" placeholder="Contexto tático, comportamento, liderança…" style="min-height:80px;"></textarea></div>
+      </div>
+
+      <!-- RECOMENDAÇÃO -->
+      <div class="rp-section">
+        <div class="rp-section-title">🎯 Recomendação</div>
+        <div class="rp-row">
+          <div class="rp-field" style="flex:2;">
+            <div class="rp-label">Recomendação</div>
+            <select class="rp-select" id="rf_rec">
+              <option value="">–</option>
+              <option value="contratar">✅ Contratar</option>
+              <option value="monitorar">👁 Monitorar</option>
+              <option value="nao_recomendar">❌ Não Recomendar</option>
+              <option value="reobservar">🔄 Reobservar</option>
+            </select>
+          </div>
+          <div class="rp-field">
+            <div class="rp-label">Prioridade</div>
+            <select class="rp-select" id="rf_prio">
+              <option value="">–</option>
+              <option value="alta">🔴 Alta</option>
+              <option value="media">🟡 Média</option>
+              <option value="baixa">🟢 Baixa</option>
+            </select>
+          </div>
+          <div class="rp-field">
+            <div class="rp-label">Score Geral (0–10)</div>
+            <input type="number" min="0" max="10" step="0.1" class="rp-input" id="rf_score" placeholder="7.5">
+          </div>
+        </div>
+        <div class="rp-field" style="margin:0 0 0 0;"><div class="rp-label">Justificativa</div><textarea class="rp-textarea" id="rf_just" placeholder="Justifique a recomendação final…"></textarea></div>
+      </div>
+
+    </div><!-- /overflow -->
+    <div class="rp-footer">
+      <button class="rp-btn-cancel" onclick="closeRepForm()">CANCELAR</button>
+      <button class="rp-btn-save" onclick="saveReport()">SALVAR RELATÓRIO ✓</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
