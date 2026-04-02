@@ -347,6 +347,179 @@ body.light .ml{background:rgba(255,255,255,0.96);}
 .toast.ok{border-color:rgba(46,204,142,0.5);color:#5ee8b2;}
 
 /* ═══ PRINT ════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE — max-width 767px
+   Estratégia: tab bar inferior, colunas full-width, painéis full-screen
+════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── Topbar compacta ── */
+  :root { --topbar-h: auto; }
+  .topbar { height: auto; position: sticky; top: 0; z-index: 300; }
+  .tb-row1 { flex-wrap: wrap; padding: 6px 10px 4px; gap: 6px; }
+  .tb-logo { font-size: 1.1rem; }
+  .tb-sep { display: none; }
+  .tb-dates { gap: 4px; }
+  .tb-date { font-size: 0.72rem; padding: 5px 5px; }
+  .tb-hotel { display: none; }               /* hotel: só desktop */
+  .tb-apply { font-size: 0.8rem; padding: 6px 12px; flex-shrink: 0; }
+  /* Ações: esconde os menos usados em campo, mantém essenciais */
+  .tb-actions { flex-wrap: wrap; gap: 4px; }
+  .tb-actions .tb-btn { display: none; }      /* + Jogo / CSV: esconde em campo */
+  .tb-actions .tb-bd-btn { display: none; }   /* Destaques: via bottom nav */
+  .tb-actions .tb-queue-btn { display: none; } /* Fila: via bottom nav */
+  .tb-actions .tb-fichas-btn { display: none;} /* Fichas: via bottom nav */
+  .theme-toggle { margin-left: 0; }
+  .tb-row2 { padding: 4px 8px; gap: 5px; }
+  .chip { font-size: 0.6rem; padding: 4px 8px; }
+
+  /* ── Layout principal: colunas full-width ── */
+  .main { flex-direction: column; padding-bottom: 56px; overflow: visible; }
+  .col {
+    width: 100vw !important;
+    flex-shrink: 0;
+    height: calc(100dvh - var(--topbar-h, 90px) - 56px);
+    border-right: none;
+  }
+  .col.mob-hidden { display: none !important; }
+
+  /* Mapa: full-width quando ativo */
+  #map {
+    width: 100vw !important;
+    flex: 1;
+    min-height: 300px;
+  }
+  #map.mob-hidden { display: none !important; }
+
+  /* ── Bottom Tab Bar ── */
+  .mob-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: calc(56px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--panel);
+    border-top: 2px solid var(--border2);
+    z-index: 500;
+    align-items: stretch;
+  }
+  .mob-nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    color: var(--muted2);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.48rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color .15s, background .15s;
+    padding: 0 2px;
+    position: relative;
+  }
+  .mob-nav-btn .mob-nav-icon { font-size: 1.1rem; line-height: 1; }
+  .mob-nav-btn:hover, .mob-nav-btn.active {
+    color: var(--gold);
+    background: rgba(212,168,67,0.06);
+  }
+  .mob-nav-btn.active::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 15%; right: 15%;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 0 0 3px 3px;
+  }
+  .mob-nav-badge {
+    position: absolute;
+    top: 6px; right: 8px;
+    background: var(--red);
+    color: #fff;
+    font-size: 0.45rem;
+    padding: 1px 4px;
+    border-radius: 8px;
+    min-width: 14px;
+    text-align: center;
+    display: none;
+  }
+  .mob-nav-badge.vis { display: block; }
+
+  /* ── Fichas panel: full screen ── */
+  #fichasOverlay { padding: 0; align-items: stretch; }
+  #fichasPanel {
+    width: 100vw !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+  }
+  .fp-scroll { padding: 8px 10px; }
+  .fp-hdr { padding: 10px 14px 8px; }
+
+  /* ── BD (Destaques) panel: full screen ── */
+  #bdOverlay { padding: 0; align-items: stretch; }
+  #bdPanel {
+    width: 100vw !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+  }
+
+  /* ── Picker +Partida: largura total ── */
+  .fp-picker-wrap { left: 0 !important; right: 0 !important; width: 100vw !important; }
+
+  /* ── Impede zoom do iOS em inputs (font >= 16px) ── */
+  input, select, textarea {
+    font-size: 16px !important;
+    -webkit-appearance: none;
+  }
+  .ficha-inp, .fp-inp { font-size: 15px !important; }
+
+  /* ── Touch targets maiores ── */
+  .bico { width: 38px !important; height: 38px !important; font-size: 1rem !important; }
+  .ficha-bar { min-height: 46px; display: flex; align-items: center; }
+  .scouts-bar { min-height: 44px; display: flex; align-items: center; }
+  .scout-item { padding: 10px 10px; gap: 8px; }
+  .fp-add-row-btn { min-height: 42px; }
+  .fp-rec-btn, .fp-add-btn { min-height: 40px; }
+  .fp-row-mic { width: 36px !important; height: 36px !important; font-size: 0.9rem !important; }
+
+  /* ── Cards de jogo: mais espaçados ── */
+  .gi { margin: 0 0 6px; border-radius: 6px; }
+  .gm { font-size: 0.9rem !important; white-space: normal !important; }
+  .ginfo { flex-wrap: wrap; }
+
+  /* ── Scouts body: lista mais legível ── */
+  .scout-name { font-size: 0.9rem; }
+  .scout-meta { flex-wrap: wrap; font-size: 0.62rem; }
+
+  /* ── Tabs desktop: esconde no mobile (usamos bottom nav) ── */
+  .tabs { display: none; }
+
+  /* ── Ficha tabela: compacta ── */
+  .ficha-table th:nth-child(1), .ficha-table td:nth-child(1),
+  .fp-table th:nth-child(1), .fp-table td:nth-child(1) { width: 32px !important; }
+  .ficha-table th:nth-child(2), .ficha-table td:nth-child(2),
+  .fp-table th:nth-child(2), .fp-table td:nth-child(2) { width: 60px !important; }
+
+  /* ── Modal de novo jogo ── */
+  .md { width: 100vw !important; max-width: 100vw !important; border-radius: 0 !important; margin: 0 !important; }
+  #moverlay { padding: 0; align-items: flex-end; }
+
+  /* ── Col-hdr sticky ── */
+  .col-hdr { position: sticky; top: 0; z-index: 10; }
+
+  /* Col-scroll: garante que role certo */
+  .col-scroll { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* Bottom nav: esconde no desktop */
+.mob-nav { display: none; }
+
 @media print{
   /* ── Reset de overflow/altura em toda a árvore ── */
   html,body{
@@ -403,110 +576,388 @@ body.light .ml{background:rgba(255,255,255,0.96);}
 .print-header{display:none;font-family:'Syne',sans-serif;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #000;}
 .print-header h1{font-size:1.3rem;font-weight:700;}
 .print-header p{font-size:0.78rem;color:#555;margin-top:3px;}
-/* ═══ RELATÓRIOS DE JOGADOR ══════════════════════════════════════════ */
-/* Botão "relatório" no card de jogo */
-.bico.rep{font-size:0.72rem;}
-.bico.rep:hover{border-color:#22d3ee;color:#22d3ee;}
-/* Botão topbar relatórios */
-.tb-rep-btn{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;
-  border:1px solid rgba(6,182,212,0.3);background:rgba(6,182,212,0.08);color:#22d3ee;
+
+/* ═══ DESTAQUES DA LIGA ═══════════════════════════════════════ */
+.tb-bd-btn{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;
+  border:1px solid rgba(46,204,142,0.3);background:rgba(46,204,142,0.07);color:#5ee8b2;
   font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:700;cursor:pointer;
   transition:all .14s;letter-spacing:.04em;}
-.tb-rep-btn:hover{background:rgba(6,182,212,0.2);border-color:#22d3ee;}
-.rep-badge{background:#22d3ee;color:#0a0f1a;border-radius:8px;padding:0 5px;font-size:0.55rem;
-  font-weight:800;min-width:16px;text-align:center;display:none;}
-/* Overlays */
-#repListOverlay,#repFormOverlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:3000;
-  display:none;align-items:flex-start;justify-content:center;padding-top:40px;overflow-y:auto;}
-#repListOverlay.vis,#repFormOverlay.vis{display:flex;}
-/* Painéis */
-#repListPanel{background:#0d1117;border:1px solid rgba(6,182,212,0.25);border-radius:10px;
-  width:min(720px,96vw);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;margin-bottom:40px;}
-#repFormPanel{background:#0d1117;border:1px solid rgba(6,182,212,0.25);border-radius:10px;
-  width:min(760px,96vw);display:flex;flex-direction:column;margin-bottom:40px;}
-/* Cabeçalho dos painéis */
-.rp-hdr{padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid rgba(6,182,212,0.18);flex-shrink:0;}
-.rp-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.07em;color:#22d3ee;}
-.rp-close{background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:0 4px;}
-.rp-close:hover{color:#22d3ee;}
-/* Seções do formulário */
-.rp-section{border:1px solid var(--border2);border-radius:8px;padding:16px 18px;margin:0 18px 14px;}
-.rp-section-title{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:.18em;
-  text-transform:uppercase;color:#22d3ee;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
-.rp-row{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
-.rp-field{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px;}
-.rp-field.full{flex-basis:100%;}
-.rp-label{font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted2);}
-.rp-input,.rp-select,.rp-textarea{background:var(--panel2);border:1px solid var(--border2);
-  border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.72rem;
-  padding:6px 9px;outline:none;width:100%;transition:border-color .14s;}
-.rp-input:focus,.rp-select:focus,.rp-textarea:focus{border-color:#22d3ee;}
-.rp-textarea{resize:vertical;min-height:64px;line-height:1.45;}
-.rp-select{cursor:pointer;}
-/* Atributos 1-10 */
-.attr-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.attr-row{display:flex;flex-direction:column;gap:4px;}
-.attr-label{font-family:'JetBrains Mono',monospace;font-size:0.54rem;color:var(--muted2);
-  text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;}
-.attr-val{font-weight:700;color:#22d3ee;}
-.attr-dots{display:flex;gap:3px;align-items:center;}
-.adot{width:18px;height:10px;border-radius:2px;background:var(--border2);cursor:pointer;
-  transition:all .1s;border:1px solid transparent;}
-.adot:hover{background:rgba(6,182,212,0.3);}
-.adot.on{background:#22d3ee;border-color:#22d3ee;}
-.adot.on.hi{background:#f0c96a;border-color:#f0c96a;}
-/* Card de relatório na lista */
-.rep-card{border:1px solid var(--border2);border-radius:7px;padding:12px 14px;margin:0 14px 10px;
-  background:var(--panel2);transition:border-color .13s;cursor:pointer;}
-.rep-card:hover{border-color:#22d3ee;}
-.rep-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
-.rep-card-name{font-size:0.88rem;font-weight:700;color:var(--text);}
-.rep-card-match{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--muted);margin-top:3px;}
-.rep-card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
-.rep-tag{font-family:'JetBrains Mono',monospace;font-size:0.52rem;padding:2px 6px;border-radius:3px;
-  background:rgba(6,182,212,0.1);color:#22d3ee;border:1px solid rgba(6,182,212,0.25);}
-.rep-tag.gold{background:rgba(212,168,67,0.1);color:var(--gold);border-color:rgba(212,168,67,0.3);}
-.rep-tag.green{background:rgba(46,204,142,0.1);color:#5ee8b2;border-color:rgba(46,204,142,0.3);}
-.rep-tag.red{background:rgba(232,64,64,0.1);color:#f87171;border-color:rgba(232,64,64,0.3);}
-.rep-score-circle{width:38px;height:38px;border-radius:50%;border:2px solid #22d3ee;
-  display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;
-  font-size:1.05rem;color:#22d3ee;flex-shrink:0;}
-.rep-btns{display:flex;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);}
-.rep-btn{padding:3px 10px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;
-  font-weight:700;cursor:pointer;border:1px solid;transition:all .13s;}
-.rep-btn.view{background:rgba(6,182,212,0.08);color:#22d3ee;border-color:rgba(6,182,212,0.3);}
-.rep-btn.view:hover{background:rgba(6,182,212,0.2);}
-.rep-btn.del{background:rgba(232,64,64,0.06);color:#f87171;border-color:rgba(232,64,64,0.25);}
-.rep-btn.del:hover{background:rgba(232,64,64,0.18);}
-.rep-btn.exp{background:rgba(37,211,102,0.06);color:#4ade80;border-color:rgba(37,211,102,0.25);}
-.rep-btn.exp:hover{background:rgba(37,211,102,0.18);}
-/* Footer do form */
-.rp-footer{padding:14px 18px;border-top:1px solid var(--border2);display:flex;justify-content:flex-end;
-  gap:10px;flex-shrink:0;background:var(--panel);}
-.rp-btn-cancel{padding:7px 18px;border-radius:4px;font-family:'JetBrains Neue',sans-serif;
-  font-size:0.8rem;cursor:pointer;border:1px solid var(--border2);background:var(--panel2);
-  color:var(--muted2);transition:all .13s;}
-.rp-btn-cancel:hover{border-color:var(--text);color:var(--text);}
-.rp-btn-save{padding:7px 22px;border-radius:4px;font-family:'Bebas Neue',sans-serif;
-  font-size:0.95rem;letter-spacing:.08em;cursor:pointer;border:none;
-  background:#22d3ee;color:#0a0f1a;font-weight:700;transition:all .13s;}
-.rp-btn-save:hover{background:#06b6d4;}
-/* Lista vazia */
-.rep-empty{padding:40px 20px;text-align:center;color:var(--muted);
-  font-family:'JetBrains Mono',monospace;font-size:0.72rem;}
-.rep-list-scroll{flex:1;overflow-y:auto;padding-top:10px;}
-/* Cabeçalho lista com filtros */
-.rep-list-head{padding:10px 14px;display:flex;gap:8px;flex-shrink:0;
+.tb-bd-btn:hover{background:rgba(46,204,142,0.18);border-color:#5ee8b2;}
+#bdOverlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:4000;
+  display:none;align-items:flex-start;justify-content:center;padding:30px 16px;}
+#bdOverlay.vis{display:flex;}
+#bdPanel{background:#0d1117;border:1px solid rgba(46,204,142,0.22);border-radius:10px;
+  width:min(900px,98vw);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+.bd-hdr{padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(46,204,142,0.18);flex-shrink:0;gap:10px;}
+.bd-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.07em;color:#5ee8b2;}
+.bd-stats{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);
+  background:rgba(46,204,142,0.08);border:1px solid rgba(46,204,142,0.18);
+  border-radius:4px;padding:3px 10px;}
+.bd-close{background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;}
+.bd-close:hover{color:#5ee8b2;}
+.bd-toolbar{padding:8px 14px;display:flex;gap:6px;flex-shrink:0;
   border-bottom:1px solid var(--border2);align-items:center;flex-wrap:wrap;}
-.rep-filter-input{flex:1;min-width:160px;background:var(--panel2);border:1px solid var(--border2);
+.bd-filter{padding:4px 8px;border-radius:4px;background:var(--panel2);border:1px solid var(--border2);
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.62rem;cursor:pointer;outline:none;}
+.bd-filter:focus{border-color:#5ee8b2;}
+.bd-search{flex:1;min-width:180px;background:var(--panel2);border:1px solid var(--border2);
   border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.7rem;
   padding:5px 9px;outline:none;}
-.rep-filter-input:focus{border-color:#22d3ee;}
-.rep-add-btn{padding:5px 14px;border-radius:4px;font-family:'Bebas Neue',sans-serif;
-  font-size:0.85rem;letter-spacing:.07em;cursor:pointer;border:none;background:#22d3ee;
-  color:#0a0f1a;font-weight:700;white-space:nowrap;}
+.bd-search:focus{border-color:#5ee8b2;}
+.bd-filter{padding:5px 9px;border-radius:4px;background:var(--panel2);border:1px solid var(--border2);
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.65rem;cursor:pointer;outline:none;}
+.bd-filter:focus{border-color:#5ee8b2;}
+.bd-add-btn{padding:5px 14px;border-radius:4px;font-family:'Bebas Neue',sans-serif;
+  font-size:0.85rem;letter-spacing:.07em;cursor:pointer;border:none;
+  background:#5ee8b2;color:#0a0f1a;font-weight:700;white-space:nowrap;}
+.bd-scroll{flex:1;overflow-y:auto;padding:10px 14px;}
+/* Grupo de time */
+.bd-team-group{margin-bottom:14px;}
+.bd-team-hdr{display:flex;align-items:center;gap:8px;padding:6px 10px;
+  background:rgba(46,204,142,0.06);border:1px solid rgba(46,204,142,0.15);
+  border-radius:6px 6px 0 0;cursor:pointer;}
+.bd-team-name{font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:.07em;color:#5ee8b2;}
+.bd-team-cnt{background:rgba(46,204,142,0.15);border:1px solid rgba(46,204,142,0.25);
+  border-radius:10px;padding:1px 7px;font-family:'JetBrains Mono',monospace;
+  font-size:0.54rem;color:#5ee8b2;}
+/* Tabela de jogadores */
+.bd-table{width:100%;border-collapse:collapse;background:var(--panel2);
+  border:1px solid var(--border2);border-top:none;border-radius:0 0 6px 6px;overflow:hidden;}
+.bd-table th{font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);background:rgba(255,255,255,0.03);
+  padding:6px 10px;text-align:left;border-bottom:1px solid var(--border2);}
+.bd-table td{padding:6px 10px;font-size:0.74rem;color:var(--text);
+  border-bottom:1px solid var(--border);vertical-align:middle;}
+.bd-table tr:last-child td{border-bottom:none;}
+.bd-table tr:hover td{background:rgba(46,204,142,0.04);}
+.bd-lista-tag{font-family:'JetBrains Mono',monospace;font-size:0.48rem;padding:1px 5px;
+  border-radius:2px;margin-right:3px;font-weight:700;text-transform:uppercase;}
+.bd-btn-edit{padding:2px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+  font-size:0.52rem;cursor:pointer;border:1px solid rgba(46,204,142,0.3);
+  background:rgba(46,204,142,0.07);color:#5ee8b2;transition:all .12s;}
+.bd-btn-edit:hover{background:rgba(46,204,142,0.2);}
+.bd-btn-del{padding:2px 7px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+  font-size:0.52rem;cursor:pointer;border:1px solid rgba(232,64,64,0.25);
+  background:rgba(232,64,64,0.06);color:#f87171;transition:all .12s;}
+.bd-btn-del:hover{background:rgba(232,64,64,0.18);}
+/* Modal edição inline */
+#bdEditModal{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:5000;
+  display:none;align-items:center;justify-content:center;}
+#bdEditModal.vis{display:flex;}
+#bdEditBox{background:#0d1117;border:1px solid rgba(46,204,142,0.3);border-radius:8px;
+  width:min(560px,95vw);padding:20px 22px;}
+.bde-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.07em;
+  color:#5ee8b2;margin-bottom:14px;}
+.bde-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.bde-field{display:flex;flex-direction:column;gap:3px;flex:1;min-width:120px;}
+.bde-label{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted2);}
+.bde-input,.bde-select{background:var(--panel2);border:1px solid var(--border2);
+  border-radius:3px;color:var(--text);font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;padding:5px 8px;outline:none;width:100%;}
+.bde-input:focus,.bde-select:focus{border-color:#5ee8b2;}
+.bde-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;}
+.bde-cancel{padding:6px 14px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;cursor:pointer;border:1px solid var(--border2);
+  background:var(--panel2);color:var(--muted2);}
+.bde-save{padding:6px 16px;border-radius:3px;font-family:'Bebas Neue',sans-serif;
+  font-size:0.85rem;letter-spacing:.07em;cursor:pointer;border:none;
+  background:#5ee8b2;color:#0a0f1a;font-weight:700;}
+
+/* ═══ UPLOAD DE ARQUIVO (BD) ══════════════════════════════════════════ */
+.bd-upload-bar{padding:8px 14px;border-bottom:1px solid var(--border);
+  background:rgba(46,204,142,0.03);flex-shrink:0;}
+.bd-upload-label{font-family:'JetBrains Mono',monospace;font-size:0.52rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;
+  display:flex;align-items:center;gap:6px;}
+.bd-upload-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.bd-drop-zone{flex:1;min-width:200px;border:1px dashed rgba(46,204,142,0.35);
+  border-radius:5px;padding:8px 12px;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:8px;background:rgba(46,204,142,0.03);}
+.bd-drop-zone:hover,.bd-drop-zone.drag-over{
+  border-color:#5ee8b2;background:rgba(46,204,142,0.09);}
+.bd-drop-text{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted2);}
+.bd-drop-text b{color:#5ee8b2;}
+.bd-drop-icon{font-size:1.1rem;flex-shrink:0;}
+.bd-upload-btn{padding:5px 14px;border-radius:4px;font-family:'Bebas Neue',sans-serif;
+  font-size:0.82rem;letter-spacing:.07em;cursor:pointer;border:1px solid rgba(46,204,142,0.4);
+  background:rgba(46,204,142,0.1);color:#5ee8b2;transition:all .13s;white-space:nowrap;}
+.bd-upload-btn:hover{background:rgba(46,204,142,0.22);border-color:#5ee8b2;}
+.bd-upload-status{font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:3px 8px;
+  border-radius:3px;display:none;}
+.bd-upload-status.ok{background:rgba(46,204,142,0.12);color:#5ee8b2;
+  border:1px solid rgba(46,204,142,0.3);display:inline-block;}
+.bd-upload-status.err{background:rgba(232,64,64,0.1);color:#f87171;
+  border:1px solid rgba(232,64,64,0.25);display:inline-block;}
+.bd-upload-status.proc{background:rgba(212,168,67,0.1);color:var(--gold);
+  border:1px solid rgba(212,168,67,0.25);display:inline-block;}
+/* Modal de mapeamento de colunas (Excel) */
+#bdMapOverlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:6000;
+  display:none;align-items:center;justify-content:center;}
+#bdMapOverlay.vis{display:flex;}
+#bdMapBox{background:#0d1117;border:1px solid rgba(46,204,142,0.3);border-radius:8px;
+  width:min(640px,96vw);max-height:90vh;overflow-y:auto;padding:22px 24px;}
+.bdm-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.07em;
+  color:#5ee8b2;margin-bottom:4px;}
+.bdm-sub{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);
+  margin-bottom:16px;}
+.bdm-row{display:flex;gap:10px;margin-bottom:8px;align-items:center;}
+.bdm-field-label{font-family:'JetBrains Mono',monospace;font-size:0.58rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);width:110px;flex-shrink:0;}
+.bdm-sel{flex:1;background:var(--panel2);border:1px solid var(--border2);border-radius:3px;
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.65rem;
+  padding:4px 7px;outline:none;}
+.bdm-sel:focus{border-color:#5ee8b2;}
+.bdm-preview{margin:14px 0 12px;background:rgba(0,0,0,.3);border-radius:5px;
+  padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--muted2);
+  max-height:100px;overflow-y:auto;}
+.bdm-footer{display:flex;justify-content:space-between;align-items:center;
+  margin-top:16px;gap:10px;}
+.bdm-count{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);}
+
+/* ═══ FICHA DE JOGO — tabela simples de jogadores ═══════════════════ */
+.ficha-bar{padding:5px 11px;border-top:1px solid rgba(168,85,247,0.18);
+  background:rgba(40,20,80,0.2);cursor:pointer;display:flex;align-items:center;
+  justify-content:space-between;transition:background .12s;user-select:none;}
+.ficha-bar:hover{background:rgba(60,30,110,0.3);}
+.ficha-bar.open{background:rgba(55,25,100,0.3);}
+.ficha-bar-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  color:#c084fc;font-weight:700;display:flex;align-items:center;gap:5px;}
+.ficha-bar-cnt{background:rgba(168,85,247,0.18);border:1px solid rgba(168,85,247,0.3);
+  border-radius:10px;padding:1px 6px;font-size:0.54rem;color:#c084fc;}
+.ficha-bar-arrow{font-size:0.55rem;color:var(--muted);transition:transform .2s;}
+.ficha-body{background:rgba(40,20,80,0.15);border-top:1px solid rgba(168,85,247,0.1);
+  padding:8px 10px;}
+.ficha-table{width:100%;border-collapse:collapse;}
+.ficha-table th{font-family:'JetBrains Mono',monospace;font-size:0.5rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);
+  padding:3px 6px;text-align:left;border-bottom:1px solid var(--border2);}
+.ficha-table td{padding:3px 4px;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,0.04);}
+.ficha-table tr:last-child td{border-bottom:none;}
+.ficha-inp{width:100%;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.68rem;
+  padding:2px 4px;border-radius:2px;transition:background .1s;}
+.ficha-inp:focus{background:rgba(168,85,247,0.08);}
+.ficha-inp::placeholder{color:var(--muted);}
+.ficha-inp.num{width:36px;text-align:center;}
+.ficha-inp.pos{width:70px;}
+.ficha-desc-wrap{display:flex;align-items:center;gap:3px;}
+.ficha-inp.desc{flex:1;}
+.ficha-mic{width:20px;height:20px;border-radius:3px;border:1px solid rgba(168,85,247,0.25);
+  background:transparent;color:rgba(168,85,247,0.6);cursor:pointer;font-size:0.65rem;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .12s;padding:0;}
+.ficha-mic:hover{border-color:#c084fc;color:#c084fc;}
+.ficha-mic.rec{border-color:#f87171;color:#f87171;background:rgba(232,64,64,0.12);
+  animation:fichaRecPulse .8s ease-in-out infinite;}
+@keyframes fichaRecPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.ficha-del{width:18px;height:18px;border-radius:2px;border:none;background:none;
+  color:rgba(239,68,68,0.35);cursor:pointer;font-size:0.65rem;padding:0;
+  transition:color .12s;flex-shrink:0;}
+.ficha-del:hover{color:#f87171;}
+.ficha-add-btn{margin-top:6px;padding:3px 10px;border-radius:3px;
+  font-family:'JetBrains Mono',monospace;font-size:0.58rem;font-weight:700;
+  cursor:pointer;border:1px solid rgba(168,85,247,0.3);
+  background:rgba(168,85,247,0.08);color:#c084fc;transition:all .12s;}
+.ficha-add-btn:hover{background:rgba(168,85,247,0.2);border-color:#c084fc;}
+
+.ficha-audio-btn:hover{color:#c084fc;border-color:rgba(168,85,247,0.4);}
+.ficha-audio-btn.uploading{color:var(--gold);border-color:rgba(212,168,67,0.4);}
+
+/* ═══ PAINEL FICHAS ══════════════════════════════════════════════════ */
+.tb-fichas-btn{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;
+  border:1px solid rgba(168,85,247,0.3);background:rgba(168,85,247,0.08);color:#c084fc;
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:700;cursor:pointer;
+  transition:all .14s;letter-spacing:.04em;}
+.tb-fichas-btn:hover{background:rgba(168,85,247,0.2);border-color:#c084fc;}
+.fichas-badge{background:#c084fc;color:#0a0f1a;border-radius:8px;padding:0 5px;
+  font-size:0.55rem;font-weight:800;min-width:16px;text-align:center;display:none;}
+#fichasOverlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:4000;
+  display:none;align-items:flex-start;justify-content:center;padding:30px 16px;}
+#fichasOverlay.vis{display:flex;}
+#fichasPanel{background:#0d1117;border:1px solid rgba(168,85,247,0.22);border-radius:10px;
+  width:min(820px,98vw);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.fp-hdr{padding:14px 20px 12px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(168,85,247,0.18);flex-shrink:0;}
+.fp-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.07em;color:#c084fc;}
+.fp-stats{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);
+  background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.18);
+  border-radius:4px;padding:3px 10px;}
+.fp-close{background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;margin-left:auto;}
+.fp-close:hover{color:#c084fc;}
+.fp-scroll{flex:1;overflow-y:auto;padding:12px 14px;}
+/* Card de ficha por jogo */
+.fp-card{border:1px solid var(--border2);border-radius:7px;margin-bottom:12px;
+  background:var(--panel2);overflow:hidden;}
+.fp-card-hdr{padding:9px 14px;display:flex;align-items:center;gap:8px;
+  background:rgba(168,85,247,0.06);border-bottom:1px solid var(--border);}
+.fp-card-match{font-size:0.82rem;font-weight:700;color:var(--text);}
+.fp-card-meta{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--muted);
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+.fp-card-del{margin-left:auto;background:none;border:none;color:rgba(239,68,68,0.4);
+  cursor:pointer;font-size:0.8rem;transition:color .12s;padding:0 4px;}
+.fp-card-del:hover{color:#f87171;}
+/* Tabela dentro do painel */
+.fp-table{width:100%;border-collapse:collapse;}
+.fp-table th{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted2);padding:4px 10px;text-align:left;
+  border-bottom:1px solid var(--border);}
+.fp-table td{padding:5px 10px;font-size:0.74rem;color:var(--text);
+  border-bottom:1px solid rgba(255,255,255,.03);}
+.fp-table tr:last-child td{border-bottom:none;}
+/* Player de áudio dentro do card */
+.fp-audio-section{padding:8px 14px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fp-audio-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  color:rgba(168,85,247,.7);text-transform:uppercase;letter-spacing:.1em;}
+.fp-audio-player{flex:1;min-width:200px;height:28px;accent-color:#c084fc;}
+.fp-audio-del{background:none;border:none;color:rgba(239,68,68,.4);cursor:pointer;
+  font-size:0.75rem;transition:color .12s;}
+.fp-audio-del:hover{color:#f87171;}
+/* Botão gravar dentro da ficha do jogo */
+.ficha-rec-btn{padding:3px 10px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+  font-size:0.58rem;font-weight:700;cursor:pointer;border:1px solid rgba(168,85,247,0.3);
+  background:rgba(168,85,247,0.08);color:#c084fc;transition:all .13s;margin-left:4px;}
+.ficha-rec-btn:hover{background:rgba(168,85,247,0.2);border-color:#c084fc;}
+.ficha-rec-btn.recording{border-color:#f87171;color:#f87171;background:rgba(232,64,64,0.12);
+  animation:fichaRecPulse .8s ease-in-out infinite;}
+.fp-empty{padding:40px;text-align:center;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;}
+
+/* Inputs editáveis no painel Fichas */
+.fp-inp{background:transparent;border:none;outline:none;color:var(--text);
+  font-family:inherit;font-size:inherit;width:100%;padding:1px 2px;
+  border-radius:2px;transition:background .1s;}
+.fp-inp:focus{background:rgba(168,85,247,0.1);outline:1px solid rgba(168,85,247,0.35);}
+.fp-inp::placeholder{color:var(--muted);}
+.fp-inp.num{width:38px;text-align:center;font-family:'JetBrains Mono',monospace;}
+.fp-inp.pos{width:72px;font-size:.68rem;}
+.fp-inp.nome{font-weight:600;}
+.fp-inp.desc{font-size:.7rem;color:var(--muted2);min-width:100px;}
+.fp-add-row-btn{display:flex;align-items:center;gap:5px;padding:4px 12px;margin:0 10px 8px;
+  border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;
+  cursor:pointer;border:1px dashed rgba(168,85,247,0.35);background:transparent;
+  color:rgba(168,85,247,.6);transition:all .12s;width:calc(100% - 20px);}
+.fp-add-row-btn:hover{background:rgba(168,85,247,.08);border-color:#c084fc;color:#c084fc;}
+.fp-row-del{width:16px;height:16px;background:none;border:none;
+  color:rgba(239,68,68,.3);cursor:pointer;font-size:.65rem;padding:0;
+  transition:color .12s;flex-shrink:0;vertical-align:middle;}
+.fp-row-del:hover{color:#f87171;}
+/* Mic/Play por linha de jogador */
+.fp-row-mic{width:26px;height:22px;border-radius:3px;border:1px solid rgba(168,85,247,.3);
+  background:rgba(168,85,247,.07);color:rgba(168,85,247,.7);font-size:.7rem;cursor:pointer;
+  transition:all .13s;padding:0;display:inline-flex;align-items:center;justify-content:center;}
+.fp-row-mic:hover{background:rgba(168,85,247,.2);border-color:#c084fc;color:#c084fc;}
+.scout-ficha-btn{padding:2px 6px;border-radius:3px;border:1px solid rgba(168,85,247,.3);
+  background:rgba(168,85,247,.08);color:rgba(168,85,247,.7);cursor:pointer;font-size:.7rem;
+  transition:all .12s;flex-shrink:0;}
+.scout-ficha-btn:hover{background:rgba(168,85,247,.22);border-color:#c084fc;color:#c084fc;}
+.fp-row-mic.recording{border-color:#f87171;color:#f87171;background:rgba(232,64,64,.12);
+  animation:fichaRecPulse .7s ease-in-out infinite;}
+.fp-table td{padding:3px 8px;}
+
+/* Botão play na barra da ficha */
+.ficha-bar-play{margin-left:6px;padding:2px 7px;border-radius:3px;
+  font-family:'JetBrains Mono',monospace;font-size:.52rem;font-weight:700;
+  cursor:pointer;border:1px solid rgba(168,85,247,.35);
+  background:rgba(168,85,247,.1);color:#c084fc;transition:all .12s;
+  flex-shrink:0;}
+.ficha-bar-play:hover{background:rgba(168,85,247,.25);border-color:#c084fc;}
+/* Bloco de áudio dentro da ficha */
+.ficha-audio-block{border-top:1px solid rgba(168,85,247,.12);padding:6px 10px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.ficha-audio-block audio{flex:1;min-width:160px;height:26px;accent-color:#c084fc;}
+.ficha-audio-meta{font-family:monospace;font-size:.54rem;color:rgba(168,85,247,.7);
+  white-space:nowrap;}
+
+/* Botão gravar no painel fichas */
+.fp-rec-btn{padding:4px 12px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;font-weight:700;cursor:pointer;border:1px solid rgba(168,85,247,.35);
+  background:rgba(168,85,247,.08);color:#c084fc;transition:all .13s;}
+.fp-rec-btn:hover{background:rgba(168,85,247,.2);border-color:#c084fc;}
+.fp-rec-btn.recording{border-color:#f87171;color:#f87171;background:rgba(232,64,64,.1);
+  animation:fichaRecPulse .8s ease-in-out infinite;}
+.fp-rec-bar{display:flex;align-items:center;gap:8px;padding:6px 10px 8px;
+  border-bottom:1px solid rgba(168,85,247,.08);}
+.fp-rec-timer{font-family:monospace;font-size:.6rem;color:rgba(168,85,247,.6);display:none;}
+.fp-audios-wrap{background:rgba(168,85,247,.03);}
+.fp-play-btn{padding:3px 11px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;font-weight:700;cursor:pointer;border:1px solid rgba(168,85,247,.35);
+  background:rgba(168,85,247,.1);color:#c084fc;transition:all .13s;white-space:nowrap;flex-shrink:0;}
+.fp-play-btn:hover{background:rgba(168,85,247,.25);border-color:#c084fc;}
+.fp-play-btn.playing{border-color:#f97316;color:#f97316;background:rgba(249,115,22,.1);}
+
+/* Seletor de partida no painel Fichas */
+/* ── Drawer: cadastro de jogador (substitui picker flutuante) ── */
+.fp-drawer{
+  flex-shrink:0;border-bottom:2px solid rgba(168,85,247,.25);
+  background:rgba(10,8,20,.97);display:none;flex-direction:column;
+  max-height:70vh;overflow:hidden;}
+.fp-drawer.vis{display:flex;}
+.fp-drawer-step{display:flex;flex-direction:column;overflow:hidden;}
+.fp-drawer-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  letter-spacing:.12em;text-transform:uppercase;color:rgba(168,85,247,.7);
+  padding:10px 14px 5px;}
+.fp-drawer-game-tag{display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border-bottom:1px solid rgba(168,85,247,.15);flex-shrink:0;}
+.fp-drawer-game-name{font-size:.82rem;font-weight:700;color:var(--text);flex:1;}
+.fp-drawer-game-meta{font-family:'JetBrains Mono',monospace;font-size:.56rem;
+  color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;}
+.fp-drawer-fields{
+  display:grid;grid-template-columns:52px 90px 1fr 1fr;
+  gap:6px;padding:10px 14px;align-items:center;}
+.fp-drawer-inp{background:var(--panel2);border:1px solid var(--border2);
+  border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;
+  font-size:.75rem;padding:7px 9px;outline:none;width:100%;}
+.fp-drawer-inp:focus{border-color:#c084fc;}
+.fp-drawer-inp::placeholder{color:var(--muted);}
+.fp-drawer-footer{display:flex;align-items:center;gap:8px;
+  padding:8px 14px 12px;flex-shrink:0;}
+.fp-drawer-back{background:none;border:1px solid var(--border2);
+  border-radius:4px;color:var(--muted2);font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;padding:6px 12px;cursor:pointer;transition:all .13s;}
+.fp-drawer-back:hover{border-color:var(--muted2);color:var(--text);}
+.fp-drawer-save{flex:1;background:rgba(168,85,247,.18);border:1px solid rgba(168,85,247,.4);
+  border-radius:4px;color:#c084fc;font-family:'Bebas Neue',sans-serif;
+  font-size:1rem;letter-spacing:.07em;padding:8px 16px;cursor:pointer;transition:all .13s;}
+.fp-drawer-save:hover{background:rgba(168,85,247,.32);border-color:#c084fc;}
+/* Mobile: campos empilhados */
+@media(max-width:767px){
+  .fp-drawer-fields{grid-template-columns:52px 1fr;row-gap:6px;}
+  .fp-drawer-inp{font-size:16px!important;padding:10px 9px;}
+  .fp-drawer-save{font-size:.9rem;}
+}
+.fp-add-btn{padding:5px 14px;border-radius:4px;font-family:'Bebas Neue',sans-serif;
+  font-size:.85rem;letter-spacing:.07em;cursor:pointer;border:none;
+  background:rgba(168,85,247,.18);color:#c084fc;font-weight:700;
+  transition:all .13s;white-space:nowrap;flex-shrink:0;}
+.fp-add-btn:hover{background:rgba(168,85,247,.32);}
+.fp-picker-wrap{
+  position:fixed;z-index:5000;
+  padding:10px 14px;
+  border:1px solid rgba(168,85,247,.35);border-radius:0 0 8px 8px;
+  background:#0d1117;box-shadow:0 12px 32px rgba(0,0,0,.75);
+  display:none;box-sizing:border-box;}
+.fp-picker-wrap.vis{display:block;}
+.fp-picker-search{width:100%;background:var(--panel2);border:1px solid rgba(168,85,247,.3);
+  border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;padding:6px 10px;outline:none;margin-bottom:6px;}
+.fp-picker-search:focus{border-color:#c084fc;}
+.fp-picker-list{max-height:240px;overflow-y:auto;border-radius:4px;
+  border:1px solid rgba(168,85,247,.25);background:#0d1117;}
+.fp-picker-item{padding:7px 12px;cursor:pointer;border-bottom:1px solid var(--border);
+  transition:background .1s;}
+.fp-picker-item:last-child{border-bottom:none;}
+.fp-picker-item:hover{background:rgba(168,85,247,.1);}
+.fp-picker-match{font-size:.78rem;font-weight:600;color:var(--text);}
+.fp-picker-meta{font-family:'JetBrains Mono',monospace;font-size:.56rem;
+  color:var(--muted);margin-top:1px;display:flex;gap:6px;}
+.fp-picker-badge{font-family:'JetBrains Mono',monospace;font-size:.5rem;padding:1px 5px;
+  border-radius:2px;background:rgba(168,85,247,.15);color:#c084fc;
+  border:1px solid rgba(168,85,247,.25);}
+.fp-picker-empty{padding:16px;text-align:center;font-family:monospace;
+  font-size:.68rem;color:var(--muted);}
 
 </style>
 </head>
@@ -536,7 +987,8 @@ body.light .ml{background:rgba(255,255,255,0.96);}
       <div class="tb-btn" onclick="abrirNovo()">+ Jogo</div>
       <div class="tb-btn accent" onclick="exportCSV()">↓ CSV</div>
       <button class="tb-queue-btn" onclick="showScoutQueue()" title="Jogadores na fila para o Scout System">📋 FILA <span class="queue-badge" id="queueBadge">0</span></button>
-      <button class="tb-rep-btn" onclick="showRepList()" title="Relatórios de jogadores">📝 RELATÓRIOS <span class="rep-badge" id="repBadge">0</span></button>
+      <button class="tb-bd-btn" onclick="showBD()" title="Destaques da Liga — jogadores monitorados">⚽ DESTAQUES DA LIGA</button>
+      <button class="tb-fichas-btn" onclick="showFichasPanel()" title="Todas as fichas de jogo salvas">📋 FICHAS <span class="fichas-badge" id="fichasBadge">0</span></button>
       <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Claro/Escuro">🌙</button>
     </div>
   </div>
@@ -1339,192 +1791,619 @@ const BASE=[
 // Confirmações de clube via fontes públicas (jan-abr 2026)
 // ═══════════════════════════════════════════════
 const SCOUTS = {
-  // ── Buenos Aires ──────────────────────────────
-  "Boca Juniors": [
-    {n:"Leandro Paredes",   pos:"MCD",          ano:1994, cont:"2028", pe:"D", listas:["reuniao"]},
-    {n:"Kevin Zenón",       pos:"Lateral Esq",  ano:2001, cont:"2025", pe:"E", listas:["reuniao"]},
-    {n:"Lautaro Blanco",    pos:"Lateral Esq",  ano:1999, cont:"2028", pe:"E", listas:["reuniao","pro"]},
-    {n:"Marco Pellegrino",  pos:"Zag. Esq",     ano:2002, cont:"2029", pe:"E", listas:["reuniao"]},
-    {n:"Lautaro Di Lollo",  pos:"Zag. Dir",     ano:2004, cont:"2028", pe:"D", listas:["reuniao"]},
-    {n:"Juan Barinaga",     pos:"Lateral Dir",  ano:2000, cont:"2028", pe:"D", listas:["reuniao"]},
-    {n:"Milton Delgado",    pos:"Interior Dir", ano:2005, cont:"2029", pe:"D", listas:["successor","u21"]},
-    {n:"Dylan Gorosito",    pos:"Lateral Dir",  ano:2006, cont:"2028", pe:"D", listas:["successor","u21"]},
-    {n:"Manuel García",     pos:"MCD",          ano:1999, cont:"2027", pe:"D", listas:["pro"]},
-    {n:"J. Soto",           pos:"Interior Dir", ano:2007, cont:"2029", pe:"D", listas:["reuniao","successor"]},
-    {n:"T. Andrada",        pos:"Interior Esq", ano:2007, cont:"2028", pe:"D", listas:["reuniao","successor","u21"]},
-  ],
-  "River Plate": [
-    {n:"Facundo Colidio",   pos:"Ext. Esq",     ano:2000, cont:"2027", pe:"D", listas:["pro"]},
-    {n:"Aníbal Moreno",     pos:"MCD",          ano:1999, cont:"2027", pe:"D", listas:["reuniao"]},
-    {n:"Tomás Palacios",    pos:"Zag. Esq",     ano:2003, cont:"2029", pe:"E", listas:["reuniao","pro"]},
-    {n:"Lautaro Rivero",    pos:"Zag. Esq",     ano:2003, cont:"2028", pe:"E", listas:["reuniao","pro"]},
-    {n:"E. Martínez",       pos:"Zag. Esq",     ano:1998, cont:"2028", pe:"E", listas:["pro"]},
-    {n:"F. Ortega",         pos:"Lateral Esq",  ano:1999, cont:"2028", pe:"E", listas:["reuniao"]},
-  ],
-  "Racing": [
-    {n:"M. Miljevic",       pos:"Interior Esq", ano:2001, cont:"2029", pe:"D", listas:["pro","reuniao"]},
-    {n:"E. Cannavo",        pos:"Lateral Dir",  ano:2002, cont:"2026", pe:"D", listas:["reuniao","pro"]},
-    {n:"F. Ibarra",         pos:"MCD",          ano:2001, cont:"2027", pe:"D", listas:["reuniao","pro"]},
-    {n:"F. Lencioni",       pos:"Ext. Dir",     ano:2001, cont:"2025", pe:"E", listas:["pro"]},
-  ],
-  "San Lorenzo": [
-    {n:"A. Molinas",        pos:"Interior Esq", ano:2000, cont:"2027", pe:"D", listas:["pro"]},
-    {n:"G. Baroni",         pos:"Interior Esq", ano:2009, cont:"2028", pe:"E", listas:["u21","successor","reuniao"]},
-    {n:"O. Gill",           pos:"Goleiro",      ano:2000, cont:"2027", pe:"E", listas:["reuniao"]},
-  ],
-  "Independiente": [
-    {n:"Adrián Sánchez",    pos:"MCD",          ano:1999, cont:"2029", pe:"D", listas:["pro"]},
-    {n:"A. Maidana",        pos:"Lateral Esq",  ano:2005, cont:"2025", pe:"E", listas:["pro","u21"]},
-    {n:"Matías Abaldo",     pos:"Ext. Esq",     ano:2004, cont:"2027", pe:"D", listas:["reuniao"]},
-    {n:"M. Del Blanco",     pos:"Lateral Esq",  ano:2003, cont:"2028", pe:"E", listas:["reuniao"]},
-    {n:"V. Acuña",          pos:"Interior Dir", ano:2006, cont:"2027", pe:"E", listas:["reuniao","successor"]},
-    {n:"T. Silvero",        pos:"Zag. Dir",     ano:2006, cont:"2026", pe:"D", listas:["reuniao","successor"]},
-    {n:"L. Vargas",         pos:"Lateral Dir",  ano:2005, cont:"2026", pe:"D", listas:["reuniao","u21"]},
-    {n:"C. Fiermarin",      pos:"Goleiro",      ano:1998, cont:"2028", pe:"D", listas:["reuniao"]},
-  ],
-  "Vélez": [
-    {n:"M. Iacobellis",     pos:"Ext. Dir",     ano:1999, cont:"2026", pe:"D", listas:["pro"]},
-    {n:"I. Galván",         pos:"Zag./Lat.Esq", ano:2002, cont:"2026", pe:"E", listas:["pro"]},
-    {n:"Renzo Orihuela",    pos:"Zag. Dir",     ano:2001, cont:"2026", pe:"D", listas:["pro"]},
-    {n:"I. Perruzzi",       pos:"MCD",          ano:2005, cont:"2027", pe:"D", listas:["u21","successor","reuniao"]},
-  ],
-  "Huracán": [
-    {n:"Ó. Cortés",         pos:"Ext. Esq",     ano:2003, cont:"2029", pe:"D", listas:["pro","reuniao"]},
-    {n:"B. Aguirre",        pos:"Ext. Esq",     ano:2003, cont:"2025", pe:"D", listas:["pro"]},
-  ],
-  "Lanús": [
-    {n:"Rick",              pos:"Ext. Esq",     ano:1999, cont:"2028", pe:"D", listas:["pro"]},
+  // ── Buenos Aires ──────────────────────────────────────
+  "Argentinos": [
+    {n:"T. Molina", pos:"Atacante", ano:1995, cont:"2029", pe:"D", listas:["pro", "reuniao"]},
+    {n:"J. Rossel", pos:"CAM", ano:2005, cont:"2026", pe:"D", listas:["successor"]},
+    {n:"Jhon Rentería", pos:"Ext. Dir", ano:2005, cont:"2027", pe:"D", listas:["pro", "reuniao", "u21"]},
+    {n:"G. Mancilla", pos:"Ext. Esq", ano:2008, cont:"", pe:"D", listas:["successor"]},
+    {n:"A. Lescano", pos:"Interior Esq", ano:2001, cont:"2027", pe:"D", listas:["pro", "reuniao"]},
+    {n:"R. Tulián", pos:"Interior Esq", ano:2008, cont:"2028", pe:"D", listas:["u21"]},
+    {n:"S. Fernández", pos:"Zag. Esq", ano:2005, cont:"2028", pe:"D", listas:["u21"]},
   ],
   "Banfield": [
-    {n:"L. Carrizo",        pos:"Zag. Esq",     ano:1997, cont:"2026", pe:"E", listas:["pro"]},
-    {n:"B. Palavecino",     pos:"Atacante",     ano:2003, cont:"2027", pe:"D", listas:["pro"]},
-  ],
-  "Platense": [
-    {n:"I. Campo",          pos:"Lateral Dir",  ano:2005, cont:"2028", pe:"D", listas:["pro","u21"]},
-  ],
-  "Tigre": [
-    {n:"L. Varaldo",        pos:"Atacante",     ano:2002, cont:"2026", pe:"D", listas:["pro"]},
-    {n:"J. Romero",         pos:"Atacante",     ano:2003, cont:"2030", pe:"D", listas:["pro","reuniao"]},
-    {n:"L. Souto",          pos:"Lateral Dir",  ano:1998, cont:"2026", pe:"D", listas:["pro"]},
-  ],
-  "Dep. Riestra": [
-    {n:"J. Saborido",       pos:"Lateral Dir",  ano:1998, cont:"2027", pe:"D", listas:["pro"]},
-    {n:"M. Rodríguez",      pos:"Zag. Dir",     ano:2003, cont:"2025", pe:"D", listas:["reuniao","pro"]},
-    {n:"Pedro Silva",       pos:"Zag. Esq",     ano:1997, cont:"2026", pe:"E", listas:["pro"]},
-  ],
-  // ── La Plata ──────────────────────────────────
-  "Estudiantes LP": [
-    {n:"Ian Subiabre",      pos:"Ext. Esq",     ano:2007, cont:"2026", pe:"E", listas:["u21","successor","reuniao"]},
-    {n:"V. Pizarro",        pos:"Meia Dir",     ano:2002, cont:"2029", pe:"E", listas:["pro"]},
-  ],
-  "Gimnasia LP": [
-    {n:"Manuel Panaro",     pos:"Ext. Esq",     ano:2002, cont:"2027", pe:"D", listas:["pro","reuniao"]},
-    {n:"A. Steimbach",      pos:"Lateral Dir",  ano:2002, cont:"2026", pe:"D", listas:["reuniao"]},
-    {n:"J. García",         pos:"Lateral Dir",  ano:2001, cont:"2027", pe:"D", listas:["pro"]},
-  ],
-  // ── Rosário ───────────────────────────────────
-  "Rosario Central": [
-    {n:"S. Marcich",        pos:"Lateral Esq",  ano:1998, cont:"2028", pe:"E", listas:["reuniao"]},
-    {n:"B. Rodríguez",      pos:"Interior Esq", ano:2003, cont:"2027", pe:"D", listas:["pro"]},
-  ],
-  "Newell's": [
-    {n:"G. Mainero",        pos:"Ext. Dir",     ano:1995, cont:"2027", pe:"D", listas:["pro"]},
-    {n:"R. Castillo",       pos:"Atacante",     ano:1999, cont:"2028", pe:"D", listas:["pro"]},
-  ],
-  // ── Córdoba ───────────────────────────────────
-  "Talleres": [
-    {n:"T. Porra",          pos:"Meia Dir",     ano:2004, cont:"2026", pe:"E", listas:["pro"]},
-    {n:"F. Juárez",         pos:"Meia Dir",     ano:1998, cont:"2027", pe:"D", listas:["pro"]},
-  ],
-  "Belgrano": [
-    {n:"J. Caicedo",        pos:"Atacante",     ano:1997, cont:"2026", pe:"D", listas:["pro"]},
-    {n:"F. Cambeses",       pos:"Goleiro",      ano:1997, cont:"2027", pe:"D", listas:["reuniao"]},
-  ],
-  "Central Córdoba": [
-    {n:"S. Sosa",           pos:"MCD",          ano:1999, cont:"2027", pe:"D", listas:["pro","reuniao"]},
-  ],
-  // ── Mendoza ───────────────────────────────────
-  "Ind. Rivadavia": [
-    {n:"S. Villa",          pos:"Ext. Esq",     ano:1996, cont:"2026", pe:"D", listas:["pro","reuniao"]},
-    {n:"Rodrigo Atencio",   pos:"Ext. Dir",     ano:2002, cont:"2029", pe:"E", listas:["pro"]},
-  ],
-  "Godoy Cruz": [
-    {n:"Santiago Salle",    pos:"Meia Dir",     ano:2004, cont:"2027", pe:"D", listas:["pro"]},
-    {n:"J. Romaña",         pos:"Zag. Dir",     ano:1998, cont:"2026", pe:"D", listas:["pro"]},
-  ],
-  // ── Tucumán ───────────────────────────────────
-  "Atlético Tucumán": [
-    {n:"E. Cetré",          pos:"Ext. Esq",     ano:1998, cont:"2026", pe:"D", listas:["reuniao"]},
-    {n:"L. Ríos",           pos:"MCD",          ano:2000, cont:"2025", pe:"D", listas:["pro"]},
-    {n:"S. Studer",         pos:"Zag. Esq",     ano:2002, cont:"2025", pe:"D", listas:["pro"]},
-    {n:"P. Ojeda",          pos:"MCD",          ano:1997, cont:"2028", pe:"D", listas:["pro"]},
-  ],
-  // ── Santa Fé ──────────────────────────────────
-  "Unión": [
-    {n:"M. Galarza",        pos:"MCD",          ano:2002, cont:"2028", pe:"D", listas:["pro","reuniao"]},
-    {n:"R. Profini",        pos:"MCD",          ano:2003, cont:"2025", pe:"E", listas:["pro"]},
-    {n:"F. Ortega",         pos:"Lateral Esq",  ano:1999, cont:"2028", pe:"E", listas:["reuniao"]},
-  ],
-  "Colón": [
-    {n:"F. Sartori",        pos:"Atacante",     ano:2002, cont:"2025", pe:"D", listas:["pro"]},
-    {n:"J. Domínguez",      pos:"MCD",          ano:2000, cont:"2025", pe:"D", listas:["pro"]},
-  ],
-  // ── Buenos Aires (cont.) ──────────────────────
-  "Sarmiento": [
-    {n:"A. Cuello",         pos:"Atacante",     ano:2000, cont:"2027", pe:"D", listas:["pro","reuniao"]},
-  ],
-  "Argentinos": [
-    {n:"Tomás Molina",      pos:"Atacante",     ano:1995, cont:"2029", pe:"D", listas:["pro"]},
-    {n:"A. Lescano",        pos:"Interior Esq", ano:2001, cont:"2027", pe:"E", listas:["reuniao","pro"]},
-    {n:"Jhon Rentería",     pos:"Ext. Dir",     ano:2005, cont:"2027", pe:"E", listas:["pro","u21","successor","reuniao"]},
-  ],
-  "Instituto": [
-    {n:"J. Fernández",      pos:"Ext. Esq",     ano:2004, cont:"2027", pe:"E", listas:["pro"]},
-    {n:"Brandon Márquez",   pos:"Atacante",     ano:2005, cont:"2028", pe:"D", listas:["pro"]},
-  ],
-  "Def. y Justicia": [
-    {n:"I. Russo",          pos:"Atacante",     ano:2000, cont:"2028", pe:"D", listas:["pro"]},
-    {n:"R. Kida",           pos:"Ext. Esq",     ano:2005, cont:"2027", pe:"D", listas:["pro","u21"]},
-    {n:"D. Porcel",         pos:"Ext. Esq",     ano:2005, cont:"2028", pe:"D", listas:["pro","u21"]},
+    {n:"B. Palavecino", pos:"Atacante", ano:2003, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"M. De Ritis", pos:"Lateral Dir", ano:2003, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"F. Martinez", pos:"Zag. Esq", ano:2007, cont:"", pe:"D", listas:["successor"]},
+    {n:"L. Carrizo", pos:"Zag. Esq", ano:1997, cont:"2026", pe:"D", listas:["pro"]},
   ],
   "Barracas Central": [
-    {n:"J. Domínguez",      pos:"MCD",          ano:2000, cont:"2025", pe:"D", listas:["pro"]},
-    {n:"Jhon Córdoba",      pos:"Ext. Dir",     ano:2000, cont:"2028", pe:"D", listas:["pro"]},
+    {n:"D. Guagua", pos:"CAM", ano:2007, cont:"2026", pe:"D", listas:["successor"]},
+    {n:"Jhon Córdoba", pos:"Ext. Dir", ano:2000, cont:"2028", pe:"D", listas:["pro"]},
+    {n:"B. Perez", pos:"Interior Esq", ano:2008, cont:"", pe:"D", listas:["reserva", "u21"]},
+  ],
+  "Boca Juniors": [
+    {n:"Leonel Jaime", pos:"Ext. Dir", ano:2006, cont:"2028", pe:"D", listas:["u21"]},
+    {n:"J. Soto", pos:"Interior Dir", ano:2007, cont:"2029", pe:"D", listas:["pro", "reuniao", "successor"]},
+    {n:"Leandro Paredes", pos:"Interior Dir", ano:1994, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"Milton Delgado", pos:"Interior Dir", ano:2005, cont:"2029", pe:"D", listas:["successor"]},
+    {n:"N. Schelotto", pos:"Interior Dir", ano:2006, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"T. Andrada", pos:"Interior Dir", ano:2007, cont:"2028", pe:"D", listas:["pro", "reuniao", "successor", "u21"]},
+    {n:"D. Gorosito", pos:"Lateral Dir", ano:2006, cont:"2028", pe:"D", listas:["reserva", "successor"]},
+    {n:"Juan Barinaga", pos:"Lateral Dir", ano:2000, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"Lautaro Blanco", pos:"Lateral Dir", ano:1999, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"Kevin Zenón", pos:"Lateral Esq", ano:2001, cont:"2025", pe:"D", listas:["pro", "reuniao"]},
+    {n:"M. Chaparro", pos:"Lateral Esq", ano:2007, cont:"", pe:"D", listas:["pro", "reuniao"]},
+    {n:"S. Escobar", pos:"Lateral Esq", ano:2009, cont:"", pe:"D", listas:["successor", "u21"]},
+    {n:"S. Zampieri", pos:"Lateral Esq", ano:2007, cont:"2027", pe:"D", listas:["reserva", "successor"]},
+    {n:"Manuel García", pos:"MCD", ano:1999, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"Lautaro Di Lollo", pos:"Zag. Dir", ano:2004, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"Marco Pellegrino", pos:"Zag. Esq", ano:2002, cont:"2029", pe:"D", listas:["pro", "reuniao"]},
+  ],
+  "Def. y Justicia": [
+    {n:"I. Russo", pos:"Atacante", ano:2000, cont:"2028", pe:"D", listas:["pro"]},
+    {n:"D. Porcel", pos:"Ext. Esq", ano:2005, cont:"2028", pe:"D", listas:["pro", "u21"]},
+    {n:"R. Kida", pos:"Ext. Esq", ano:2005, cont:"2027", pe:"D", listas:["pro", "u21"]},
+    {n:"K. Jappert", pos:"Lateral Dir", ano:2004, cont:"2026", pe:"D", listas:["pro"]},
+  ],
+  "Dep. Riestra": [
+    {n:"J. Burgos", pos:"Ext. Esq", ano:2004, cont:"2026", pe:"D", listas:["successor"]},
+    {n:"J. Saborido", pos:"Lateral Dir", ano:1998, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"Pedro Silva", pos:"Lateral Dir", ano:1997, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"I. Ovando", pos:"Zag. Dir", ano:2007, cont:"2027", pe:"D", listas:["successor", "u21"]},
+    {n:"M. Rodríguez", pos:"Zag. Dir", ano:2003, cont:"2025", pe:"D", listas:["pro", "reuniao"]},
+  ],
+  "Huracán": [
+    {n:"M. Aguirre", pos:"Ext. Dir", ano:2007, cont:"", pe:"D", listas:["u21"]},
+    {n:"B. Aguirre", pos:"Ext. Esq", ano:2003, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"Ó. Cortés", pos:"Ext. Esq", ano:2003, cont:"2029", pe:"D", listas:["pro", "reuniao"]},
+  ],
+  "Independiente": [
+    {n:"Ó. Gerez", pos:"Atacante", ano:2007, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"J. Rengifo", pos:"CAM", ano:2005, cont:"2028", pe:"D", listas:["successor"]},
+    {n:"F. Jainikoski", pos:"Ext. Dir", ano:2008, cont:"2027", pe:"D", listas:["successor", "u21"]},
+    {n:"M. Carrizo", pos:"Ext. Dir", ano:2006, cont:"2030", pe:"D", listas:["successor"]},
+    {n:"Matías Abaldo", pos:"Ext. Esq", ano:2004, cont:"2027", pe:"D", listas:["pro", "reuniao"]},
+    {n:"C. Fiermarin", pos:"Goleiro", ano:1998, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"H. Loboa", pos:"Interior Dir", ano:2006, cont:"2029", pe:"D", listas:["successor"]},
+    {n:"V. Acuña", pos:"Interior Dir", ano:2006, cont:"2027", pe:"D", listas:["pro", "reuniao", "successor"]},
+    {n:"J. Flores", pos:"Interior Esq", ano:2005, cont:"2025", pe:"D", listas:["u21"]},
+    {n:"L. Vargas", pos:"Lateral Dir", ano:2005, cont:"2026", pe:"D", listas:["pro", "reuniao", "u21"]},
+    {n:"A. Maidana", pos:"Lateral Esq", ano:2005, cont:"2025", pe:"D", listas:["pro", "u21"]},
+    {n:"M. Del Blanco", pos:"Lateral Esq", ano:2003, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"Adrián Sánchez", pos:"MCD", ano:1999, cont:"2029", pe:"D", listas:["pro"]},
+    {n:"T. Silvero", pos:"Zag. Dir", ano:2006, cont:"2026", pe:"D", listas:["pro", "reuniao", "successor"]},
+  ],
+  "Lanús": [
+    {n:"Rick", pos:"Ext. Esq", ano:1999, cont:"2028", pe:"D", listas:["pro"]},
+  ],
+  "Platense": [
+    {n:"I. Campo", pos:"Lateral Dir", ano:2005, cont:"2028", pe:"D", listas:["pro", "u21"]},
+    {n:"J. Bazán", pos:"Zag. Dir", ano:2005, cont:"2027", pe:"D", listas:["successor"]},
+  ],
+  "Racing": [
+    {n:"F. Domínguez", pos:"Atacante", ano:2007, cont:"", pe:"D", listas:["u21"]},
+    {n:"F. Guch", pos:"Ext. Dir", ano:2007, cont:"2028", pe:"D", listas:["u21"]},
+    {n:"F. Lencioni", pos:"Ext. Dir", ano:2001, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"M. García", pos:"Interior Dir", ano:2005, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"S. Dalmasso", pos:"Interior Dir", ano:2004, cont:"", pe:"D", listas:["u21"]},
+    {n:"M. Miljevic", pos:"Interior Esq", ano:2001, cont:"2029", pe:"D", listas:["pro", "reuniao"]},
+    {n:"E. Cannavo", pos:"Lateral Dir", ano:2002, cont:"2026", pe:"D", listas:["pro", "reuniao"]},
+    {n:"F. Ibarra", pos:"MCD", ano:2001, cont:"2027", pe:"D", listas:["pro", "reuniao"]},
+    {n:"J. Mosqueira", pos:"MCD", ano:2004, cont:"2029", pe:"D", listas:["u21"]},
+  ],
+  "River Plate": [
+    {n:"Agustín Ruberto", pos:"Atacante", ano:2006, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"D. Godoy", pos:"Atacante", ano:2006, cont:"2028", pe:"D", listas:["u21"]},
+    {n:"Joaquín Freitas", pos:"Atacante", ano:2006, cont:"", pe:"D", listas:["u21"]},
+    {n:"V. Dávila", pos:"Atacante", ano:2007, cont:"", pe:"D", listas:["u21"]},
+    {n:"M. Lozano", pos:"Interior Dir", ano:2008, cont:"", pe:"D", listas:["successor"]},
+    {n:"Facundo Colidio", pos:"Interior Esq", ano:2000, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"Lautaro Millán", pos:"Interior Esq", ano:2005, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"E. Martínez", pos:"Lateral Dir", ano:1998, cont:"2028", pe:"D", listas:["pro"]},
+    {n:"Lautaro Rivero", pos:"Lateral Dir", ano:2003, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"Tomás Palacios", pos:"Lateral Dir", ano:2003, cont:"2029", pe:"D", listas:["pro", "reuniao"]},
+    {n:"Aníbal Moreno", pos:"MCD", ano:1999, cont:"2027", pe:"D", listas:["pro", "reuniao"]},
+    {n:"Juan Cortazzo", pos:"Zag. Dir", ano:2005, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"T. Ramírez", pos:"Zag. Esq", ano:2006, cont:"2029", pe:"D", listas:["successor"]},
+  ],
+  "San Lorenzo": [
+    {n:"T. De Martis", pos:"Atacante", ano:2008, cont:"2027", pe:"D", listas:["successor", "u21"]},
+    {n:"O. Gill", pos:"Goleiro", ano:2000, cont:"2027", pe:"D", listas:["pro", "reuniao"]},
+    {n:"M. Amondarain", pos:"Interior Dir", ano:2005, cont:"2028", pe:"D", listas:["u21"]},
+    {n:"A. Molinas", pos:"Interior Esq", ano:2000, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"G. Baroni", pos:"Interior Esq", ano:2009, cont:"2028", pe:"D", listas:["pro", "reuniao", "successor", "u21"]},
+    {n:"Juan Meza", pos:"Interior Esq", ano:2008, cont:"2026", pe:"D", listas:["reserva", "successor", "u21"]},
+  ],
+  "Sarmiento": [
+    {n:"A. Cuello", pos:"Atacante", ano:2000, cont:"2027", pe:"D", listas:["pro", "reuniao"]},
+  ],
+  "Tigre": [
+    {n:"J. Romero", pos:"Atacante", ano:2003, cont:"2030", pe:"D", listas:["pro", "reuniao"]},
+    {n:"L. Varaldo", pos:"Atacante", ano:2002, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"J. Rosa", pos:"Ext. Esq", ano:2007, cont:"", pe:"D", listas:["successor"]},
+    {n:"F. Pérez", pos:"Interior Esq", ano:2005, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"L. Souto", pos:"Lateral Dir", ano:1998, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"S. García", pos:"Zag. Dir", ano:2005, cont:"2026", pe:"D", listas:["successor"]},
+  ],
+  "Vélez": [
+    {n:"M. Iacobellis", pos:"Ext. Dir", ano:1999, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"T. Peralta", pos:"Ext. Dir", ano:2008, cont:"", pe:"D", listas:["u21"]},
+    {n:"F. Gulli", pos:"Interior Esq", ano:2005, cont:"2028", pe:"D", listas:["u21"]},
+    {n:"I. Galván", pos:"Lateral Dir", ano:2002, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"Renzo Orihuela", pos:"Lateral Dir", ano:2001, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"S. Lucero", pos:"Lateral Esq", ano:2005, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"I. Perruzzi", pos:"MCD", ano:2005, cont:"2027", pe:"D", listas:["pro", "reuniao", "successor", "u21"]},
+    {n:"Juan Giménez", pos:"Zag. Dir", ano:2006, cont:"2025", pe:"D", listas:["successor"]},
+  ],
+  // ── La Plata ──────────────────────────────────────────
+  "Estudiantes LP": [
+    {n:"D. Aquino", pos:"Ext. Esq", ano:2005, cont:"2026", pe:"D", listas:["successor", "u21"]},
+    {n:"Ian Subiabre", pos:"Ext. Esq", ano:2007, cont:"2026", pe:"D", listas:["pro", "reuniao", "successor", "u21"]},
+    {n:"V. Pizarro", pos:"Interior Dir", ano:2002, cont:"2029", pe:"D", listas:["pro"]},
+  ],
+  "Gimnasia LP": [
+    {n:"Manuel Panaro", pos:"Ext. Esq", ano:2002, cont:"2027", pe:"D", listas:["pro", "reuniao"]},
+    {n:"A. Steimbach", pos:"Lateral Dir", ano:2002, cont:"2026", pe:"D", listas:["pro", "reuniao"]},
+    {n:"J. García", pos:"Lateral Dir", ano:2001, cont:"2027", pe:"D", listas:["pro"]},
+  ],
+  // ── Rosário ───────────────────────────────────────────
+  "Newell's": [
+    {n:"R. Castillo", pos:"Atacante", ano:1999, cont:"2028", pe:"D", listas:["pro"]},
+    {n:"G. Mainero", pos:"Ext. Dir", ano:1995, cont:"2027", pe:"D", listas:["pro"]},
+  ],
+  "Rosario Central": [
+    {n:"B. Rodríguez", pos:"Interior Esq", ano:2003, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"S. Marcich", pos:"Lateral Esq", ano:1998, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+  ],
+  // ── Córdoba ───────────────────────────────────────────
+  "Belgrano": [
+    {n:"J. Caicedo", pos:"Atacante", ano:1997, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"L. Flores", pos:"Ext. Esq", ano:2007, cont:"2029", pe:"D", listas:["reserva", "successor"]},
+    {n:"Luca Rafaelli", pos:"Ext. Esq", ano:2008, cont:"", pe:"D", listas:["u21"]},
+    {n:"F. Cambeses", pos:"Goleiro", ano:1997, cont:"2027", pe:"D", listas:["pro", "reuniao"]},
+    {n:"I. Guaraz", pos:"MCD", ano:2005, cont:"", pe:"D", listas:["u21"]},
+  ],
+  "Central Córdoba": [
+    {n:"S. Sosa", pos:"MCD", ano:1999, cont:"2027", pe:"D", listas:["pro", "reuniao", "u21"]},
+  ],
+  "Instituto": [
+    {n:"Brandon Márquez", pos:"Atacante", ano:2005, cont:"2028", pe:"D", listas:["pro"]},
+    {n:"Alex Luna", pos:"Ext. Esq", ano:2004, cont:"2025", pe:"D", listas:["u21"]},
+    {n:"J. Fernández", pos:"Ext. Esq", ano:2004, cont:"2027", pe:"D", listas:["pro"]},
+  ],
+  "Racing (Cba.)": [
+    {n:"M. Benegas", pos:"Atacante", ano:2006, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"I. Lartirigoyen", pos:"Ext. Dir", ano:2004, cont:"2025", pe:"D", listas:["segunda"]},
+    {n:"L. Gordillo", pos:"Ext. Dir", ano:1999, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"T. Gordillo", pos:"Interior Dir", ano:2008, cont:"", pe:"D", listas:["segunda"]},
+    {n:"Francisco Cuzzani", pos:"Interior Esq", ano:2006, cont:"", pe:"D", listas:["segunda"]},
+    {n:"A. Olinick", pos:"MCD", ano:2000, cont:"2025", pe:"D", listas:["segunda"]},
+    {n:"Axel Carrión", pos:"Zag. Dir", ano:2004, cont:"", pe:"D", listas:["segunda"]},
+    {n:"F. Peralta", pos:"Zag. Esq", ano:2001, cont:"2026", pe:"D", listas:["segunda"]},
+  ],
+  "Talleres": [
+    {n:"D. Barrera", pos:"Ext. Esq", ano:2004, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"F. Juárez", pos:"Interior Dir", ano:1998, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"T. Porra", pos:"Interior Dir", ano:2004, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"Tomás Aranda", pos:"Interior Esq", ano:2007, cont:"2029", pe:"D", listas:["reserva"]},
+  ],
+  // ── Mendoza ───────────────────────────────────────────
+  "Dep. Maipú": [
+    {n:"J. Orlando", pos:"Atacante", ano:2005, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"K. López", pos:"Interior Dir", ano:2001, cont:"2027", pe:"D", listas:["segunda"]},
+    {n:"E. Silcan", pos:"Lateral Esq", ano:2000, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"S. Cáceres", pos:"MCD", ano:2004, cont:"2028", pe:"D", listas:["segunda"]},
+    {n:"S. Bellatti", pos:"Zag. Dir", ano:2002, cont:"2028", pe:"D", listas:["segunda"]},
+    {n:"L. Busto", pos:"Zag. Esq", ano:2004, cont:"2027", pe:"D", listas:["segunda"]},
+  ],
+  "Godoy Cruz": [
+    {n:"L. Arfaras", pos:"Atacante", ano:2006, cont:"2027", pe:"D", listas:["segunda"]},
+    {n:"L. Viano", pos:"Ext. Esq", ano:2003, cont:"2027", pe:"D", listas:["segunda"]},
+    {n:"M. Duarte", pos:"Interior Dir", ano:2006, cont:"", pe:"D", listas:["segunda"]},
+    {n:"Santiago Salle", pos:"Interior Dir", ano:2004, cont:"2027", pe:"D", listas:["pro"]},
+    {n:"J. Romaña", pos:"Lateral Dir", ano:1998, cont:"2026", pe:"D", listas:["pro"]},
+    {n:"C. Ibarra", pos:"Lateral Esq", ano:2003, cont:"2025", pe:"D", listas:["segunda"]},
+  ],
+  "Ind. Rivadavia": [
+    {n:"Rodrigo Atencio", pos:"Ext. Dir", ano:2002, cont:"2029", pe:"D", listas:["pro"]},
+    {n:"S. Villa", pos:"Ext. Esq", ano:1996, cont:"2026", pe:"D", listas:["pro", "reuniao"]},
+  ],
+  // ── Tucumán ───────────────────────────────────────────
+  "Atlético Tucumán": [
+    {n:"E. Cetré", pos:"Ext. Esq", ano:1998, cont:"2026", pe:"D", listas:["pro", "reuniao"]},
+    {n:"S. Studer", pos:"Lateral Dir", ano:2002, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"L. Ríos", pos:"MCD", ano:2000, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"P. Ojeda", pos:"MCD", ano:1997, cont:"2028", pe:"D", listas:["pro"]},
+  ],
+  "San Martín T": [
+    {n:"J. Coronel", pos:"Atacante", ano:2004, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"P. Palacio", pos:"Ext. Dir", ano:2000, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"R. Villarreal", pos:"Ext. Dir", ano:2004, cont:"", pe:"D", listas:["segunda"]},
+    {n:"F. Obradovich", pos:"Interior Dir", ano:2006, cont:"", pe:"D", listas:["segunda"]},
+    {n:"Juanma Cabrera", pos:"Lateral Dir", ano:2000, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"E. Díaz", pos:"Lateral Esq", ano:2002, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"J. Postigo", pos:"MCD", ano:2003, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"L. Pollacchi", pos:"Zag. Dir", ano:2003, cont:"2026", pe:"D", listas:["segunda"]},
+  ],
+  // ── Santa Fé ──────────────────────────────────────────
+  "Colón": [
+    {n:"F. Sartori", pos:"Atacante", ano:2002, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"Joaquín Barolín", pos:"Atacante", ano:2003, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"T. Dornell", pos:"Atacante", ano:2005, cont:"2025", pe:"D", listas:["segunda"]},
+    {n:"L. Córdoba", pos:"Ext. Dir", ano:2005, cont:"", pe:"D", listas:["reserva", "segunda"]},
+    {n:"M. Oses", pos:"Ext. Dir", ano:2005, cont:"2027", pe:"D", listas:["segunda"]},
+    {n:"T. Pucciarelli", pos:"Ext. Dir", ano:2005, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"T. Ocampo", pos:"Ext. Esq", ano:2008, cont:"", pe:"D", listas:["segunda"]},
+    {n:"J. Cancio", pos:"Interior Dir", ano:2003, cont:"2026", pe:"D", listas:["segunda"]},
+    {n:"J. Raccio", pos:"Interior Esq", ano:2005, cont:"2028", pe:"D", listas:["segunda"]},
+    {n:"N. Kihm", pos:"Lateral Dir", ano:2005, cont:"2027", pe:"D", listas:["segunda"]},
+    {n:"J. Morán", pos:"Lateral Esq", ano:2006, cont:"", pe:"D", listas:["segunda"]},
+    {n:"J. Domínguez", pos:"MCD", ano:2000, cont:"2025", pe:"D", listas:["pro"]},
+    {n:"Sebastián Valdez", pos:"Zag. Esq", ano:1995, cont:"2027", pe:"D", listas:["segunda"]},
+    {n:"V. Aguiñagalde", pos:"Zag. Esq", ano:2004, cont:"2025", pe:"D", listas:["segunda"]},
+  ],
+  "Unión": [
+    {n:"M. Arias", pos:"Interior Esq", ano:2007, cont:"2028", pe:"D", listas:["successor", "u21"]},
+    {n:"F. Ortega", pos:"Lateral Esq", ano:1999, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"M. Galarza", pos:"MCD", ano:2002, cont:"2028", pe:"D", listas:["pro", "reuniao"]},
+    {n:"R. Profini", pos:"MCD", ano:2003, cont:"2025", pe:"D", listas:["pro"]},
+  ],
+  // ── Equipe A confirmar ───────────────────────────────
+  "?": [
+    {n:"A. Duarte", pos:"Atacante", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"C. Bolzán", pos:"Atacante", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"E. García", pos:"Atacante", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"J. Spiff", pos:"Atacante", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Juan Angulo", pos:"Atacante", ano:2008, cont:"", pe:"D", listas:["successor"]},
+    {n:"K. Angulo", pos:"Atacante", ano:2008, cont:"", pe:"D", listas:["successor"]},
+    {n:"Luca Cura", pos:"Atacante", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"M. Soto", pos:"Atacante", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"O. González", pos:"Atacante", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"S. Galesio", pos:"Atacante", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"S. Montero", pos:"Atacante", ano:2006, cont:"2027", pe:"D", listas:["reserva"]},
+    {n:"V. Cerrudo", pos:"Atacante", ano:2006, cont:"2026", pe:"D", listas:["reserva"]},
+    {n:"Amy Fleurilus", pos:"Ext. Dir", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"B. Rey", pos:"Ext. Dir", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Benjamín Pérez", pos:"Ext. Dir", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"E. Damian", pos:"Ext. Dir", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"J. Canchimbo", pos:"Ext. Dir", ano:2005, cont:"", pe:"D", listas:["successor"]},
+    {n:"J. Maturana", pos:"Ext. Dir", ano:2009, cont:"", pe:"D", listas:["successor"]},
+    {n:"Johan Martínez", pos:"Ext. Dir", ano:2009, cont:"", pe:"D", listas:["successor"]},
+    {n:"L. Ortiz", pos:"Ext. Dir", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"R. Fernández", pos:"Ext. Dir", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"B. Barrionuevo", pos:"Ext. Esq", ano:2005, cont:"", pe:"D", listas:["reserva"]},
+    {n:"J. Policella", pos:"Ext. Esq", ano:2009, cont:"2027", pe:"D", listas:["reserva"]},
+    {n:"J. Ruiz", pos:"Ext. Esq", ano:2006, cont:"2028", pe:"D", listas:["reserva"]},
+    {n:"E. González", pos:"Goleiro", ano:1998, cont:"2025", pe:"D", listas:["segunda"]},
+    {n:"J. Enrico", pos:"Goleiro", ano:2001, cont:"2025", pe:"D", listas:["segunda"]},
+    {n:"J. Mendoza", pos:"Goleiro", ano:2008, cont:"", pe:"D", listas:["successor"]},
+    {n:"L. Jachfe", pos:"Goleiro", ano:2001, cont:"2025", pe:"D", listas:["segunda"]},
+    {n:"S. Barbi", pos:"Goleiro", ano:2005, cont:"2027", pe:"D", listas:["successor"]},
+    {n:"Alejandro Tello", pos:"Interior Dir", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"B. Trey", pos:"Interior Dir", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Benjamín Rojas", pos:"Interior Dir", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Ederson Castillo", pos:"Interior Dir", ano:2008, cont:"", pe:"D", listas:["successor"]},
+    {n:"F. Perez", pos:"Interior Dir", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"L. Carracedo", pos:"Interior Dir", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"L. Pereyra", pos:"Interior Dir", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Luis Maturana", pos:"Interior Dir", ano:2009, cont:"", pe:"D", listas:["successor"]},
+    {n:"M. Agámez", pos:"Interior Dir", ano:2009, cont:"", pe:"D", listas:["successor"]},
+    {n:"Marcos Ortiz", pos:"Interior Dir", ano:2009, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Matías Cáceres", pos:"Interior Dir", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"T. Pérez", pos:"Interior Dir", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Agustín Caciorgna", pos:"Interior Esq", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"E. Chiavassa", pos:"Interior Esq", ano:2006, cont:"2028", pe:"D", listas:["reserva"]},
+    {n:"F. Carrizo", pos:"Interior Esq", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"J. Alberti", pos:"Interior Esq", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"J. Caviglia", pos:"Interior Esq", ano:2005, cont:"2026", pe:"D", listas:["reserva"]},
+    {n:"L. Troncoso", pos:"Interior Esq", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"M. Villalba", pos:"Interior Esq", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"R. Pesolilla", pos:"Interior Esq", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"S. Medina", pos:"Interior Esq", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"T. Laplace", pos:"Interior Esq", ano:2006, cont:"2025", pe:"D", listas:["reserva"]},
+    {n:"T. Nicolás", pos:"Interior Esq", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"M. Castillo", pos:"Lateral Dir", ano:2003, cont:"2027", pe:"D", listas:["successor"]},
+    {n:"M. Jiménez", pos:"Lateral Dir", ano:2008, cont:"", pe:"D", listas:["successor"]},
+    {n:"T. Olmos", pos:"Lateral Dir", ano:2005, cont:"2027", pe:"D", listas:["u21"]},
+    {n:"Thiago Montenegro", pos:"Lateral Dir", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"J. Benitez", pos:"Lateral Esq", ano:2006, cont:"", pe:"D", listas:["reserva"]},
+    {n:"G. Quinteros", pos:"MCD", ano:2004, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Galo Escobar", pos:"MCD", ano:2009, cont:"", pe:"D", listas:["reserva"]},
+    {n:"J. Pascual", pos:"MCD", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+    {n:"Bautista Feversani", pos:"Zag. Dir", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"M. Maitan", pos:"Zag. Dir", ano:2008, cont:"", pe:"D", listas:["successor"]},
+    {n:"T. Charras", pos:"Zag. Dir", ano:2009, cont:"", pe:"D", listas:["reserva"]},
+    {n:"L. Ferrari", pos:"Zag. Esq", ano:2008, cont:"", pe:"D", listas:["reserva"]},
+    {n:"M. Ramirez", pos:"Zag. Esq", ano:2007, cont:"", pe:"D", listas:["reserva"]},
+  ],
+  "Atletismo Tucumán": [
+    {n:"B. López", pos:"Atacante", ano:2003, cont:"2027", pe:"D", listas:["segunda"]},
   ],
 };
-
 // Alias de nomes de times para lookup
 const TEAM_ALIAS = {
-  "Boca Juniors":     ["Boca Juniors","Boca"],
+  // Buenos Aires
+  "Boca Juniors":     ["Boca Juniors","Boca","Boca Jrs.","Boca Jrs"],
   "River Plate":      ["River Plate","River"],
-  "Racing":           ["Racing","Racing Club"],
+  "Racing":           ["Racing","Racing Club"],           // NÃO inclui "Racing (Cba.)" — time diferente
   "San Lorenzo":      ["San Lorenzo"],
   "Independiente":    ["Independiente"],
-  "Vélez":            ["Vélez","Velez"],
+  "Vélez":            ["Vélez","Velez","Vélez Sarsfield"],
   "Huracán":          ["Huracán","Huracan"],
   "Lanús":            ["Lanús","Lanus"],
   "Banfield":         ["Banfield"],
   "Platense":         ["Platense"],
   "Tigre":            ["Tigre"],
-  "Dep. Riestra":     ["Dep. Riestra","Deportivo Riestra"],
-  "Estudiantes LP":   ["Estudiantes LP","Estudiantes"],
-  "Gimnasia LP":      ["Gimnasia LP","Gimnasia","Gimnasia La Plata"],
-  "Rosario Central":  ["Rosario Central"],
-  "Newell's":        ["Newell's","Newells"],
-  "Talleres":         ["Talleres"],
+  "Dep. Riestra":     ["Dep. Riestra","Dep. Riestra","Deportivo Riestra"],
+  "Argentinos":       ["Argentinos","Argentinos Jrs","Argentinos Jrs.","Argentinos Juniors"],
+  "Sarmiento":        ["Sarmiento"],
+  "Barracas Central": ["Barracas Central","Barracas"],
+  "Aldosivi":         [],   // sem scouts ainda
+  // La Plata — aliases sem "Gimnasia" genérico para não bater em "Gimnasia Mza"
+  "Estudiantes LP":   ["Estudiantes LP","Estudiantes de La Plata","Estudiantes"],
+  "Gimnasia LP":      ["Gimnasia LP","Gimnasia La Plata","Gimnasia"],   // 'Gimnasia' só bate exato agora
+  // Rosário
+  "Rosario Central":  ["Rosario Central","Central"],
+  "Newell's":         ["Newell's","Newells","Newell's Old Boys"],
+  // Córdoba
+  "Talleres":         ["Talleres","Talleres de Córdoba"],
   "Belgrano":         ["Belgrano"],
-  "Central Córdoba":  ["Central Córdoba","Central Cordoba"],
-  "Ind. Rivadavia":   ["Ind. Rivadavia","Independiente Rivadavia"],
-  "Godoy Cruz":       ["Godoy Cruz"],
-  "Atlético Tucumán": ["Atlético Tucumán","Atletico Tucuman","At. Tucumán"],
+  "Instituto":        ["Instituto","Instituto Atlético Central Córdoba"],
+  "Central Córdoba":  ["Central Córdoba","Central Cordoba","Cent. Córdoba","Central Córdoba SdE"],
+  // Mendoza
+  "Ind. Rivadavia":   ["Ind. Rivadavia","Independiente Rivadavia","Ind. Rivadavia Mza.","Ind. Rivadavia Mza"],
+  "Godoy Cruz":       ["Godoy Cruz","Godoy Cruz Antonio Tomba"],
+  "Gimnasia Mza":     [],   // sem scouts no BD principal (time da 1a Nacional)
+  // Tucumán
+  "Atlético Tucumán": ["Atlético Tucumán","Atletico Tucuman","At. Tucumán","Atl Tucumán","Atl. Tucumán"],
+  // Santa Fé
   "Unión":            ["Unión","Union"],
   "Colón":            ["Colón","Colon"],
-  "Sarmiento":        ["Sarmiento"],
-  "Argentinos":       ["Argentinos","Argentinos Juniors"],
-  "Instituto":        ["Instituto","Instituto Atlético Central Córdoba"],
-  "Def. y Justicia":  ["Def. y Justicia","Defensa y Justicia","Defensa"],
-  "Barracas Central": ["Barracas Central","Barracas"],
+  // Demais
+  "Def. y Justicia":  ["Def. y Justicia","Defensa y Justicia","Defensa","Def. Justicia"],
+  "Aldosivi":         ["Aldosivi"],
 };
+
+const DESTAQUES_ALL = [
+  {n:"F. Sartori",pos:"Atacante",ano:2002,cont:"2025",pe:"D",listas:["pro"],team:"Colón"},
+  {n:"R. Castillo",pos:"Atacante",ano:1999,cont:"2028",pe:"D",listas:["pro"],team:"Newell's"},
+  {n:"A. Cuello",pos:"Atacante",ano:2000,cont:"2027",pe:"D",listas:["pro","reuniao"],team:"Sarmiento"},
+  {n:"J. Caicedo",pos:"Atacante",ano:1997,cont:"2026",pe:"D",listas:["pro"],team:"Belgrano"},
+  {n:"I. Russo",pos:"Atacante",ano:2000,cont:"2028",pe:"D",listas:["pro"],team:"Def. y Justicia"},
+  {n:"J. Romero",pos:"Atacante",ano:2003,cont:"2030",pe:"D",listas:["pro","reuniao"],team:"Tigre"},
+  {n:"L. Varaldo",pos:"Atacante",ano:2002,cont:"2026",pe:"D",listas:["pro"],team:"Tigre"},
+  {n:"B. Palavecino",pos:"Atacante",ano:2003,cont:"2027",pe:"D",listas:["pro"],team:"Banfield"},
+  {n:"T. Molina",pos:"Atacante",ano:1995,cont:"2029",pe:"D",listas:["pro","reuniao"],team:""},
+  {n:"Brandon Márquez",pos:"Atacante",ano:2005,cont:"2028",pe:"D",listas:["pro"],team:"Instituto"},
+  {n:"J. Fernández",pos:"Ext. Esq",ano:2004,cont:"2027",pe:"E",listas:["pro"],team:"Instituto"},
+  {n:"Manuel Panaro",pos:"Ext. Esq",ano:2002,cont:"2027",pe:"D",listas:["pro","reuniao"],team:"Gimnasia LP"},
+  {n:"S. Villa",pos:"Ext. Esq",ano:1996,cont:"2026",pe:"D",listas:["pro","reuniao"],team:"Ind. Rivadavia"},
+  {n:"B. Aguirre",pos:"Ext. Esq",ano:2003,cont:"2025",pe:"D",listas:["pro"],team:"Huracán"},
+  {n:"Rick",pos:"Ext. Esq",ano:1999,cont:"2028",pe:"D",listas:["pro"],team:"Lanús"},
+  {n:"Ó. Cortés",pos:"Ext. Esq",ano:2003,cont:"2029",pe:"D",listas:["pro","reuniao"],team:"Huracán"},
+  {n:"R. Kida",pos:"Ext. Esq",ano:2005,cont:"2027",pe:"D",listas:["pro","u21"],team:"Def. y Justicia"},
+  {n:"D. Porcel",pos:"Ext. Esq",ano:2005,cont:"2028",pe:"D",listas:["pro","u21"],team:"Def. y Justicia"},
+  {n:"G. Mainero",pos:"Ext. Dir",ano:1995,cont:"2027",pe:"D",listas:["pro"],team:"Newell's"},
+  {n:"F. Lencioni",pos:"Ext. Dir",ano:2001,cont:"2025",pe:"E",listas:["pro"],team:"Racing"},
+  {n:"Rodrigo Atencio",pos:"Ext. Dir",ano:2002,cont:"2029",pe:"E",listas:["pro"],team:"Ind. Rivadavia"},
+  {n:"Jhon Córdoba",pos:"Ext. Dir",ano:2000,cont:"2028",pe:"D",listas:["pro"],team:"Barracas Central"},
+  {n:"M. Iacobellis",pos:"Ext. Dir",ano:1999,cont:"2026",pe:"D",listas:["pro"],team:"Vélez"},
+  {n:"Jhon Rentería",pos:"Ext. Dir",ano:2005,cont:"2027",pe:"E",listas:["pro","u21","reuniao"],team:"Argentinos"},
+  {n:"V. Pizarro",pos:"Interior Dir",ano:2002,cont:"2029",pe:"E",listas:["pro"],team:"Estudiantes LP"},
+  {n:"T. Porra",pos:"Interior Dir",ano:2004,cont:"2026",pe:"E",listas:["pro"],team:"Talleres"},
+  {n:"F. Juárez",pos:"Interior Dir",ano:1998,cont:"2027",pe:"D",listas:["pro"],team:"Talleres"},
+  {n:"Santiago Salle",pos:"Interior Dir",ano:2004,cont:"2027",pe:"D",listas:["pro"],team:"Godoy Cruz"},
+  {n:"A. Molinas",pos:"Interior Esq",ano:2000,cont:"2027",pe:"D",listas:["pro"],team:"San Lorenzo"},
+  {n:"B. Rodríguez",pos:"Interior Esq",ano:2003,cont:"2027",pe:"D",listas:["pro"],team:"Rosario Central"},
+  {n:"M. Miljevic",pos:"Interior Esq",ano:2001,cont:"2029",pe:"D",listas:["pro","reuniao"],team:"Racing"},
+  {n:"Facundo Colidio",pos:"Interior Esq",ano:2000,cont:"2027",pe:"D",listas:["pro"],team:"River Plate"},
+  {n:"A. Lescano",pos:"Interior Esq",ano:2001,cont:"2027",pe:"E",listas:["pro","reuniao"],team:"Argentinos"},
+  {n:"J. Domínguez",pos:"MCD",ano:2000,cont:"2025",pe:"D",listas:["pro"],team:"Barracas Central"},
+  {n:"Adrián Sánchez",pos:"MCD",ano:1999,cont:"2029",pe:"D",listas:["pro"],team:"Independiente"},
+  {n:"F. Ibarra",pos:"MCD",ano:2001,cont:"2027",pe:"D",listas:["pro","reuniao"],team:"Racing"},
+  {n:"M. Galarza",pos:"MCD",ano:2002,cont:"2028",pe:"D",listas:["pro","reuniao"],team:"Unión"},
+  {n:"S. Sosa",pos:"MCD",ano:1999,cont:"2027",pe:"D",listas:["pro","u21","reuniao"],team:"Central Córdoba"},
+  {n:"R. Profini",pos:"MCD",ano:2003,cont:"2025",pe:"E",listas:["pro"],team:"Unión"},
+  {n:"L. Ríos",pos:"MCD",ano:2000,cont:"2025",pe:"D",listas:["pro"],team:"Atlético Tucumán"},
+  {n:"P. Ojeda",pos:"MCD",ano:1997,cont:"2028",pe:"D",listas:["pro"],team:"Atlético Tucumán"},
+  {n:"Manuel García",pos:"MCD",ano:1999,cont:"2027",pe:"D",listas:["pro"],team:"Boca Juniors"},
+  {n:"A. Maidana",pos:"Lateral Esq",ano:2005,cont:"2025",pe:"E",listas:["pro","u21"],team:"Independiente"},
+  {n:"IGalván",pos:"Lateral Esq",ano:2002,cont:"2026",pe:"E",listas:["pro"],team:"Vélez"},
+  {n:"L. Carrizo",pos:"Zag. Esq",ano:1997,cont:"2026",pe:"E",listas:["pro"],team:"Banfield"},
+  {n:"EMartínez",pos:"Zag. Esq",ano:1998,cont:"2028",pe:"E",listas:["pro"],team:"River Plate"},
+  {n:"M. Rodríguez",pos:"Zag. Dir",ano:2003,cont:"2025",pe:"D",listas:["pro","reuniao"],team:"Dep. Riestra"},
+  {n:"JRomaña",pos:"Zag. Dir",ano:1998,cont:"2026",pe:"D",listas:["pro"],team:"Godoy Cruz"},
+  {n:"I. Campo",pos:"Lateral Dir",ano:2005,cont:"2028",pe:"D",listas:["pro","u21"],team:"Platense"},
+  {n:"JSaborido",pos:"Lateral Dir",ano:1998,cont:"2027",pe:"D",listas:["pro"],team:"Dep. Riestra"},
+  {n:"I. Galván",pos:"Lateral Dir",ano:2002,cont:"2026",pe:"E",listas:["pro"],team:"Vélez"},
+  {n:"Pedro Silva",pos:"Lateral Dir",ano:1997,cont:"2026",pe:"E",listas:["pro"],team:"Dep. Riestra"},
+  {n:"M. De Ritis",pos:"Lateral Dir",ano:2003,cont:"2026",pe:"E",listas:["pro"],team:""},
+  {n:"Lautaro Blanco",pos:"Lateral Dir",ano:1999,cont:"2028",pe:"E",listas:["pro","reuniao"],team:"Boca Juniors"},
+  {n:"E. Martínez",pos:"Lateral Dir",ano:1998,cont:"2028",pe:"E",listas:["pro"],team:"River Plate"},
+  {n:"S. Studer",pos:"Lateral Dir",ano:2002,cont:"2025",pe:"D",listas:["pro"],team:"Atlético Tucumán"},
+  {n:"Lautaro Rivero",pos:"Lateral Dir",ano:2003,cont:"2028",pe:"E",listas:["pro","reuniao"],team:"River Plate"},
+  {n:"Tomás Palacios",pos:"Lateral Dir",ano:2003,cont:"2029",pe:"E",listas:["pro","reuniao"],team:"River Plate"},
+  {n:"J. Romaña",pos:"Lateral Dir",ano:1998,cont:"2026",pe:"D",listas:["pro"],team:"Godoy Cruz"},
+  {n:"Renzo Orihuela",pos:"Lateral Dir",ano:2001,cont:"2026",pe:"D",listas:["pro"],team:"Vélez"},
+  {n:"K. Jappert",pos:"Lateral Dir",ano:2004,cont:"2026",pe:"D",listas:["pro"],team:""},
+  {n:"J. Saborido",pos:"Lateral Dir",ano:1998,cont:"2027",pe:"D",listas:["pro"],team:"Dep. Riestra"},
+  {n:"E. Cannavo",pos:"Lateral Dir",ano:2002,cont:"2026",pe:"D",listas:["pro","reuniao"],team:"Racing"},
+  {n:"J. García",pos:"Lateral Dir",ano:2001,cont:"2027",pe:"D",listas:["pro"],team:"Gimnasia LP"},
+  {n:"L. Souto",pos:"Lateral Dir",ano:1998,cont:"2026",pe:"D",listas:["pro"],team:"Tigre"},
+  {n:"V. Dávila",pos:"Atacante",ano:2007,cont:"",pe:"D",listas:["u21"],team:""},
+  {n:"Joaquín Freitas",pos:"Atacante",ano:2006,cont:"",pe:"D",listas:["u21"],team:""},
+  {n:"D. Godoy",pos:"Atacante",ano:2006,cont:"2028",pe:"E",listas:["u21"],team:""},
+  {n:"Agustín Ruberto",pos:"Atacante",ano:2006,cont:"2027",pe:"D",listas:["u21"],team:""},
+  {n:"T. De Martis",pos:"Atacante",ano:2008,cont:"2027",pe:"D",listas:["u21","successor"],team:""},
+  {n:"F. Domínguez",pos:"Atacante",ano:2007,cont:"",pe:"E",listas:["u21"],team:""},
+  {n:"Ó. Gerez",pos:"Atacante",ano:2007,cont:"2027",pe:"D",listas:["u21"],team:""},
+  {n:"D. Aquino",pos:"Ext. Esq",ano:2005,cont:"2026",pe:"D",listas:["u21","successor"],team:""},
+  {n:"Ian Subiabre",pos:"Ext. Esq",ano:2007,cont:"2026",pe:"E",listas:["u21","successor","reuniao"],team:"Estudiantes LP"},
+  {n:"Luca Rafaelli",pos:"Ext. Esq",ano:2008,cont:"",pe:"D",listas:["u21"],team:""},
+  {n:"Alex Luna",pos:"Ext. Esq",ano:2004,cont:"2025",pe:"D",listas:["u21"],team:""},
+  {n:"D. Barrera",pos:"Ext. Esq",ano:2004,cont:"2027",pe:"D",listas:["u21"],team:""},
+  {n:"Leonel Jaime",pos:"Ext. Dir",ano:2006,cont:"2028",pe:"E",listas:["u21"],team:""},
+  {n:"F. Guch",pos:"Ext. Dir",ano:2007,cont:"2028",pe:"E",listas:["u21"],team:""},
+  {n:"M. Aguirre",pos:"Ext. Dir",ano:2007,cont:"",pe:"D",listas:["u21"],team:""},
+  {n:"F. Jainikoski",pos:"Ext. Dir",ano:2008,cont:"2027",pe:"D",listas:["u21","successor"],team:""},
+  {n:"T. Peralta",pos:"Ext. Dir",ano:2008,cont:"",pe:"E",listas:["u21"],team:""},
+  {n:"N. Schelotto",pos:"Interior Dir",ano:2006,cont:"2027",pe:"E",listas:["u21"],team:""},
+  {n:"M. Amondarain",pos:"Interior Dir",ano:2005,cont:"2028",pe:"D",listas:["u21"],team:""},
+  {n:"S. Dalmasso",pos:"Interior Dir",ano:2004,cont:"",pe:"D",listas:["u21"],team:""},
+  {n:"M. García",pos:"Interior Dir",ano:2005,cont:"2027",pe:"D",listas:["u21"],team:""},
+  {n:"T. Andrada",pos:"Interior Dir",ano:2007,cont:"2028",pe:"D",listas:["u21","successor","reuniao"],team:"Boca Juniors"},
+  {n:"B. Perez",pos:"Interior Esq",ano:2008,cont:"",pe:"D",listas:["u21","reserva"],team:""},
+  {n:"F. Pérez",pos:"Interior Esq",ano:2005,cont:"2027",pe:"D",listas:["u21"],team:""},
+  {n:"R. Tulián",pos:"Interior Esq",ano:2008,cont:"2028",pe:"D",listas:["u21"],team:""},
+  {n:"Lautaro Millán",pos:"Interior Esq",ano:2005,cont:"2027",pe:"D",listas:["u21"],team:""},
+  {n:"F. Gulli",pos:"Interior Esq",ano:2005,cont:"2028",pe:"D",listas:["u21"],team:""},
+  {n:"Juan Meza",pos:"Interior Esq",ano:2008,cont:"2026",pe:"D",listas:["u21","reserva","successor"],team:""},
+  {n:"G. Baroni",pos:"Interior Esq",ano:2009,cont:"2028",pe:"E",listas:["u21","successor","reuniao"],team:"San Lorenzo"},
+  {n:"M. Arias",pos:"Interior Esq",ano:2007,cont:"2028",pe:"D",listas:["u21","successor"],team:""},
+  {n:"J. Flores",pos:"Interior Esq",ano:2005,cont:"2025",pe:"E",listas:["u21"],team:""},
+  {n:"I. Guaraz",pos:"MCD",ano:2005,cont:"",pe:"D",listas:["u21"],team:""},
+  {n:"J. Mosqueira",pos:"MCD",ano:2004,cont:"2029",pe:"D",listas:["u21"],team:""},
+  {n:"I. Perruzzi",pos:"MCD",ano:2005,cont:"2027",pe:"D",listas:["u21","successor","reuniao"],team:"Vélez"},
+  {n:"S. Escobar",pos:"Lateral Esq",ano:2009,cont:"",pe:"E",listas:["u21","successor"],team:""},
+  {n:"S. Lucero",pos:"Lateral Esq",ano:2005,cont:"2027",pe:"E",listas:["u21"],team:""},
+  {n:"S. Fernández",pos:"Zag. Esq",ano:2005,cont:"2028",pe:"D",listas:["u21"],team:""},
+  {n:"Juan Cortazzo",pos:"Zag. Dir",ano:2005,cont:"2027",pe:"D",listas:["u21"],team:""},
+  {n:"I. Ovando",pos:"Zag. Dir",ano:2007,cont:"2027",pe:"D",listas:["u21","successor"],team:""},
+  {n:"T. Olmos",pos:"Lateral Dir",ano:2005,cont:"2027",pe:"D",listas:["u21"],team:""},
+  {n:"L. Vargas",pos:"Lateral Dir",ano:2005,cont:"2026",pe:"D",listas:["u21","reuniao"],team:"Independiente"},
+  {n:"C. Bolzán",pos:"Atacante",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"E. García",pos:"Atacante",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Luca Cura",pos:"Atacante",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"S. Galesio",pos:"Atacante",ano:2008,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"O. González",pos:"Atacante",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"J. Spiff",pos:"Atacante",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"S. Montero",pos:"Atacante",ano:2006,cont:"2027",pe:"D",listas:["reserva"],team:""},
+  {n:"A. Duarte",pos:"Atacante",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"M. Soto",pos:"Atacante",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"V. Cerrudo",pos:"Atacante",ano:2006,cont:"2026",pe:"D",listas:["reserva"],team:""},
+  {n:"L. Flores",pos:"Ext. Esq",ano:2007,cont:"2029",pe:"D",listas:["reserva","successor"],team:""},
+  {n:"J. Ruiz",pos:"Ext. Esq",ano:2006,cont:"2028",pe:"E",listas:["reserva"],team:""},
+  {n:"B. Barrionuevo",pos:"Ext. Esq",ano:2005,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"J. Policella",pos:"Ext. Esq",ano:2009,cont:"2027",pe:"D",listas:["reserva"],team:""},
+  {n:"L. Ortiz",pos:"Ext. Dir",ano:2008,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"L. Córdoba",pos:"Ext. Dir",ano:2005,cont:"",pe:"D",listas:["reserva","segunda"],team:""},
+  {n:"Amy Fleurilus",pos:"Ext. Dir",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"E. Damian",pos:"Ext. Dir",ano:2008,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"B. Rey",pos:"Ext. Dir",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"R. Fernández",pos:"Ext. Dir",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Benjamín Pérez",pos:"Ext. Dir",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"F. Perez",pos:"Interior Dir",ano:2008,cont:"",pe:"E",listas:["reserva"],team:""},
+  {n:"Matías Cáceres",pos:"Interior Dir",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"L. Carracedo",pos:"Interior Dir",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"L. Pereyra",pos:"Interior Dir",ano:2008,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"B. Trey",pos:"Interior Dir",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"T. Pérez",pos:"Interior Dir",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Alejandro Tello",pos:"Interior Dir",ano:2008,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Marcos Ortiz",pos:"Interior Dir",ano:2009,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Benjamín Rojas",pos:"Interior Dir",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"L. Troncoso",pos:"Interior Esq",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"J. Caviglia",pos:"Interior Esq",ano:2005,cont:"2026",pe:"E",listas:["reserva"],team:""},
+  {n:"T. Nicolás",pos:"Interior Esq",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Tomás Aranda",pos:"Interior Esq",ano:2007,cont:"2029",pe:"D",listas:["reserva"],team:""},
+  {n:"R. Pesolilla",pos:"Interior Esq",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"J. Alberti",pos:"Interior Esq",ano:2006,cont:"",pe:"E",listas:["reserva"],team:""},
+  {n:"M. Villalba",pos:"Interior Esq",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"T. Laplace",pos:"Interior Esq",ano:2006,cont:"2025",pe:"E",listas:["reserva"],team:""},
+  {n:"E. Chiavassa",pos:"Interior Esq",ano:2006,cont:"2028",pe:"E",listas:["reserva"],team:""},
+  {n:"Agustín Caciorgna",pos:"Interior Esq",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"S. Medina",pos:"Interior Esq",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"F. Carrizo",pos:"Interior Esq",ano:2007,cont:"",pe:"E",listas:["reserva"],team:""},
+  {n:"G. Quinteros",pos:"MCD",ano:2004,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"J. Pascual",pos:"MCD",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Galo Escobar",pos:"MCD",ano:2009,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"J. Benitez",pos:"Lateral Esq",ano:2006,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"S. Zampieri",pos:"Lateral Esq",ano:2007,cont:"2027",pe:"E",listas:["reserva","successor"],team:""},
+  {n:"L. Ferrari",pos:"Zag. Esq",ano:2008,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"M. Ramirez",pos:"Zag. Esq",ano:2007,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Bautista Feversani",pos:"Zag. Dir",ano:2008,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"T. Charras",pos:"Zag. Dir",ano:2009,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"D. Gorosito",pos:"Lateral Dir",ano:2006,cont:"2028",pe:"D",listas:["reserva","successor"],team:""},
+  {n:"Thiago Montenegro",pos:"Lateral Dir",ano:2008,cont:"",pe:"D",listas:["reserva"],team:""},
+  {n:"Joaquín Barolín",pos:"Atacante",ano:2003,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"J. Coronel",pos:"Atacante",ano:2004,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"L. Arfaras",pos:"Atacante",ano:2006,cont:"2027",pe:"D",listas:["segunda"],team:""},
+  {n:"T. Dornell",pos:"Atacante",ano:2005,cont:"2025",pe:"D",listas:["segunda"],team:""},
+  {n:"M. Benegas",pos:"Atacante",ano:2006,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"J. Orlando",pos:"Atacante",ano:2005,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"B. López",pos:"Atacante",ano:2003,cont:"2027",pe:"D",listas:["segunda"],team:""},
+  {n:"T. Ocampo",pos:"Ext. Esq",ano:2008,cont:"",pe:"D",listas:["segunda"],team:""},
+  {n:"L. Viano",pos:"Ext. Esq",ano:2003,cont:"2027",pe:"D",listas:["segunda"],team:""},
+  {n:"R. Villarreal",pos:"Ext. Dir",ano:2004,cont:"",pe:"D",listas:["segunda"],team:""},
+  {n:"M. Oses",pos:"Ext. Dir",ano:2005,cont:"2027",pe:"D",listas:["segunda"],team:""},
+  {n:"I. Lartirigoyen",pos:"Ext. Dir",ano:2004,cont:"2025",pe:"D",listas:["segunda"],team:""},
+  {n:"P. Palacio",pos:"Ext. Dir",ano:2000,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"L. Gordillo",pos:"Ext. Dir",ano:1999,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"T. Pucciarelli",pos:"Ext. Dir",ano:2005,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"K. López",pos:"Interior Dir",ano:2001,cont:"2027",pe:"D",listas:["segunda"],team:""},
+  {n:"T. Gordillo",pos:"Interior Dir",ano:2008,cont:"",pe:"D",listas:["segunda"],team:""},
+  {n:"J. Cancio",pos:"Interior Dir",ano:2003,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"F. Obradovich",pos:"Interior Dir",ano:2006,cont:"",pe:"D",listas:["segunda"],team:""},
+  {n:"M. Duarte",pos:"Interior Dir",ano:2006,cont:"",pe:"D",listas:["segunda"],team:""},
+  {n:"Francisco Cuzzani",pos:"Interior Esq",ano:2006,cont:"",pe:"D",listas:["segunda"],team:""},
+  {n:"J. Raccio",pos:"Interior Esq",ano:2005,cont:"2028",pe:"D",listas:["segunda"],team:""},
+  {n:"J. Postigo",pos:"MCD",ano:2003,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"S. Cáceres",pos:"MCD",ano:2004,cont:"2028",pe:"D",listas:["segunda"],team:""},
+  {n:"A. Olinick",pos:"MCD",ano:2000,cont:"2025",pe:"D",listas:["segunda"],team:""},
+  {n:"J. Morán",pos:"Lateral Esq",ano:2006,cont:"",pe:"E",listas:["segunda"],team:""},
+  {n:"E. Silcan",pos:"Lateral Esq",ano:2000,cont:"2026",pe:"E",listas:["segunda"],team:""},
+  {n:"C. Ibarra",pos:"Lateral Esq",ano:2003,cont:"2025",pe:"E",listas:["segunda"],team:""},
+  {n:"E. Díaz",pos:"Lateral Esq",ano:2002,cont:"2026",pe:"E",listas:["segunda"],team:""},
+  {n:"V. Aguiñagalde",pos:"Zag. Esq",ano:2004,cont:"2025",pe:"E",listas:["segunda"],team:""},
+  {n:"L. Busto",pos:"Zag. Esq",ano:2004,cont:"2027",pe:"E",listas:["segunda"],team:""},
+  {n:"F. Peralta",pos:"Zag. Esq",ano:2001,cont:"2026",pe:"E",listas:["segunda"],team:""},
+  {n:"Sebastián Valdez",pos:"Zag. Esq",ano:1995,cont:"2027",pe:"D",listas:["segunda"],team:""},
+  {n:"S. Bellatti",pos:"Zag. Dir",ano:2002,cont:"2028",pe:"D",listas:["segunda"],team:""},
+  {n:"L. Pollacchi",pos:"Zag. Dir",ano:2003,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"Axel Carrión",pos:"Zag. Dir",ano:2004,cont:"",pe:"D",listas:["segunda"],team:""},
+  {n:"N. Kihm",pos:"Lateral Dir",ano:2005,cont:"2027",pe:"D",listas:["segunda"],team:""},
+  {n:"Juanma Cabrera",pos:"Lateral Dir",ano:2000,cont:"2026",pe:"D",listas:["segunda"],team:""},
+  {n:"L. Jachfe",pos:"Goleiro",ano:2001,cont:"2025",pe:"E",listas:["segunda"],team:""},
+  {n:"J. Enrico",pos:"Goleiro",ano:2001,cont:"2025",pe:"D",listas:["segunda"],team:""},
+  {n:"E. González",pos:"Goleiro",ano:1998,cont:"2025",pe:"D",listas:["segunda"],team:""},
+  {n:"Juan Angulo",pos:"Atacante",ano:2008,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"K. Angulo",pos:"Atacante",ano:2008,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"J. Rossel",pos:"Meia",ano:2005,cont:"2026",pe:"D",listas:["successor"],team:""},
+  {n:"J. Rengifo",pos:"Meia",ano:2005,cont:"2028",pe:"D",listas:["successor"],team:""},
+  {n:"D. Guagua",pos:"Meia",ano:2007,cont:"2026",pe:"D",listas:["successor"],team:""},
+  {n:"J. Burgos",pos:"Ext. Esq",ano:2004,cont:"2026",pe:"E",listas:["successor"],team:""},
+  {n:"J. Rosa",pos:"Ext. Esq",ano:2007,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"G. Mancilla",pos:"Ext. Esq",ano:2008,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"M. Carrizo",pos:"Ext. Dir",ano:2006,cont:"2030",pe:"E",listas:["successor"],team:""},
+  {n:"Johan Martínez",pos:"Ext. Dir",ano:2009,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"J. Canchimbo",pos:"Ext. Dir",ano:2005,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"J. Maturana",pos:"Ext. Dir",ano:2009,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"J. Soto",pos:"Interior Dir",ano:2007,cont:"2029",pe:"D",listas:["successor","reuniao"],team:"Boca Juniors"},
+  {n:"V. Acuña",pos:"Interior Dir",ano:2006,cont:"2027",pe:"E",listas:["successor","reuniao"],team:"Independiente"},
+  {n:"Milton Delgado",pos:"Interior Dir",ano:2005,cont:"2029",pe:"D",listas:["successor"],team:"Boca Juniors"},
+  {n:"H. Loboa",pos:"Interior Dir",ano:2006,cont:"2029",pe:"D",listas:["successor"],team:""},
+  {n:"M. Lozano",pos:"Interior Dir",ano:2008,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"Ederson Castillo",pos:"Interior Dir",ano:2008,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"Luis Maturana",pos:"Interior Dir",ano:2009,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"M. Agámez",pos:"Interior Dir",ano:2009,cont:"",pe:"E",listas:["successor"],team:""},
+  {n:"F. Martinez",pos:"Zag. Esq",ano:2007,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"T. Ramírez",pos:"Zag. Esq",ano:2006,cont:"2029",pe:"D",listas:["successor"],team:""},
+  {n:"T. Silvero",pos:"Zag. Dir",ano:2006,cont:"2026",pe:"D",listas:["successor","reuniao"],team:"Independiente"},
+  {n:"Juan Giménez",pos:"Zag. Dir",ano:2006,cont:"2025",pe:"D",listas:["successor"],team:""},
+  {n:"S. García",pos:"Zag. Dir",ano:2005,cont:"2026",pe:"D",listas:["successor"],team:""},
+  {n:"J. Bazán",pos:"Zag. Dir",ano:2005,cont:"2027",pe:"D",listas:["successor"],team:""},
+  {n:"M. Maitan",pos:"Zag. Dir",ano:2008,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"M. Jiménez",pos:"Lateral Dir",ano:2008,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"M. Castillo",pos:"Lateral Dir",ano:2003,cont:"2027",pe:"D",listas:["successor"],team:""},
+  {n:"S. Barbi",pos:"Goleiro",ano:2005,cont:"2027",pe:"D",listas:["successor"],team:""},
+  {n:"J. Mendoza",pos:"Goleiro",ano:2008,cont:"",pe:"D",listas:["successor"],team:""},
+  {n:"E. Cetré",pos:"Ext. Esq",ano:1998,cont:"2026",pe:"D",listas:["reuniao"],team:"Atlético Tucumán"},
+  {n:"Matías Abaldo",pos:"Ext. Esq",ano:2004,cont:"2027",pe:"D",listas:["reuniao"],team:"Independiente"},
+  {n:"Leandro Paredes",pos:"Interior Dir",ano:1994,cont:"2028",pe:"D",listas:["reuniao"],team:"Boca Juniors"},
+  {n:"Aníbal Moreno",pos:"MCD",ano:1999,cont:"2027",pe:"D",listas:["reuniao"],team:"River Plate"},
+  {n:"M. Del Blanco",pos:"Lateral Esq",ano:2003,cont:"2028",pe:"E",listas:["reuniao"],team:"Independiente"},
+  {n:"M. Chaparro",pos:"Lateral Esq",ano:2007,cont:"",pe:"D",listas:["reuniao"],team:""},
+  {n:"Kevin Zenón",pos:"Lateral Esq",ano:2001,cont:"2025",pe:"E",listas:["reuniao"],team:"Boca Juniors"},
+  {n:"F. Ortega",pos:"Lateral Esq",ano:1999,cont:"2028",pe:"E",listas:["reuniao"],team:"Unión"},
+  {n:"S. Marcich",pos:"Lateral Esq",ano:1998,cont:"2028",pe:"E",listas:["reuniao"],team:"Rosario Central"},
+  {n:"Marco Pellegrino",pos:"Zag. Esq",ano:2002,cont:"2029",pe:"E",listas:["reuniao"],team:"Boca Juniors"},
+  {n:"Lautaro Di Lollo",pos:"Zag. Dir",ano:2004,cont:"2028",pe:"D",listas:["reuniao"],team:"Boca Juniors"},
+  {n:"A. Steimbach",pos:"Lateral Dir",ano:2002,cont:"2026",pe:"D",listas:["reuniao"],team:"Gimnasia LP"},
+  {n:"Juan Barinaga",pos:"Lateral Dir",ano:2000,cont:"2028",pe:"D",listas:["reuniao"],team:"Boca Juniors"},
+  {n:"C. Fiermarin",pos:"Goleiro",ano:1998,cont:"2028",pe:"D",listas:["reuniao"],team:"Independiente"},
+  {n:"O. Gill",pos:"Goleiro",ano:2000,cont:"2027",pe:"E",listas:["reuniao"],team:"San Lorenzo"},
+  {n:"F. Cambeses",pos:"Goleiro",ano:1997,cont:"2027",pe:"D",listas:["reuniao"],team:"Belgrano"}
+];
 
 // ═══════════════════════════════════════════════
 // ESTADO
@@ -1641,11 +2520,11 @@ function renderAll(){
             <div class="gi-btns">
               <button class="bico fav ${isFav?'on':''}" title="${isFav?'Remover da rota':'Adicionar à rota'}" onclick="toggleFav(${idx})">${isFav?'★':'☆'}</button>
               <button class="bico" title="Editar" onclick="editJ(${idx})">✎</button>
-              <button class="bico rep" title="Novo relatório de jogador" onclick="openRepForm({idx:${idx}})">📝</button>
             </div>
           </div>
         </div>
-        ${scoutsHTML(idx,j.m,j.v)}
+        ${scoutsHTML(idx,j.m,j.v,'a')}
+        ${fichaHTML(idx,j.m,j.v,j.d,'a')}
       </div>`;
     });
   });
@@ -1820,10 +2699,12 @@ function renderRoute(){
           </div>
         </div>
       </div>
-      ${scoutsHTML(idx,j.m,j.v)}
+      ${scoutsHTML(idx,j.m,j.v,'r')}
+      ${fichaHTML(idx,j.m,j.v,j.d,'r')}
     </div>`;
   });
   el.innerHTML=html;
+  setTimeout(updateMobBadges, 50);
   // Stats
   const dias=new Set(actv.map(i=>jogos[i].d)).size;
   document.getElementById('stj').textContent=actv.length;
@@ -1997,19 +2878,23 @@ function fmtLista(l){return`<span class="scout-lista ${l}">${LISTA_LABEL[l]||l}<
 function fmtIdade(ano){const a=ano<30?ano+2000:ano+1900;return`${2026-a}a (${a})`;}
 function fmtPe(p){return p==="E"?"🦶E":"🦶D";}
 function getScouts(teamName){
+  if(!teamName)return[];
+  const tn=teamName.toLowerCase().trim();
   for(const[key,aliases]of Object.entries(TEAM_ALIAS)){
-    if(aliases.some(a=>teamName&&teamName.toLowerCase().includes(a.toLowerCase())))return SCOUTS[key]||[];
+    // Match exato: evita "Racing" bater em "Racing (Cba.)", "Gimnasia" bater em "Gimnasia Mza", etc.
+    if(aliases.some(a=>tn===a.toLowerCase().trim()))return SCOUTS[key]||[];
   }
   return[];
 }
-function scoutsHTML(idx,mandante,visitante){
-  const pm=getScouts(mandante).map(s=>({...s,team:mandante}));
-  const pv=getScouts(visitante||'').map(s=>({...s,team:visitante}));
-  const all=[...pm,...pv];
-  if(!all.length)return'';
+// Competições de elenco reserva/sub (elencos diferentes do principal)
+const CP_RESERVA = new Set(['reserva','segunda'])
+// Row audio: SpeechRecognition (voz→texto, sem armazenar áudio)
+
+function _scoutsWrap(idx, all, ns){
   const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
+  ns=ns||'a';
+  const sid=`sc${idx}${ns}`;
   const items=all.map(s=>{
-    const key=s.n+'|'+s.team;
     const inQueue=queue.some(p=>p.n===s.n&&p.team===s.team);
     const payload=JSON.stringify({n:s.n,pos:s.pos,ano:s.ano,pe:s.pe,cont:s.cont,listas:s.listas,team:s.team}).replace(/'/g,"\\'");
     return`<div class="scout-item">
@@ -2018,16 +2903,64 @@ function scoutsHTML(idx,mandante,visitante){
       <div class="scout-name">${s.n} <span class="scout-team">${s.team}</span></div>
       <div class="scout-meta"><span>${2026-s.ano}a · ${s.ano}</span><span>${s.pe==="E"?"🦶E":"🦶D"}</span><span>até ${s.cont}</span>${s.listas.map(l=>`<span class="scout-lista ${l}">${LISTA_LABEL[l]||l}</span>`).join('')}</div>
     </div>
-    <button class="scout-add-btn${inQueue?' added':''}" id="sqb_${idx}_${s.n.replace(/\s/g,'_')}" onclick="addToScoutQueue(${payload.replace(/"/g,"'")},this);event.stopPropagation();">${inQueue?'✓ NA FILA':'↗ SCOUT'}</button>
+    <div style="display:flex;gap:5px;align-items:center;flex-shrink:0;">
+      <button class="scout-ficha-btn" onclick="scoutAddToFicha(${idx},'${s.n.replace(/'/g,"\\'")}','${s.pos}');event.stopPropagation();" title="Adicionar à ficha deste jogo">📋</button>
+      <button class="scout-add-btn${inQueue?' added':''}" id="sqb_${idx}_${s.n.replace(/\\s/g,'_')}_${ns}" onclick="addToScoutQueue(${payload.replace(/"/g,"'")},this);event.stopPropagation();">${inQueue?'✓ FILA':'↗ FILA'}</button>
+    </div>
   </div>`}).join('');
-  const sid=`sc${idx}`;
   return`<div class="scouts-bar" id="sb${sid}" onclick="toggleScouts('${sid}')">
     <div class="scouts-bar-label"><div class="scouts-header-dot"></div>⚽ ${all.length} atleta${all.length>1?'s':''} nas listas <span class="scouts-bar-count">${all.length}</span></div>
     <div class="scouts-bar-arrow" id="sa${sid}">▼</div>
   </div>
   <div class="scouts-body" id="sl${sid}" style="display:none;">${items}</div>`;
 }
+
+function scoutsHTML(idx,mandante,visitante,ns){
+  ns=ns||'a';
+  const cp=jogos[idx]?.cp||'';
+
+  if(CP_RESERVA.has(cp)){
+    const pm=getScouts(mandante).filter(s=>s.listas&&s.listas.some(l=>CP_RESERVA.has(l))).map(s=>({...s,team:mandante}));
+    const pv=getScouts(visitante||'').filter(s=>s.listas&&s.listas.some(l=>CP_RESERVA.has(l))).map(s=>({...s,team:visitante}));
+    const all=[...pm,...pv];
+    if(!all.length)return'';
+    return _scoutsWrap(idx,all,ns);
+  }
+
+  const pm=getScouts(mandante).map(s=>({...s,team:mandante}));
+  const pv=getScouts(visitante||'').map(s=>({...s,team:visitante}));
+  const all=[...pm,...pv];
+  if(!all.length)return'';
+  return _scoutsWrap(idx,all,ns);
+}
 // ─── SCOUT QUEUE ─────────────────────────────────────
+function scoutAddToFicha(idx, nome, pos){
+  const k = `g${idx}`;
+  const fichas = getFichas();
+  if(!fichas[k]) fichas[k]=[];
+  const already = fichas[k].some(r=>r.nome===nome);
+  if(already){ toast(`${nome} já está na ficha deste jogo.`, false); return; }
+  fichas[k].push({num:'', pos:pos||'', nome:nome, desc:''});
+  saveFichas(fichas);
+  toast(`📋 ${nome} adicionado à ficha!`, true);
+  updateFichasBadge();
+  // Atualiza tbody compartilhado
+  _fichaRebuildTbody(idx, fichas[k]);
+  // Atualiza badge de contagem nas duas barras (ns=a e ns=r)
+  const cnt = fichas[k].length;
+  ['a','r'].forEach(ns=>{
+    const bar = document.getElementById(`fichabarficha${idx}${ns}`);
+    if(!bar) return;
+    const lbl = bar.querySelector('.ficha-bar-label');
+    if(!lbl) return;
+    const old = lbl.querySelector('.ficha-bar-cnt');
+    if(old) old.remove();
+    const sp = document.createElement('span');
+    sp.className='ficha-bar-cnt'; sp.textContent=cnt;
+    lbl.appendChild(sp);
+  });
+}
+
 function addToScoutQueue(player, btn){
   const queue=JSON.parse(localStorage.getItem('scoutArgQueue')||'[]');
   const exists=queue.some(p=>p.n===player.n&&p.team===player.team);
@@ -2239,391 +3172,1690 @@ updateQueueBadge();
 filtrar();
 
 
+
 // ═══════════════════════════════════════════════════════════════════════
-// SISTEMA DE RELATÓRIOS DE JOGADORES
+// BASE DE DADOS — DESTAQUES DA LIGA
 // ═══════════════════════════════════════════════════════════════════════
-const REP_KEY = 'scoutARG_reports';
-let repEditId = null; // null = novo; string id = edição
+const BD_KEY = 'scoutARG_bd_custom';
 
-const ATTRS = [
-  {key:'technique',     label:'Técnica'},
-  {key:'speedAcc',      label:'Velocidade / Aceleração'},
-  {key:'physicalDuel',  label:'Físico / Duelo'},
-  {key:'positioning',   label:'Posicionamento'},
-  {key:'decisionMaking',label:'Tomada de Decisão'},
-  {key:'passingDist',   label:'Passe / Distribuição'},
-  {key:'dribbling',     label:'Drible / 1x1'},
-  {key:'aerialGame',    label:'Jogo Aéreo'},
-  {key:'visionAwareness',label:'Visão / Leitura de Jogo'},
-  {key:'workRate',      label:'Volume / Pressão'},
-  {key:'defensiveWork', label:'Trabalho Defensivo'},
-  {key:'mentality',     label:'Mentalidade / Liderança'},
-];
+const TEAM_CITY = {
+  "Boca Juniors":"ba","River Plate":"ba","Racing":"ba","San Lorenzo":"ba",
+  "Independiente":"ba","Vélez":"ba","Huracán":"ba","Lanús":"ba","Banfield":"ba",
+  "Platense":"ba","Tigre":"ba","Dep. Riestra":"ba","Argentinos":"ba",
+  "Sarmiento":"ba","Barracas Central":"ba","Aldosivi":"ba","Def. y Justicia":"ba",
+  "Estudiantes LP":"lp","Gimnasia LP":"lp",
+  "Rosario Central":"ro","Newell's":"ro",
+  "Talleres":"co","Belgrano":"co","Instituto":"co","Central Córdoba":"co","Racing (Cba.)":"co",
+  "Ind. Rivadavia":"me","Godoy Cruz":"me","Gimnasia Mza":"me","Dep. Maipú":"me",
+  "Atlético Tucumán":"tu","San Martín T":"tu",
+  "Unión":"sf","Colón":"sf",
+  "⚠ Sem Time":"",
+};
 
-function getReps(){
-  try{return JSON.parse(localStorage.getItem(REP_KEY)||'[]');}catch{return[];}
-}
-function saveReps(arr){
-  localStorage.setItem(REP_KEY, JSON.stringify(arr));
-  updateRepBadge();
-}
-function updateRepBadge(){
-  const n=getReps().length;
-  const b=document.getElementById('repBadge');
-  if(!b)return;
-  b.textContent=n;
-  b.style.display=n>0?'inline-block':'none';
+const LISTA_COLOR = {
+  pro:'background:rgba(212,168,67,0.15);color:#f0c96a;border:1px solid rgba(212,168,67,0.3);',
+  reuniao:'background:rgba(46,204,142,0.12);color:#5ee8b2;border:1px solid rgba(46,204,142,0.3);',
+  u21:'background:rgba(61,127,255,0.15);color:#7aaeff;border:1px solid rgba(61,127,255,0.3);',
+  successor:'background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3);',
+  reserva:'background:rgba(249,115,22,0.15);color:#fb923c;border:1px solid rgba(249,115,22,0.3);',
+  segunda:'background:rgba(6,182,212,0.12);color:#22d3ee;border:1px solid rgba(6,182,212,0.3);',
+};
+
+function getBDAll(){
+  const custom = JSON.parse(localStorage.getItem(BD_KEY)||'{}');
+  const merged = {};
+  for(const[team,players] of Object.entries(SCOUTS)){
+    merged[team] = [...players.map(p=>({...p,_src:'scouts'}))];
+  }
+  for(const[team,players] of Object.entries(custom)){
+    if(!merged[team]) merged[team] = [];
+    players.forEach(cp=>{
+      if(cp._deleted){
+        const i = merged[team].findIndex(p=>p.n===cp.n);
+        if(i>=0) merged[team].splice(i,1);
+        return;
+      }
+      const i = merged[team].findIndex(p=>p.n===cp.n);
+      if(i>=0) merged[team][i] = {...merged[team][i],...cp,_src:'custom'};
+      else merged[team].push({...cp,_src:'custom'});
+    });
+  }
+  return merged;
 }
 
-// ─── Renderiza grid de atributos ───────────────────────────────────────
-function buildAttrGrid(vals={}){
-  const grid=document.getElementById('attrGrid');
-  if(!grid)return;
-  grid.innerHTML=ATTRS.map(a=>{
-    const v=vals[a.key]||0;
-    const dots=[...Array(10)].map((_,i)=>{
-      const n=i+1;
-      const cls='adot'+(v>=n?' on':'')+(v>=n&&n>=8?' hi':'');
-      return `<div class="${cls}" data-attr="${a.key}" data-val="${n}" onclick="clickDot(this)"></div>`;
+function saveBDCustom(team, player, isDelete=false){
+  const custom = JSON.parse(localStorage.getItem(BD_KEY)||'{}');
+  if(!custom[team]) custom[team] = [];
+  const i = custom[team].findIndex(p=>p.n===player.n);
+  const entry = isDelete ? {...player,_deleted:true} : {...player};
+  if(i>=0) custom[team][i] = entry; else custom[team].push(entry);
+  localStorage.setItem(BD_KEY, JSON.stringify(custom));
+}
+
+function showBD(){
+  _bdPopulateTeamFilter();
+  renderBD();
+  document.getElementById('bdOverlay').classList.add('vis');
+}
+function closeBD(){
+  document.getElementById('bdOverlay').classList.remove('vis');
+}
+
+// População dinâmica do filtro de time
+function _bdPopulateTeamFilter(){
+  const sel = document.getElementById('bdFilterTeam');
+  if(!sel) return;
+  const bd = getBDAll();
+  const teams = Object.keys(bd)
+    .filter(t => bd[t].length > 0)
+    .sort((a,b)=>{
+      // Ordenar por cidade depois por nome
+      const ca = TEAM_CITY[a]||'z', cb = TEAM_CITY[b]||'z';
+      return ca !== cb ? ca.localeCompare(cb) : a.localeCompare(b);
+    });
+  const current = sel.value;
+  sel.innerHTML = '<option value="">Todos os times</option>' +
+    teams.map(t => {
+      const city = CNOMES[TEAM_CITY[t]] || '';
+      return `<option value="${t}"${t===current?' selected':''}>${t}${city?' · '+city:''}</option>`;
     }).join('');
-    return `<div class="attr-row">
-      <div class="attr-label"><span>${a.label}</span><span class="attr-val" id="av_${a.key}">${v||'–'}</span></div>
-      <div class="attr-dots">${dots}</div>
-    </div>`;
-  }).join('');
-}
-function clickDot(el){
-  const attr=el.dataset.attr, val=parseInt(el.dataset.val);
-  // Se clicar no mesmo dot que está selecionado, limpa
-  const cur=parseInt(document.getElementById('av_'+attr).textContent)||0;
-  const newVal=cur===val?0:val;
-  // Atualizar dots
-  document.querySelectorAll(`.adot[data-attr="${attr}"]`).forEach(d=>{
-    const dv=parseInt(d.dataset.val);
-    d.className='adot'+(newVal>=dv?' on':'')+(newVal>=dv&&dv>=8?' hi':'');
-  });
-  document.getElementById('av_'+attr).textContent=newVal||'–';
-}
-function getAttrValues(){
-  const vals={};
-  ATTRS.forEach(a=>{
-    const el=document.getElementById('av_'+a.key);
-    vals[a.key]=parseInt(el?.textContent)||0;
-  });
-  return vals;
 }
 
-// ─── Abrir formulário ──────────────────────────────────────────────────
-function openRepForm({idx=null, repId=null}={}){
-  repEditId=repId;
-  const ov=document.getElementById('repFormOverlay');
-  document.getElementById('repFormTitle').textContent=repId?'📝 Editar Relatório':'📝 Novo Relatório';
+function renderBD(){
+  // ── Construir base: SCOUTS + DESTAQUES_ALL (sem time) + overrides ──
+  const custom = JSON.parse(localStorage.getItem(BD_KEY)||'{}');
+  const bdByTeam = {};
 
-  // Limpar campos
-  ['rf_matchDate','rf_matchHome','rf_matchAway','rf_matchComp','rf_matchCity','rf_matchScore',
-   'rf_name','rf_dob','rf_nat','rf_club','rf_height','rf_tmval','rf_tmlink','rf_besoccer',
-   'rf_contract','rf_strengths','rf_weaknesses','rf_notes','rf_just','rf_score']
-   .forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['rf_pos','rf_foot','rf_body','rf_rec','rf_prio']
-   .forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  buildAttrGrid({});
-
-  // Pré-preencher a partir do jogo
-  if(idx!==null && jogos[idx]){
-    const j=jogos[idx];
-    const d=document.getElementById('rf_matchDate'); if(d)d.value=j.d||'';
-    const h=document.getElementById('rf_matchHome'); if(h)h.value=j.m||'';
-    const a=document.getElementById('rf_matchAway'); if(a)a.value=j.v||'';
-    const c=document.getElementById('rf_matchComp'); if(c)c.value=CPNOMES[j.cp]||j.cp||'';
-    const ci=document.getElementById('rf_matchCity'); if(ci)ci.value=CNOMES[j.c]||j.c||'';
+  // 1. SCOUTS base
+  for(const[team,players] of Object.entries(SCOUTS)){
+    bdByTeam[team] = [...players.map(p=>({...p,_src:'scouts'}))];
   }
 
-  // Preencher se for edição
-  if(repId){
-    const rep=getReps().find(r=>r.id===repId);
-    if(rep){
-      const F=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
-      F('rf_matchDate',rep.matchDate);F('rf_matchHome',rep.matchHome);F('rf_matchAway',rep.matchAway);
-      F('rf_matchComp',rep.matchComp);F('rf_matchCity',rep.matchCity);F('rf_matchScore',rep.matchScore);
-      F('rf_name',rep.playerName);F('rf_dob',rep.dob);F('rf_nat',rep.nationality);
-      F('rf_club',rep.club);F('rf_height',rep.height);F('rf_tmval',rep.tmValue);
-      F('rf_tmlink',rep.tmLink);F('rf_besoccer',rep.besoccerLink);F('rf_contract',rep.contractEnd);
-      F('rf_strengths',rep.strengths);F('rf_weaknesses',rep.weaknesses);F('rf_notes',rep.generalNotes);
-      F('rf_just',rep.justification);F('rf_score',rep.overallScore);
-      ['rf_pos','rf_foot','rf_body','rf_rec','rf_prio'].forEach(id=>{
-        const key={rf_pos:'position',rf_foot:'foot',rf_body:'bodyType',rf_rec:'recommendation',rf_prio:'priority'}[id];
-        const el=document.getElementById(id);if(el&&rep[key])el.value=rep[key];
-      });
-      buildAttrGrid(rep.attrs||{});
-    }
+  // 2. Jogadores sem time do DESTAQUES_ALL
+  if(typeof DESTAQUES_ALL !== 'undefined'){
+    DESTAQUES_ALL.forEach(p=>{
+      const t = p.team && p.team !== '' ? p.team : '⚠ Sem Time';
+      if(!bdByTeam[t]) bdByTeam[t] = [];
+      if(!bdByTeam[t].some(x=>x.n===p.n))
+        bdByTeam[t].push({...p, _src:'pdf'});
+    });
   }
 
-  ov.classList.add('vis');
-  // Fechar lista se estiver aberta
-  document.getElementById('repListOverlay').classList.remove('vis');
-}
-function closeRepForm(){
-  document.getElementById('repFormOverlay').classList.remove('vis');
-  repEditId=null;
-}
+  // 3. Aplicar overrides
+  for(const[team,players] of Object.entries(custom)){
+    if(!bdByTeam[team]) bdByTeam[team] = [];
+    players.forEach(cp=>{
+      const i = bdByTeam[team].findIndex(p=>p.n===cp.n);
+      if(cp._deleted){ if(i>=0) bdByTeam[team].splice(i,1); return; }
+      if(i>=0) bdByTeam[team][i] = {...bdByTeam[team][i],...cp,_src:'custom'};
+      else bdByTeam[team].push({...cp,_src:'custom'});
+    });
+  }
 
-// ─── Salvar relatório ──────────────────────────────────────────────────
-function saveReport(){
-  const G=id=>document.getElementById(id)?.value?.trim()||'';
-  const GS=id=>document.getElementById(id)?.value||'';
-  const playerName=G('rf_name');
-  if(!playerName){toast('Informe o nome do jogador.',false);return;}
+  // ── Filtros ─────────────────────────────────────────────────────────
+  const q    = (document.getElementById('bdSearch')?.value||'').toLowerCase().trim();
+  const fPos = document.getElementById('bdFilterPos')?.value || '';
+  const fAge = document.getElementById('bdFilterAge')?.value || '';
+  const fLst = document.getElementById('bdFilterLista')?.value || '';
+  const fTeam= document.getElementById('bdFilterTeam')?.value || '';
+  const fCity= document.getElementById('bdFilterCity')?.value || '';
 
-  const rep={
-    id: repEditId || Date.now().toString(),
-    createdAt: repEditId
-      ? (getReps().find(r=>r.id===repEditId)?.createdAt||Date.now())
-      : Date.now(),
-    updatedAt: Date.now(),
-    // Partida
-    matchDate:GS('rf_matchDate'), matchHome:G('rf_matchHome'), matchAway:G('rf_matchAway'),
-    matchComp:G('rf_matchComp'), matchCity:G('rf_matchCity'), matchScore:G('rf_matchScore'),
-    // Jogador
-    playerName, dob:GS('rf_dob'), nationality:G('rf_nat'), club:G('rf_club'),
-    position:GS('rf_pos'), foot:GS('rf_foot'), height:G('rf_height'),
-    bodyType:GS('rf_body'), contractEnd:GS('rf_contract'), tmValue:G('rf_tmval'),
-    tmLink:G('rf_tmlink'), besoccerLink:G('rf_besoccer'),
-    // Atributos
-    attrs: getAttrValues(),
-    // Análise
-    strengths:G('rf_strengths'), weaknesses:G('rf_weaknesses'), generalNotes:G('rf_notes'),
-    // Recomendação
-    recommendation:GS('rf_rec'), priority:GS('rf_prio'),
-    overallScore:G('rf_score'), justification:G('rf_just'),
+  // Filtro de idade
+  const ageFilter = p => {
+    if(!fAge) return true;
+    const ano = p.ano || 2000;
+    if(fAge==='u18') return ano >= 2008;
+    if(fAge==='u21') return ano >= 2005;
+    if(fAge==='u23') return ano >= 2003;
+    if(fAge==='u26') return ano >= 2000;
+    if(fAge==='snr') return ano <= 1999;
+    return true;
   };
 
-  const arr=getReps();
-  if(repEditId){
-    const i=arr.findIndex(r=>r.id===repEditId);
-    if(i>=0)arr[i]=rep; else arr.push(rep);
-  } else {
-    arr.push(rep);
+  let totalPlayers = 0, totalTeams = 0;
+  let html = '';
+
+  const teams = Object.keys(bdByTeam).sort((a,b)=>{
+    const ca=TEAM_CITY[a]||'z', cb=TEAM_CITY[b]||'z';
+    return ca!==cb ? ca.localeCompare(cb) : a.localeCompare(b);
+  });
+
+  for(const team of teams){
+    if(fTeam && team !== fTeam) continue;
+    const cityKey = TEAM_CITY[team] || '';
+    if(fCity && cityKey !== fCity) continue;
+
+    let players = bdByTeam[team] || [];
+
+    // Filtro lista
+    if(fLst) players = players.filter(p=>p.listas&&p.listas.includes(fLst));
+    // Filtro posição (match parcial)
+    if(fPos) players = players.filter(p=>(p.pos||'').includes(fPos));
+    // Filtro idade
+    players = players.filter(ageFilter);
+    // Busca nome
+    if(q) players = players.filter(p=>
+      (p.n||'').toLowerCase().includes(q) ||
+      (p.pos||'').toLowerCase().includes(q) ||
+      team.toLowerCase().includes(q)
+    );
+
+    if(!players.length) continue;
+    totalTeams++;
+    totalPlayers += players.length;
+
+    const cityColor = CORES[cityKey] || CORES.ba;
+    const cityName  = CNOMES[cityKey] || '';
+
+    const rows = players.map(p=>{
+      const age = 2026 - (p.ano||2000);
+      const tags = (p.listas||[]).map(l=>
+        `<span class="bd-lista-tag" style="${LISTA_COLOR[l]||''}">${LISTA_LABEL[l]||l}</span>`
+      ).join('');
+      const src = p._src==='custom'
+        ? '<span style="font-size:.48rem;color:#5ee8b2;margin-left:3px;">✎</span>' : '';
+      return `<tr>
+        <td><b>${p.n}</b>${src}</td>
+        <td style="color:var(--muted2);font-size:.7rem;">${p.pos||'–'}</td>
+        <td style="font-family:monospace;font-size:.68rem;font-weight:${age<=21?'700':'400'};
+            color:${age<=21?'#7aaeff':'var(--text)'};">${age}a <span style="color:var(--muted);font-size:.6rem;">(${p.ano||'?'})</span></td>
+        <td>${p.pe==='E'?'🦶E':'🦶D'}</td>
+        <td style="font-family:monospace;font-size:.65rem;color:var(--muted2);">${p.cont?'até '+p.cont:'–'}</td>
+        <td>${tags}</td>
+        <td style="white-space:nowrap;">
+          <button class="bd-btn-edit" onclick="openBDEdit('${team.replace(/'/g,"\'")}','${p.n.replace(/'/g,"\'")}')">✎</button>
+          <button class="bd-btn-del"  onclick="deleteBDPlayer('${team.replace(/'/g,"\'")}','${p.n.replace(/'/g,"\'")}')">✕</button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    html += `<div class="bd-team-group">
+      <div class="bd-team-hdr">
+        <div style="width:8px;height:8px;border-radius:50%;background:${cityColor};flex-shrink:0;"></div>
+        <div class="bd-team-name">${team}</div>
+        <div class="bd-team-cnt">${players.length}</div>
+        <div style="font-family:monospace;font-size:.52rem;color:var(--muted);margin-left:auto;">${cityName}</div>
+      </div>
+      <table class="bd-table">
+        <thead><tr>
+          <th>Nome</th><th>Posição</th><th>Idade</th><th>Pé</th><th>Contrato</th><th>Listas</th><th></th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
   }
-  saveReps(arr);
-  toast(`Relatório de ${playerName} salvo.`, true);
-  closeRepForm();
-  if(document.getElementById('repListOverlay').classList.contains('vis'))renderRepList();
+
+  document.getElementById('bdScroll').innerHTML = html ||
+    '<div style="padding:40px;text-align:center;color:var(--muted);font-family:monospace;font-size:.72rem;">Nenhum jogador encontrado.</div>';
+  document.getElementById('bdStats').textContent = `${totalPlayers} atletas · ${totalTeams} times`;
 }
 
-// ─── Lista de relatórios ───────────────────────────────────────────────
-function showRepList(){
-  renderRepList();
-  document.getElementById('repListOverlay').classList.add('vis');
+// ─── Edição de jogador ──────────────────────────────────────────────────
+let _bdeTeam = '', _bdeName = '', _bdeIsNew = false;
+
+function openBDEdit(team, playerName){
+  const bd = getBDAll();
+  const player = (bd[team]||[]).find(p=>p.n===playerName);
+  if(!player) return;
+  _bdeTeam=team; _bdeName=playerName; _bdeIsNew=false;
+  document.getElementById('bdeTitle').textContent = `Editar: ${playerName}`;
+  document.getElementById('bde_name').value  = playerName;
+  document.getElementById('bde_team').value  = team;
+  document.getElementById('bde_pos').value   = player.pos||'';
+  document.getElementById('bde_ano').value   = player.ano||'';
+  document.getElementById('bde_pe').value    = player.pe||'D';
+  document.getElementById('bde_cont').value  = player.cont||'';
+  document.getElementById('bde_listas').value = (player.listas||[]).join(', ');
+  const dl = document.getElementById('bde_team_list');
+  if(dl) dl.innerHTML = Object.keys(SCOUTS).map(t=>`<option value="${t}">`).join('');
+  document.getElementById('bdEditModal').classList.add('vis');
 }
-function closeRepList(){
-  document.getElementById('repListOverlay').classList.remove('vis');
+
+function openBDAdd(){
+  _bdeTeam=''; _bdeName=''; _bdeIsNew=true;
+  document.getElementById('bdeTitle').textContent = 'Novo Jogador';
+  ['bde_name','bde_team','bde_pos','bde_cont','bde_listas'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  const a=document.getElementById('bde_ano'); if(a) a.value='';
+  const pe=document.getElementById('bde_pe'); if(pe) pe.value='D';
+  const dl=document.getElementById('bde_team_list');
+  if(dl) dl.innerHTML=Object.keys(SCOUTS).map(t=>`<option value="${t}">`).join('');
+  document.getElementById('bdEditModal').classList.add('vis');
 }
 
-const REC_LABELS={contratar:'✅ Contratar',monitorar:'👁 Monitorar',
-  nao_recomendar:'❌ Não Recomendar',reobservar:'🔄 Reobservar'};
-const PRIO_TAGS={alta:'red',media:'gold',baixa:'green'};
+function closeBDEdit(){
+  document.getElementById('bdEditModal').classList.remove('vis');
+}
 
-function renderRepList(){
-  const scroll=document.getElementById('repListScroll');
-  const q=(document.getElementById('repSearch')?.value||'').toLowerCase();
-  let reps=getReps();
-  if(q)reps=reps.filter(r=>
-    (r.playerName||'').toLowerCase().includes(q)||
-    (r.club||'').toLowerCase().includes(q)||
-    (r.position||'').toLowerCase().includes(q)||
-    (r.matchHome||'').toLowerCase().includes(q)||
-    (r.matchAway||'').toLowerCase().includes(q)
-  );
-  reps.sort((a,b)=>b.updatedAt-a.updatedAt);
+function saveBDEdit(){
+  const name = document.getElementById('bde_name').value.trim();
+  const team = document.getElementById('bde_team').value.trim();
+  if(!name||!team){ toast('Preencha nome e time.', false); return; }
+  const player = {
+    n:    name,
+    pos:  document.getElementById('bde_pos').value.trim(),
+    ano:  parseInt(document.getElementById('bde_ano').value)||0,
+    pe:   document.getElementById('bde_pe').value||'D',
+    cont: document.getElementById('bde_cont').value.trim(),
+    listas: document.getElementById('bde_listas').value.split(',').map(l=>l.trim()).filter(Boolean),
+  };
+  // Se mudou o time, remover do time antigo
+  if(!_bdeIsNew && _bdeTeam && _bdeTeam!==team){
+    saveBDCustom(_bdeTeam, {n:_bdeName}, true);
+    if(SCOUTS[_bdeTeam]) SCOUTS[_bdeTeam] = SCOUTS[_bdeTeam].filter(p=>p.n!==_bdeName);
+  }
+  saveBDCustom(team, player);
+  if(!SCOUTS[team]) SCOUTS[team] = [];
+  const i = SCOUTS[team].findIndex(p=>p.n===(_bdeIsNew?name:_bdeName));
+  if(i>=0) SCOUTS[team][i] = {...SCOUTS[team][i],...player};
+  else SCOUTS[team].push(player);
+  closeBDEdit();
+  _bdPopulateTeamFilter();
+  renderBD();
+  toast(`${name} salvo em ${team}.`, true);
+}
 
-  if(!reps.length){
-    scroll.innerHTML=`<div class="rep-empty">${q?'Nenhum relatório encontrado.':'Nenhum relatório criado ainda.<br>Clique em <b>＋ Novo Relatório</b> ou use o botão 📝 em um jogo.'}</div>`;
+function deleteBDPlayer(team, playerName){
+  if(!confirm(`Remover ${playerName} de ${team}?`)) return;
+  const bd = getBDAll();
+  const player = (bd[team]||[]).find(p=>p.n===playerName);
+  if(player) saveBDCustom(team, {...player}, true);
+  if(SCOUTS[team]) SCOUTS[team] = SCOUTS[team].filter(p=>p.n!==playerName);
+  _bdPopulateTeamFilter();
+  renderBD();
+  toast(`${playerName} removido.`, false);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// IMPORTAÇÃO DE ARQUIVO — BD DESTAQUES DA LIGA
+// ═══════════════════════════════════════════════════════════════════════
+
+// ─── Drag & Drop ────────────────────────────────────────────────────────
+function bdDragOver(e){
+  e.preventDefault();
+  document.getElementById('bdDropZone').classList.add('drag-over');
+}
+function bdDragLeave(e){
+  document.getElementById('bdDropZone').classList.remove('drag-over');
+}
+function bdDrop(e){
+  e.preventDefault();
+  document.getElementById('bdDropZone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if(file) bdFileSelected(file);
+}
+
+// ─── Status helper ──────────────────────────────────────────────────────
+function bdSetStatus(msg, type='proc'){
+  const el = document.getElementById('bdUploadStatus');
+  el.textContent = msg;
+  el.className = 'bd-upload-status ' + type;
+}
+
+// ─── Dispatcher de arquivo ──────────────────────────────────────────────
+function bdFileSelected(file){
+  if(!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  bdSetStatus('📂 Lendo ' + file.name + '…', 'proc');
+  if(ext === 'pdf'){
+    bdReadPDF(file);
+  } else if(ext === 'xlsx' || ext === 'xls'){
+    bdReadExcel(file);
+  } else {
+    bdSetStatus('❌ Formato não suportado. Use PDF ou Excel.', 'err');
+  }
+  // Limpar input para permitir re-upload do mesmo arquivo
+  document.getElementById('bdFileInput').value = '';
+}
+
+// ─── Mapa de posições ────────────────────────────────────────────────────
+const IMPORT_POS_MAP = {
+  'forward':'Atacante','atacante':'Atacante','fw':'Atacante','st':'Atacante','cf':'Atacante',
+  'left winger':'Ext. Esq','extremo izquierdo':'Ext. Esq','lw':'Ext. Esq','ext. esq':'Ext. Esq',
+  'right winger':'Ext. Dir','extremo derecho':'Ext. Dir','rw':'Ext. Dir','ext. dir':'Ext. Dir',
+  'left midfielder':'Interior Esq','interior izquierdo':'Interior Esq','lm':'Interior Esq',
+  'right midfielder':'Interior Dir','interior derecho':'Interior Dir','rm':'Interior Dir',
+  'mediapunta':'Meia','meia':'Meia','cam':'Meia','am':'Meia',
+  'holding midfielder':'MCD','mediocentro defensivo':'MCD','mcd':'MCD','cdm':'MCD','dm':'MCD',
+  'left-back':'Lateral Esq','lateral izquierdo':'Lateral Esq','lb':'Lateral Esq','lat. esq':'Lateral Esq',
+  'right-back':'Lateral Dir','lateral derecho':'Lateral Dir','rb':'Lateral Dir','lat. dir':'Lateral Dir',
+  'left centre-back':'Zag. Esq','central izquierdo':'Zag. Esq','lcb':'Zag. Esq','zag. esq':'Zag. Esq',
+  'right centre-back':'Zag. Dir','central derecho':'Zag. Dir','rcb':'Zag. Dir','zag. dir':'Zag. Dir',
+  'cb':'Zag. Dir','cb ':'Zag. Dir','central':'Zag. Dir',
+  'goalkeeper':'Goleiro','portero':'Goleiro','gk':'Goleiro','goleiro':'Goleiro',
+};
+function normalizePos(s){
+  if(!s) return '';
+  const k = s.toLowerCase().trim();
+  return IMPORT_POS_MAP[k] || s;
+}
+
+// ─── Parser de texto (PDF/texto genérico) ───────────────────────────────
+const IMPORT_SECTION_KEYS = Object.keys(IMPORT_POS_MAP).filter(k=>k.length>3).sort((a,b)=>b.length-a.length);
+
+function parseTextPlayers(text, defaultLista){
+  const players = [];
+  let currentPos = '';
+  const lines = text.split('\n');
+  for(let line of lines){
+    line = line.trim();
+    if(!line) continue;
+    // Detectar cabeçalho de posição
+    const lu = line.toLowerCase();
+    for(const k of IMPORT_SECTION_KEYS){
+      if(lu.includes(k) && lu.length < k.length + 10){
+        currentPos = IMPORT_POS_MAP[k];
+        break;
+      }
+    }
+    // Ignorar linhas de cabeçalho
+    if(/Name\s+Year|Cont\.|Birthplace|Legend|End of contract/i.test(line)) continue;
+    if(!currentPos) continue;
+    // Tentar extrair jogador: Nome Ano [ContFim] [R|L|T]
+    const m = line.match(/^([A-Za-záéíóúàèìòùãõâêîôûñçÁÉÍÓÚÀÈÌÒÙÃÕÂÊÎÔÛÑÇüÜ][A-Za-záéíóúàèìòùãõâêîôûñçÁÉÍÓÚÀÈÌÒÙÃÕÂÊÎÔÛÑÇüÜ.\' -]+?)\s+(\d{2})\s*(\d{4})?\s*([RLT])?/);
+    if(m && m[1].trim().length >= 3){
+      const name = m[1].trim().replace(/\.$/,'');
+      const ano2 = parseInt(m[2]);
+      const ano = ano2 <= 25 ? 2000+ano2 : 1900+ano2;
+      const cont = m[3] || '';
+      const pe = m[4]==='L' ? 'E' : 'D';
+      players.push({n:name, pos:currentPos, ano, cont, pe, listas:[defaultLista], team:''});
+    }
+  }
+  return players;
+}
+
+// ─── Leitura de PDF via FileReader → texto ──────────────────────────────
+// Usa pdfjs-dist via CDN (carregado on-demand)
+let _pdfjsLoaded = false;
+
+function bdReadPDF(file){
+  bdSetStatus('⏳ Processando PDF…', 'proc');
+  const reader = new FileReader();
+  reader.onload = async function(e){
+    try {
+      // Carregar pdfjs se necessário
+      if(!window.pdfjsLib){
+        await new Promise((res,rej)=>{
+          const s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+          s.onload = ()=>{
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+              'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            res();
+          };
+          s.onerror = rej;
+          document.head.appendChild(s);
+        });
+      }
+      const arrayBuffer = e.target.result;
+      const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+      let fullText = '';
+      for(let i=1; i<=pdf.numPages; i++){
+        const page = await pdf.getPage(i);
+        const tc = await page.getTextContent();
+        fullText += tc.items.map(t=>t.str).join(' ') + '\n';
+      }
+      // Detectar lista a partir do nome do arquivo
+      const fn = file.name.toLowerCase();
+      let lista = 'pro';
+      if(/u21/i.test(fn)) lista='u21';
+      else if(/reserv/i.test(fn)) lista='reserva';
+      else if(/second|segunda/i.test(fn)) lista='segunda';
+      else if(/successor/i.test(fn)) lista='successor';
+      else if(/reuni/i.test(fn)) lista='reuniao';
+
+      const players = parseTextPlayers(fullText, lista);
+      if(players.length === 0){
+        bdSetStatus('⚠ Nenhum jogador reconhecido no PDF. Verifique o formato.', 'err');
+        return;
+      }
+      applyImportedPlayers(players, file.name);
+    } catch(err){
+      console.error(err);
+      bdSetStatus('❌ Erro ao ler PDF: ' + err.message, 'err');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ─── Leitura de Excel via SheetJS ───────────────────────────────────────
+let _sheetjsLoaded = false;
+
+function bdReadExcel(file){
+  bdSetStatus('⏳ Processando Excel…', 'proc');
+  const reader = new FileReader();
+  reader.onload = async function(e){
+    try {
+      if(!window.XLSX){
+        await new Promise((res,rej)=>{
+          const s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+          s.onload = res; s.onerror = rej;
+          document.head.appendChild(s);
+        });
+      }
+      const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array'});
+      const sheetName = wb.SheetNames[0];
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {defval:''});
+      if(!rows.length){
+        bdSetStatus('⚠ Planilha vazia ou formato não reconhecido.', 'err');
+        return;
+      }
+      // Guardar dados brutos para modal de mapeamento
+      window._bdImportRows = rows;
+      window._bdImportFile = file.name;
+      openBDMap(rows);
+    } catch(err){
+      console.error(err);
+      bdSetStatus('❌ Erro ao ler Excel: ' + err.message, 'err');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ─── Modal de mapeamento de colunas Excel ───────────────────────────────
+const BD_FIELD_LABELS = {
+  name:    'Nome *',
+  pos:     'Posição',
+  ano:     'Ano Nasc.',
+  cont:    'Contrato até',
+  pe:      'Pé (R/L)',
+  listas:  'Listas (virgula)',
+  team:    'Time',
+};
+
+function openBDMap(rows){
+  const cols = Object.keys(rows[0]);
+  document.getElementById('bdMapSub').textContent =
+    `${cols.length} colunas encontradas · ${rows.length} linhas. Associe os campos:`;
+
+  // Tentar auto-mapear por nome de coluna
+  function autoMap(fieldKey){
+    const kw = {
+      name: ['name','nome','jugador','player','apellido'],
+      pos:  ['pos','posicion','position','posicao'],
+      ano:  ['year','ano','born','birth','nacimiento','año'],
+      cont: ['cont','contrato','contract','hasta','expira'],
+      pe:   ['foot','pie','pé','pe'],
+      listas: ['list','lista','categoria'],
+      team: ['team','club','equipo','time','clube'],
+    };
+    const match = (kw[fieldKey]||[]).find(k=>cols.some(c=>c.toLowerCase().includes(k)));
+    return match ? cols.find(c=>c.toLowerCase().includes(match)) : '';
+  }
+
+  const fieldsHTML = Object.entries(BD_FIELD_LABELS).map(([key,label])=>{
+    const auto = autoMap(key);
+    const opts = `<option value="">-- ignorar --</option>` +
+      cols.map(c=>`<option value="${c}"${c===auto?' selected':''}>${c}</option>`).join('');
+    return `<div class="bdm-row">
+      <div class="bdm-field-label">${label}</div>
+      <select class="bdm-sel" id="bdmap_${key}">${opts}</select>
+    </div>`;
+  }).join('');
+
+  document.getElementById('bdMapFields').innerHTML = fieldsHTML;
+
+  // Preview das primeiras 3 linhas
+  const preview = rows.slice(0,3).map(r=>
+    Object.entries(r).slice(0,6).map(([k,v])=>`${k}: ${v}`).join(' | ')
+  ).join('\n');
+  document.getElementById('bdMapPreview').textContent = preview;
+  document.getElementById('bdMapCount').textContent = `${rows.length} registros a importar`;
+
+  document.getElementById('bdMapOverlay').classList.add('vis');
+}
+function closeBDMap(){
+  document.getElementById('bdMapOverlay').classList.remove('vis');
+}
+
+function confirmBDImport(){
+  const rows = window._bdImportRows || [];
+  if(!rows.length){ closeBDMap(); return; }
+
+  const get = key => document.getElementById('bdmap_'+key)?.value || '';
+  const colName  = get('name');
+  const colPos   = get('pos');
+  const colAno   = get('ano');
+  const colCont  = get('cont');
+  const colPe    = get('pe');
+  const colListas= get('listas');
+  const colTeam  = get('team');
+
+  if(!colName){ alert('Campo "Nome" é obrigatório!'); return; }
+
+  const lista_default = (() => {
+    const fn = (window._bdImportFile||'').toLowerCase();
+    if(/u21/i.test(fn)) return 'u21';
+    if(/reserv/i.test(fn)) return 'reserva';
+    if(/second|segunda/i.test(fn)) return 'segunda';
+    if(/successor/i.test(fn)) return 'successor';
+    if(/reuni/i.test(fn)) return 'reuniao';
+    return 'pro';
+  })();
+
+  const players = [];
+  for(const row of rows){
+    const name = String(row[colName]||'').trim();
+    if(!name) continue;
+    const anoRaw = parseInt(row[colAno]||0);
+    const ano = anoRaw > 1900 ? anoRaw : (anoRaw<=25 ? 2000+anoRaw : 1900+anoRaw);
+    const peRaw = String(row[colPe]||'').trim().toUpperCase();
+    const pe = peRaw==='L' || peRaw==='E' || peRaw.includes('ESQ') ? 'E' : 'D';
+    const listasRaw = String(row[colListas]||'').split(',').map(l=>l.trim()).filter(Boolean);
+    const listas = listasRaw.length ? listasRaw : [lista_default];
+    players.push({
+      n: name,
+      pos: normalizePos(String(row[colPos]||'')),
+      ano: ano || 2000,
+      cont: String(row[colCont]||'').trim(),
+      pe,
+      listas,
+      team: String(row[colTeam]||'').trim(),
+    });
+  }
+
+  closeBDMap();
+  applyImportedPlayers(players, window._bdImportFile||'arquivo');
+}
+
+// ─── Aplicar jogadores importados na base ────────────────────────────────
+function applyImportedPlayers(players, fileName){
+  if(!players.length){
+    bdSetStatus('⚠ Nenhum jogador encontrado.', 'err');
     return;
   }
 
-  scroll.innerHTML=reps.map(r=>{
-    const score=r.overallScore?`<div class="rep-score-circle">${r.overallScore}</div>`:'';
-    const recTag=r.recommendation?`<span class="rep-tag">${REC_LABELS[r.recommendation]||r.recommendation}</span>`:'';
-    const prioTag=r.priority?`<span class="rep-tag ${PRIO_TAGS[r.priority]||''}">${r.priority.toUpperCase()}</span>`:'';
-    const posTag=r.position?`<span class="rep-tag">${r.position}</span>`:'';
-    const clubTag=r.club?`<span class="rep-tag">${r.club}</span>`:'';
-    const matchInfo=[r.matchDate?fd(r.matchDate):'',r.matchHome&&r.matchAway?`${r.matchHome} × ${r.matchAway}`:'',r.matchComp].filter(Boolean).join('  ·  ');
-    const scoreAvg=Object.values(r.attrs||{}).filter(v=>v>0);
-    const avg=scoreAvg.length?'∅ '+(scoreAvg.reduce((a,b)=>a+b,0)/scoreAvg.length).toFixed(1):'';
-    return `<div class="rep-card">
-      <div class="rep-card-top">
-        <div>
-          <div class="rep-card-name">${r.playerName||'–'}</div>
-          <div class="rep-card-match">${matchInfo||'Partida não informada'}</div>
-          <div class="rep-card-tags">${posTag}${clubTag}${recTag}${prioTag}${avg?`<span class="rep-tag">${avg}</span>`:''}</div>
+  let added=0, updated=0;
+  for(const p of players){
+    const team = p.team || '⚠ Sem Time';
+    // Verificar se já existe no SCOUTS ou DESTAQUES_ALL
+    const existsInScouts = SCOUTS[team] && SCOUTS[team].some(s=>s.n===p.n);
+    const existsInAll = typeof DESTAQUES_ALL!=='undefined' && DESTAQUES_ALL.some(s=>s.n===p.n);
+
+    if(existsInScouts){
+      // Atualizar listas
+      const idx = SCOUTS[team].findIndex(s=>s.n===p.n);
+      const merged = [...new Set([...SCOUTS[team][idx].listas, ...p.listas])];
+      SCOUTS[team][idx].listas = merged;
+      saveBDCustom(team, {...SCOUTS[team][idx]});
+      updated++;
+    } else {
+      // Adicionar novo
+      if(!SCOUTS[team]) SCOUTS[team] = [];
+      SCOUTS[team].push(p);
+      saveBDCustom(team, p);
+      if(typeof DESTAQUES_ALL!=='undefined' && !existsInAll){
+        DESTAQUES_ALL.push(p);
+      }
+      added++;
+    }
+  }
+
+  bdSetStatus(`✅ ${added} adicionados · ${updated} atualizados`, 'ok');
+  renderBD();
+  toast(`Importação concluída: ${added} novos, ${updated} atualizados de "${fileName}"`, true);
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// FICHA DE JOGO — tabela simples de destaques por partida
+// ═══════════════════════════════════════════════════════════════════════
+const FICHA_KEY = 'scoutARG_fichas';
+
+function getFichas(){
+  try{return JSON.parse(localStorage.getItem(FICHA_KEY)||'{}');}catch{return{};}
+}
+function saveFichas(obj){localStorage.setItem(FICHA_KEY,JSON.stringify(obj));}
+function fichaKey(idx){return `g${idx}`;}
+
+function fichaHTML(idx, mandante, visitante, data, ns){
+  const fichas = getFichas();
+  const rows = fichas[fichaKey(idx)] || [];
+  const cnt = rows.length;
+  ns=ns||'a';
+  const sid = `ficha${idx}${ns}`;
+
+  const tableRows = rows.map((r,ri)=>`
+    <tr id="ficharow_${idx}_${ri}">
+      <td><input class="ficha-inp num" value="${r.num||''}" placeholder="–"
+        onchange="fichaUpdateRow(${idx},${ri},'num',this.value)" maxlength="3"></td>
+      <td><input class="ficha-inp pos" value="${r.pos||''}" placeholder="ex: MCD"
+        onchange="fichaUpdateRow(${idx},${ri},'pos',this.value)"></td>
+      <td><input class="ficha-inp" value="${r.nome||''}" placeholder="Nome do jogador"
+        onchange="fichaUpdateRow(${idx},${ri},'nome',this.value)" style="min-width:90px;"></td>
+      <td style="min-width:120px;">
+        <div class="ficha-desc-wrap">
+          <input class="ficha-inp desc" id="fichadesc_${idx}_${ri}" value="${(r.desc||'').replace(/"/g,'&quot;')}"
+            placeholder="Observação…"
+            onchange="fichaUpdateRow(${idx},${ri},'desc',this.value)">
+          <button class="ficha-mic" id="fichamic_${idx}_${ri}" title="Gravar áudio"
+            onclick="fichaToggleMic(${idx},${ri})">🎤</button>
         </div>
-        ${score}
+      </td>
+      <td><button class="ficha-del" onclick="fichaDelRow(${idx},${ri})" title="Remover">✕</button></td>
+    </tr>`).join('');
+
+  // Construir players de áudio inline (evita setTimeout)
+  const audiosNow = getAudios();
+  const audioList = audiosNow[`g${idx}`] || [];
+  const audioCnt  = audioList.length;
+  const audioItemsHTML = audioList.map((a,ai)=>{
+    const dur = a.durSec
+      ? `${Math.floor(a.durSec/60).toString().padStart(2,'0')}:${(a.durSec%60).toString().padStart(2,'0')}` : '';
+    const date = new Date(a.ts).toLocaleDateString('pt-BR',
+      {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    return `<div class="ficha-audio-block" id="fichaab_${idx}_${ai}">
+      <span class="ficha-audio-meta">🎙 ${date}${dur?' · '+dur:''}</span>
+      <button class="fp-play-btn" onclick="fpPlayAudioCard(this,${idx},${ai})">▶ Ouvir</button>
+      <button onclick="fichaDeleteAudio(${idx},${ai})" title="Apagar"
+        style="background:none;border:none;color:rgba(239,68,68,.4);cursor:pointer;font-size:.75rem;">🗑</button>
+    </div>`;
+  }).join('');
+
+  return `<div class="ficha-bar" id="fichabar${sid}" onclick="toggleFicha('${sid}')">
+    <div class="ficha-bar-label">
+      <span style="opacity:.7">📋</span> FICHA DO JOGO
+      ${cnt?`<span class="ficha-bar-cnt">${cnt}</span>`:''}
+      <span class="ficha-bar-play" id="fichaplaybtn_${idx}"
+        onclick="event.stopPropagation();toggleFicha('${sid}')"
+        style="display:${audioCnt?'inline':'none'};"
+        title="${audioCnt} gravação${audioCnt>1?'ões':''}">🔊 ${audioCnt||''}</span>
+    </div>
+    <div class="ficha-bar-arrow" id="fichaarrow${sid}">▼</div>
+  </div>
+  <div class="ficha-body" id="fichabody${sid}" style="display:none;">
+    <table class="ficha-table">
+      <thead><tr>
+        <th style="width:36px;">Nº</th>
+        <th style="width:72px;">Posição</th>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th style="width:20px;"></th>
+      </tr></thead>
+      <tbody id="fichatbody_${idx}">${tableRows}</tbody>
+    </table>
+    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
+      <button class="ficha-add-btn" onclick="fichaAddRow(${idx})">＋ Jogador</button>
+      <button class="ficha-rec-btn" id="ficharedbtn_${idx}"
+        onclick="fichaToggleRec(${idx})" title="Gravar nota de voz para este jogo">🎙 Gravar</button>
+      <span id="ficharecdur_${idx}" style="font-family:monospace;font-size:.58rem;
+        color:rgba(168,85,247,.6);display:none;">00:00</span>
+    </div>
+    <div id="fichaaudios_${idx}">${audioItemsHTML}</div>
+  </div>`;
+}
+
+function toggleFicha(sid){
+  const body=document.getElementById('fichabody'+sid);
+  const arrow=document.getElementById('fichaarrow'+sid);
+  const bar=document.getElementById('fichabar'+sid);
+  if(!body)return;
+  const open=body.style.display==='none';
+  body.style.display=open?'block':'none';
+  if(arrow)arrow.style.transform=open?'rotate(180deg)':'';
+  if(bar)bar.classList.toggle('open',open);
+}
+
+function fichaAddRow(idx){
+  const fichas=getFichas();
+  const k=fichaKey(idx);
+  if(!fichas[k])fichas[k]=[];
+  fichas[k].push({num:'',pos:'',nome:'',desc:''});
+  saveFichas(fichas);
+  _fichaRebuildTbody(idx, fichas[k]);
+  // Atualizar badge nas duas colunas
+  const cnt=fichas[k].length;
+  ['a','r'].forEach(ns=>{
+    const bar=document.getElementById(`fichabarficha${idx}${ns}`);
+    if(!bar) return;
+    const lbl=bar.querySelector('.ficha-bar-label');
+    if(!lbl) return;
+    const old=lbl.querySelector('.ficha-bar-cnt');
+    if(old) old.remove();
+    const sp=document.createElement('span');sp.className='ficha-bar-cnt';sp.textContent=cnt;lbl.appendChild(sp);
+  });
+}
+
+function fichaDelRow(idx,ri){
+  const fichas=getFichas();
+  const k=fichaKey(idx);
+  if(!fichas[k])return;
+  fichas[k].splice(ri,1);
+  saveFichas(fichas);
+  _fichaRebuildTbody(idx, fichas[k]);
+  // Atualizar badge nas duas colunas (ns=a e ns=r)
+  const cnt=fichas[k].length;
+  ['a','r'].forEach(ns=>{
+    const bar=document.getElementById(`fichabarficha${idx}${ns}`);
+    if(!bar) return;
+    const lbl=bar.querySelector('.ficha-bar-label');
+    if(!lbl) return;
+    const old=lbl.querySelector('.ficha-bar-cnt');
+    if(old)old.remove();
+    if(cnt){const sp=document.createElement('span');sp.className='ficha-bar-cnt';sp.textContent=cnt;lbl.appendChild(sp);}
+  });
+}
+
+function fichaUpdateRow(idx,ri,field,val){
+  const fichas=getFichas();
+  const k=fichaKey(idx);
+  if(!fichas[k]||!fichas[k][ri])return;
+  fichas[k][ri][field]=val;
+  saveFichas(fichas);
+}
+
+function _fichaRebuildTbody(idx, rows){
+  const tbody=document.getElementById('fichatbody_'+idx);
+  if(!tbody)return;
+  tbody.innerHTML=rows.map((r,ri)=>`
+    <tr id="ficharow_${idx}_${ri}">
+      <td><input class="ficha-inp num" value="${r.num||''}" placeholder="–"
+        onchange="fichaUpdateRow(${idx},${ri},'num',this.value)" maxlength="3"></td>
+      <td><input class="ficha-inp pos" value="${r.pos||''}" placeholder="ex: MCD"
+        onchange="fichaUpdateRow(${idx},${ri},'pos',this.value)"></td>
+      <td><input class="ficha-inp" value="${r.nome||''}" placeholder="Nome do jogador"
+        onchange="fichaUpdateRow(${idx},${ri},'nome',this.value)" style="min-width:90px;"></td>
+      <td style="min-width:120px;">
+        <div class="ficha-desc-wrap">
+          <input class="ficha-inp desc" id="fichadesc_${idx}_${ri}" value="${(r.desc||'').replace(/"/g,'&quot;')}"
+            placeholder="Observação…"
+            onchange="fichaUpdateRow(${idx},${ri},'desc',this.value)">
+          <button class="ficha-mic" id="fichamic_${idx}_${ri}" title="Gravar áudio"
+            onclick="fichaToggleMic(${idx},${ri})">🎤</button>
+        </div>
+      </td>
+      <td><button class="ficha-del" onclick="fichaDelRow(${idx},${ri})" title="Remover">✕</button></td>
+    </tr>`).join('');
+}
+
+// ─── 🎤 Microfone — Web Speech API ────────────────────────────────────
+let _activeRecognition = null;
+let _activeRecBtn = null;
+
+function fichaToggleMic(idx, ri){
+  const inp = document.getElementById('fichadesc_'+idx+'_'+ri);
+  const btn = document.getElementById('fichamic_'+idx+'_'+ri);
+  if(!inp || !btn) return;
+
+  // Se já está gravando nesse botão, parar
+  if(_activeRecBtn === btn){
+    if(_activeRecognition){ _activeRecognition.stop(); _activeRecognition=null; }
+    btn.classList.remove('rec');
+    btn.title='Gravar áudio';
+    _activeRecBtn = null;
+    return;
+  }
+
+  // Parar qualquer gravação ativa
+  if(_activeRecognition){ _activeRecognition.stop(); _activeRecognition=null; }
+  if(_activeRecBtn){ _activeRecBtn.classList.remove('rec'); _activeRecBtn.title='Gravar áudio'; }
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    toast('🎤 Microfone não disponível neste browser. Use Chrome ou Edge.', false);
+    return;
+  }
+
+  const rec = new SR();
+  rec.lang = navigator.language && navigator.language.startsWith('pt') ? 'pt-BR' : 'es-AR';
+  rec.continuous = true;
+  rec.interimResults = true;
+
+  const baseText = inp.value;
+  rec.onstart = () => {
+    btn.classList.add('rec');
+    btn.title = 'Gravando… clique para parar';
+    btn.textContent = '⏹';
+  };
+  rec.onresult = (e) => {
+    let interim='', final='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) final+=e.results[i][0].transcript;
+      else interim+=e.results[i][0].transcript;
+    }
+    inp.value = baseText + (baseText&&final?' ':'')+final + interim;
+    if(final) fichaUpdateRow(idx, ri, 'desc', baseText+(baseText&&final?' ':'')+final);
+  };
+  rec.onerror = (e) => {
+    if(e.error==='no-speech') return;
+    toast('Erro no microfone: '+e.error, false);
+    btn.classList.remove('rec'); btn.textContent='🎤'; btn.title='Gravar áudio';
+    _activeRecognition=null; _activeRecBtn=null;
+  };
+  rec.onend = () => {
+    btn.classList.remove('rec'); btn.textContent='🎤'; btn.title='Gravar áudio';
+    if(_activeRecognition===rec){ _activeRecognition=null; _activeRecBtn=null; }
+  };
+
+  _activeRecognition = rec;
+  _activeRecBtn = btn;
+  rec.start();
+}
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// SISTEMA DE GRAVAÇÃO DE ÁUDIO POR JOGO
+// MediaRecorder API — grava e salva direto no localStorage (base64)
+// ═══════════════════════════════════════════════════════════════════════
+
+const AUDIO_KEY = 'scoutARG_audios'; // { 'g{idx}': [ {id, blob_b64, mime, durSec, ts} ] }
+
+function getAudios(){
+  try{return JSON.parse(localStorage.getItem(AUDIO_KEY)||'{}');}catch{return{};}
+}
+function saveAudios(obj){
+  try{ localStorage.setItem(AUDIO_KEY, JSON.stringify(obj)); }
+  catch(e){
+    if(e.name==='QuotaExceededError')
+      toast('⚠ Armazenamento cheio. Delete áudios antigos.', false);
+  }
+}
+
+// ─── Player de áudio inline na ficha ──────────────────────────────────
+function _fichaAudioItems(idx){
+  const audios = getAudios();
+  const list = audios[`g${idx}`] || [];
+  if(!list.length) return '';
+  return list.map((a,ai)=>{
+    const dur = a.durSec
+      ? `${Math.floor(a.durSec/60).toString().padStart(2,'0')}:${(a.durSec%60).toString().padStart(2,'0')}`
+      : '';
+    const date = new Date(a.ts).toLocaleDateString('pt-BR',
+      {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    return `<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;
+        border-top:1px solid rgba(168,85,247,.12);flex-wrap:wrap;">
+      <span style="font-family:monospace;font-size:.55rem;color:rgba(168,85,247,.7);
+        text-transform:uppercase;white-space:nowrap;">🎙 ${date}${dur?' · '+dur:''}</span>
+      <button class="fp-play-btn" onclick="fpPlayAudioCard(this,${idx},${ai})">▶ Ouvir</button>
+      <button onclick="fichaDeleteAudio(${idx},${ai})"
+        style="background:none;border:none;color:rgba(239,68,68,.4);cursor:pointer;
+        font-size:.75rem;flex-shrink:0;" title="Apagar">🗑</button>
+    </div>`;
+  }).join('');
+}
+function fichaAudioPlayerHTML(idx){
+  return _fichaAudioItems(idx);
+}
+
+function _fichaUpdatePlayBtn(idx){
+  const audios = getAudios();
+  const cnt = (audios[`g${idx}`]||[]).length;
+  const btn = document.getElementById('fichaplaybtn_'+idx);
+  if(!btn) return;
+  btn.textContent = `🔊 ${cnt||''}`;
+  btn.title = cnt ? `${cnt} gravação${cnt>1?'ões':''}` : '';
+  btn.style.display = cnt > 0 ? 'inline' : 'none';
+}
+
+function fichaDeleteAudio(idx, ai){
+  const audios = getAudios();
+  const k = `g${idx}`;
+  if(!audios[k]) return;
+  audios[k].splice(ai,1);
+  if(!audios[k].length) delete audios[k];
+  saveAudios(audios);
+  const el = document.getElementById('fichaaudios_'+idx);
+  if(el) el.innerHTML = _fichaAudioItems(idx);
+  _fichaUpdatePlayBtn(idx);
+  updateFichasBadge();
+}
+
+// ─── Gravação com MediaRecorder ────────────────────────────────────────
+let _mediaRec = null;
+let _recChunks = [];
+let _recIdx = null;
+let _recTimer = null;
+let _recSec = 0;
+
+function fichaToggleRec(idx){
+  if(_mediaRec && _mediaRec.state !== 'inactive'){
+    // Parar gravação
+    _mediaRec.stop();
+    return;
+  }
+  // Iniciar gravação
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    toast('⚠ Microfone não disponível neste browser.', false);
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+    _recIdx = idx;
+    _recChunks = [];
+    _recSec = 0;
+
+    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+      ? 'audio/webm;codecs=opus'
+      : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
+      : MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4'
+      : 'audio/ogg';
+
+    _mediaRec = new MediaRecorder(stream, {mimeType});
+
+    const btn = document.getElementById('ficharedbtn_'+idx);
+    const dur = document.getElementById('ficharecdur_'+idx);
+
+    _mediaRec.ondataavailable = e => { if(e.data.size>0) _recChunks.push(e.data); };
+
+    _mediaRec.onstart = () => {
+      if(btn){ btn.classList.add('recording'); btn.textContent='⏹ Parar'; }
+      if(dur){ dur.style.display='inline'; dur.textContent='00:00'; }
+      _recTimer = setInterval(()=>{
+        _recSec++;
+        const m = Math.floor(_recSec/60).toString().padStart(2,'0');
+        const s = (_recSec%60).toString().padStart(2,'0');
+        if(dur) dur.textContent = `${m}:${s}`;
+      }, 1000);
+    };
+
+    _mediaRec.onstop = () => {
+      clearInterval(_recTimer);
+      stream.getTracks().forEach(t=>t.stop());
+      if(btn){ btn.classList.remove('recording'); btn.textContent='🎙 Gravar'; }
+      if(dur){ dur.style.display='none'; }
+
+      const blob = new Blob(_recChunks, {type: mimeType});
+      const reader = new FileReader();
+      reader.onload = () => {
+        const b64 = reader.result.split(',')[1];
+        const audios = getAudios();
+        const k = `g${_recIdx}`;
+        if(!audios[k]) audios[k] = [];
+        audios[k].push({
+          id: Date.now().toString(),
+          b64,
+          mime: mimeType,
+          durSec: _recSec,
+          ts: Date.now(),
+        });
+        saveAudios(audios);
+        // Re-renderizar o container de áudio E o botão 🔊 na barra
+        const savedIdx = _recIdx;
+        const savedSec = _recSec;
+        _recIdx = null; _recSec = 0;
+        const audioEl = document.getElementById('fichaaudios_'+savedIdx);
+        if(audioEl) audioEl.innerHTML = _fichaAudioItems(savedIdx);
+        // Atualizar/inserir botão 🔊 na barra da ficha
+        _fichaUpdatePlayBtn(savedIdx);
+        updateFichasBadge();
+        toast(`🎙 Gravação salva (${Math.floor(savedSec/60)}:${(savedSec%60).toString().padStart(2,'0')})`, true);
+      };
+      reader.readAsDataURL(blob);
+    };
+
+    _mediaRec.start(500); // chunk a cada 500ms
+  }).catch(err=>{
+    toast('❌ Microfone bloqueado: ' + err.message, false);
+  });
+}
+
+// ─── Painel FICHAS ─────────────────────────────────────────────────────
+function showFichasPanel(){
+  renderFichasPanel();
+  document.getElementById('fichasOverlay').classList.add('vis');
+  fpCloseDrawer();
+}
+// closeFichasPanel defined in mobile section above
+
+function updateFichasBadge(){
+  const fichas = getFichas();
+  const audios = getAudios();
+  const totalFichas = Object.values(fichas).reduce((a,b)=>a+(b.length||0),0);
+  const totalAudios = Object.values(audios).reduce((a,b)=>a+(b.length||0),0);
+  const total = Object.keys(fichas).length + Object.keys(audios).length;
+  const b = document.getElementById('fichasBadge');
+  if(b){ b.textContent = total; b.style.display = total>0?'inline-block':'none'; }
+}
+
+function renderFichasPanel(){
+  const fichas = getFichas();
+  const audios = getAudios();
+  const scroll = document.getElementById('fichasScroll');
+  if(!scroll) return;
+
+  const allKeys = new Set([...Object.keys(fichas), ...Object.keys(audios)]);
+  if(!allKeys.size){
+    scroll.innerHTML = '<div class="fp-empty">Nenhuma ficha ou gravação salva ainda.<br>Abra um jogo na rota, clique em 📋 FICHA DO JOGO e adicione jogadores ou grave áudio.</div>';
+    document.getElementById('fichasStats').textContent = 'vazio';
+    return;
+  }
+
+  let totalJogos=0, totalPlayers=0, totalAudios=0;
+  const jogoMap={};
+  (jogos||[]).forEach((j,i)=>{ jogoMap[`g${i}`]=j; });
+
+  const sortedKeys=[...allKeys].sort((a,b)=>{
+    const da=jogoMap[a]?.d||'', db=jogoMap[b]?.d||'';
+    return db.localeCompare(da);
+  });
+
+  let html='';
+  for(const k of sortedKeys){
+    const rows  = fichas[k] || [];
+    const aList = audios[k] || [];
+    if(!rows.length && !aList.length) continue;
+
+    const j = jogoMap[k];
+    const matchStr  = j ? `${j.m} × ${j.v}` : `Jogo ${k}`;
+    const dateStr   = j&&j.d ? fd(j.d) : '';
+    const compStr   = j ? (CPNOMES[j.cp]||j.cp||'') : '';
+    const cityStr   = j ? (CNOMES[j.c]||j.c||'') : '';
+    const cityColor = j ? (CORES[j.c]||CORES.ba) : '#888';
+
+    totalJogos++;
+    totalPlayers += rows.length;
+    totalAudios  += aList.length;
+
+    // ── Linhas editáveis inline ─────────────────────────────────────────
+    const tableRows = rows.map((r,ri)=>`
+      <tr id="fprow_${k}_${ri}">
+        <td style="width:42px;">
+          <input class="fp-inp num" value="${(r.num||'').replace(/"/g,'&quot;')}"
+            placeholder="–" maxlength="3"
+            onchange="fpUpdateRow('${k}',${ri},'num',this.value)">
+        </td>
+        <td style="width:84px;">
+          <input class="fp-inp pos" value="${(r.pos||'').replace(/"/g,'&quot;')}"
+            placeholder="Pos."
+            onchange="fpUpdateRow('${k}',${ri},'pos',this.value)">
+        </td>
+        <td>
+          <input class="fp-inp nome" value="${(r.nome||'').replace(/"/g,'&quot;')}"
+            placeholder="Nome do jogador"
+            onchange="fpUpdateRow('${k}',${ri},'nome',this.value)">
+        </td>
+        <td>
+          <input class="fp-inp desc" value="${(r.desc||'').replace(/"/g,'&quot;')}"
+            placeholder="Observação…"
+            onchange="fpUpdateRow('${k}',${ri},'desc',this.value)">
+        </td>
+        <td style="width:52px;text-align:center;">${_fpRowAudioCell(k,ri)}</td>
+        <td style="width:20px;">
+          <button class="fp-row-del" onclick="fpDeleteRow('${k}',${ri})" title="Remover">✕</button>
+        </td>
+      </tr>`).join('');
+
+    // Gerar HTML dos áudios inline (src data: embutido)
+    const audioItemsHTML = aList.map((a,ai)=>{
+      const dur = a.durSec
+        ? `${Math.floor(a.durSec/60).toString().padStart(2,'0')}:${(a.durSec%60).toString().padStart(2,'0')}`
+        : '';
+      const date = new Date(a.ts).toLocaleDateString('pt-BR',
+        {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      return `<div class="fp-audio-section">
+        <span class="fp-audio-label">🎙 ${date}${dur?' · '+dur:''}</span>
+        <button class="fp-play-btn" onclick="fpPlayAudio(this,'${k}',${ai})">▶ Ouvir</button>
+        <button class="fp-audio-del" onclick="fpDeleteAudio('${k}',${ai})" title="Apagar gravação">🗑</button>
+      </div>`;
+    }).join('');
+
+    const tableSection = `
+      <table class="fp-table">
+        <thead><tr>
+          <th style="width:42px;">Nº</th>
+          <th style="width:84px;">Pos.</th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th style="width:52px;text-align:center;">🎙</th>
+          <th style="width:20px;"></th>
+        </tr></thead>
+        <tbody id="fptbody_${k}">${tableRows}</tbody>
+      </table>
+      <button class="fp-add-row-btn" onclick="fpAddRow('${k}')">＋ Adicionar jogador</button>
+      <div class="fp-rec-bar">
+        <button class="fp-rec-btn" id="fpredbtn_${k}"
+          onclick="fpToggleRec('${k}')" title="Gravar nota de voz">🎙 Gravar</button>
+        <span class="fp-rec-timer" id="fprectimer_${k}">00:00</span>
       </div>
-      <div class="rep-btns">
-        <button class="rep-btn view" onclick="openRepForm({repId:'${r.id}'})">✎ Editar</button>
-        <button class="rep-btn exp" onclick="exportRepJSON('${r.id}')">↓ JSON</button>
-        <button class="rep-btn del" onclick="deleteRep('${r.id}')">🗑 Deletar</button>
+      <div class="fp-audios-wrap" id="fpaudios_${k}">${audioItemsHTML}</div>`;
+
+    html+=`<div class="fp-card" id="fpcard_${k}">
+      <div class="fp-card-hdr">
+        <div style="width:8px;height:8px;border-radius:50%;background:${cityColor};flex-shrink:0;"></div>
+        <div style="flex:1;min-width:0;">
+          <div class="fp-card-match">${matchStr}</div>
+          <div class="fp-card-meta">
+            ${dateStr?`<span>${dateStr}</span>`:''}
+            ${compStr?`<span>${compStr}</span>`:''}
+            ${cityStr?`<span>${cityStr}</span>`:''}
+            <span style="color:#c084fc;" id="fpcnt_${k}">${rows.length} jogador${rows.length!==1?'es':''}</span>
+            <span style="color:#c084fc;" id="fpacnt_${k}">${aList.length?`🎙 ${aList.length} áudio${aList.length!==1?'s':''}`:''}</span>
+          </div>
+        </div>
+        <button class="fp-card-del" onclick="fpDeleteAll('${k}')" title="Apagar tudo deste jogo">🗑</button>
+      </div>
+      ${tableSection}
+    </div>`;
+  }
+
+  scroll.innerHTML = html;
+  document.getElementById('fichasStats').textContent =
+    `${totalJogos} jogo${totalJogos!==1?'s':''} · ${totalPlayers} jogadores · ${totalAudios} gravação${totalAudios!==1?'ões':''}`;
+}
+
+// ─── Edição inline no painel ──────────────────────────────────────────
+function fpUpdateRow(k, ri, field, val){
+  const fichas = getFichas();
+  if(!fichas[k]||fichas[k][ri]===undefined) return;
+  fichas[k][ri][field] = val;
+  saveFichas(fichas);
+}
+
+function fpAddRow(k){
+  const fichas = getFichas();
+  if(!fichas[k]) fichas[k]=[];
+  fichas[k].push({num:'',pos:'',nome:'',desc:''});
+  saveFichas(fichas);
+  // Atualizar só o tbody + contador sem re-renderizar tudo
+  const tbody = document.getElementById('fptbody_'+k);
+  const rows = fichas[k];
+  const ri = rows.length-1;
+  if(tbody){
+    const tr = document.createElement('tr');
+    tr.id = `fprow_${k}_${ri}`;
+    tr.innerHTML = `
+      <td style="width:42px;">
+        <input class="fp-inp num" placeholder="–" maxlength="3"
+          onchange="fpUpdateRow('${k}',${ri},'num',this.value)">
+      </td>
+      <td style="width:84px;">
+        <input class="fp-inp pos" placeholder="Pos."
+          onchange="fpUpdateRow('${k}',${ri},'pos',this.value)">
+      </td>
+      <td>
+        <input class="fp-inp nome" placeholder="Nome do jogador"
+          onchange="fpUpdateRow('${k}',${ri},'nome',this.value)">
+      </td>
+      <td>
+        <input class="fp-inp desc" placeholder="Observação…"
+          onchange="fpUpdateRow('${k}',${ri},'desc',this.value)">
+      </td>
+      <td style="width:52px;text-align:center;">${_fpRowAudioCell(k,ri)}</td>
+      <td style="width:20px;">
+        <button class="fp-row-del" onclick="fpDeleteRow('${k}',${ri})" title="Remover">✕</button>
+      </td>`;
+    tbody.appendChild(tr);
+    // Foco no campo nome
+    tr.querySelector('.fp-inp.nome')?.focus();
+  }
+  _fpUpdateCount(k);
+  updateFichasBadge();
+}
+
+function fpDeleteRow(k, ri){
+  const fichas = getFichas();
+  if(!fichas[k]) return;
+  fichas[k].splice(ri,1);
+  saveFichas(fichas);
+  // Re-renderizar só o tbody
+  const tbody = document.getElementById('fptbody_'+k);
+  if(tbody){
+    tbody.innerHTML = fichas[k].map((r,i)=>`
+      <tr id="fprow_${k}_${i}">
+        <td style="width:42px;"><input class="fp-inp num" value="${(r.num||'').replace(/"/g,'&quot;')}" placeholder="–" maxlength="3" onchange="fpUpdateRow('${k}',${i},'num',this.value)"></td>
+        <td style="width:84px;"><input class="fp-inp pos" value="${(r.pos||'').replace(/"/g,'&quot;')}" placeholder="Pos." onchange="fpUpdateRow('${k}',${i},'pos',this.value)"></td>
+        <td><input class="fp-inp nome" value="${(r.nome||'').replace(/"/g,'&quot;')}" placeholder="Nome do jogador" onchange="fpUpdateRow('${k}',${i},'nome',this.value)"></td>
+        <td><input class="fp-inp desc" value="${(r.desc||'').replace(/"/g,'&quot;')}" placeholder="Observação…" onchange="fpUpdateRow('${k}',${i},'desc',this.value)"></td>
+        <td style="width:52px;text-align:center;">${_fpRowAudioCell(k,i)}</td>
+        <td style="width:20px;"><button class="fp-row-del" onclick="fpDeleteRow('${k}',${i})" title="Remover">✕</button></td>
+      </tr>`).join('');
+  }
+  _fpUpdateCount(k);
+  updateFichasBadge();
+}
+
+function _fpUpdateCount(k){
+  const fichas=getFichas();
+  const cnt=(fichas[k]||[]).length;
+  const el=document.getElementById('fpcnt_'+k);
+  if(el) el.textContent=`${cnt} jogador${cnt!==1?'es':''}`;
+}
+
+function fpDeleteAudio(k, ai){
+  if(!confirm('Apagar esta gravação?')) return;
+  const audios = getAudios();
+  if(!audios[k]) return;
+  audios[k].splice(ai,1);
+  if(!audios[k].length) delete audios[k];
+  saveAudios(audios);
+  fpRefreshAudios(k);
+  updateFichasBadge();
+}
+
+function fpDeleteAll(k){
+  if(!confirm('Apagar TODA a ficha e gravações deste jogo?')) return;
+  const fichas = getFichas();
+  const audios = getAudios();
+  delete fichas[k];
+  delete audios[k];
+  saveFichas(fichas);
+  saveAudios(audios);
+  renderFichasPanel();
+  updateFichasBadge();
+  toast('Ficha apagada.', false);
+}
+
+// ─── Gravação dentro do painel Fichas ──────────────────────────────────
+let _fpRec = null, _fpRecChunks = [], _fpRecKey = null, _fpRecTimer = null, _fpRecSec = 0;
+
+function fpToggleRec(k){
+  if(_fpRec && _fpRec.state !== 'inactive'){
+    _fpRec.stop(); return;
+  }
+  if(!navigator.mediaDevices?.getUserMedia){
+    toast('⚠ Microfone não disponível neste browser.', false); return;
+  }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+    _fpRecKey = k; _fpRecChunks = []; _fpRecSec = 0;
+    const mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus'
+      : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
+      : MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/ogg';
+    _fpRec = new MediaRecorder(stream, {mimeType: mime});
+
+    const btn   = document.getElementById('fpredbtn_'+k);
+    const timer = document.getElementById('fprectimer_'+k);
+
+    _fpRec.ondataavailable = e => { if(e.data.size>0) _fpRecChunks.push(e.data); };
+    _fpRec.onstart = () => {
+      if(btn){ btn.classList.add('recording'); btn.textContent='⏹ Parar'; }
+      if(timer) timer.style.display='inline';
+      _fpRecTimer = setInterval(()=>{
+        _fpRecSec++;
+        const m=Math.floor(_fpRecSec/60).toString().padStart(2,'0');
+        const s=(_fpRecSec%60).toString().padStart(2,'0');
+        if(timer) timer.textContent=`${m}:${s}`;
+      }, 1000);
+    };
+    _fpRec.onstop = () => {
+      clearInterval(_fpRecTimer);
+      stream.getTracks().forEach(t=>t.stop());
+      const savedKey = _fpRecKey, savedSec = _fpRecSec;
+      if(btn){ btn.classList.remove('recording'); btn.textContent='🎙 Gravar'; }
+      if(timer){ timer.style.display='none'; timer.textContent='00:00'; }
+      _fpRec=null; _fpRecKey=null; _fpRecSec=0;
+
+      const blob = new Blob(_fpRecChunks, {type: mime});
+      const reader = new FileReader();
+      reader.onload = () => {
+        const b64 = reader.result.split(',')[1];
+        const audios = getAudios();
+        if(!audios[savedKey]) audios[savedKey]=[];
+        audios[savedKey].push({
+          id: Date.now().toString(), b64, mime, durSec: savedSec, ts: Date.now()
+        });
+        saveAudios(audios);
+        // Atualizar só o container de áudio — sem re-render total
+        fpRefreshAudios(savedKey);
+        updateFichasBadge();
+        toast(`🎙 Gravação salva (${Math.floor(savedSec/60)}:${(savedSec%60).toString().padStart(2,'0')})`, true);
+      };
+      reader.readAsDataURL(blob);
+    };
+    _fpRec.start(500);
+  }).catch(err=>{ toast('❌ Microfone: '+err.message, false); });
+}
+
+
+// u2500u2500u2500 Play de u00e1udio via Blob URL u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500
+function fpPlayAudio(btn,k,ai){
+  const audios=getAudios();
+  const a=(audios[k]||[])[ai];
+  if(!a){toast("audionotfound",false);return;}
+  if(btn._ael&&!btn._ael.paused){btn._ael.pause();btn.textContent="▶ Ouvir";btn.classList.remove("playing");return;}
+  if(!btn._ael){try{const sm=(a.mime||"audio/webm").split(";")[0];const raw=atob(a.b64);const arr=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i);const url=URL.createObjectURL(new Blob([arr],{type:sm}));btn._ael=new Audio(url);btn._ael.onended=()=>{btn.textContent="▶ Ouvir";btn.classList.remove("playing");};btn._ael.onerror=()=>{btn.textContent="▶ Ouvir";btn.classList.remove("playing");toast("Erro ao carregar audio",false);};}catch(e){toast("Erro decoder: "+e.message,false);return;}}
+  btn._ael.play().then(()=>{btn.textContent="⏸ Pausar";btn.classList.add("playing");}).catch(e=>{toast("Reprodução bloqueada: "+e.message,false);});
+}
+
+// ─── Voz → Texto por linha de jogador (SpeechRecognition) ──────────────────
+let _fpSpeechActive = null; // { ri, k, recognition }
+
+function _fpRowAudioCell(k, ri){
+  // Célula com botão mic que dispara SpeechRecognition
+  return `<button class="fp-row-mic" id="fprm_${k}_${ri}"
+    onclick="fpRowDictate('${k}',${ri})" title="Ditar observação por voz">🎙</button>`;
+}
+
+function fpRowDictate(k, ri){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    // Fallback: foco no campo descrição para digitar
+    const descInput = document.querySelector(`#fprow_${k}_${ri} .fp-inp.desc`);
+    if(descInput){ descInput.focus(); toast('⚠ Navegador sem reconhecimento de voz. Digite a observação.', false); }
+    return;
+  }
+
+  const btn = document.getElementById(`fprm_${k}_${ri}`);
+
+  // Se já estiver ouvindo esta linha, parar
+  if(_fpSpeechActive && _fpSpeechActive.k===k && _fpSpeechActive.ri===ri){
+    _fpSpeechActive.recognition.stop();
+    return;
+  }
+  // Parar qualquer outra ativa
+  if(_fpSpeechActive){ try{ _fpSpeechActive.recognition.stop(); }catch(e){} }
+
+  const recognition = new SR();
+  recognition.lang = 'pt-BR';
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+  recognition.continuous = false;
+
+  _fpSpeechActive = { k, ri, recognition };
+
+  if(btn){ btn.classList.add('recording'); btn.textContent='⏹'; }
+
+  // Texto base já existente no campo
+  const descInput = document.querySelector(`#fprow_${k}_${ri} .fp-inp.desc`);
+  const baseText = descInput ? descInput.value : '';
+  let interimSpan = ''; // texto provisório enquanto fala
+
+  recognition.onresult = (e) => {
+    let interim = '', final = '';
+    for(let i = e.resultIndex; i < e.results.length; i++){
+      const t = e.results[i][0].transcript;
+      if(e.results[i].isFinal) final += t; else interim += t;
+    }
+    if(descInput){
+      // Mostra texto provisório em tempo real
+      descInput.value = (baseText ? baseText + ' ' : '') + final + interim;
+      // Salvar só o final
+      if(final){
+        const newVal = (baseText ? baseText.trimEnd() + ' ' : '') + final.trim();
+        descInput.value = newVal;
+        fpUpdateRow(k, ri, 'desc', newVal);
+      }
+    }
+  };
+
+  recognition.onerror = (e) => {
+    if(e.error !== 'aborted') toast('⚠ Voz: ' + e.error, false);
+  };
+
+  recognition.onend = () => {
+    _fpSpeechActive = null;
+    if(btn){ btn.classList.remove('recording'); btn.textContent='🎙'; }
+    // Garantir que o valor final está salvo
+    if(descInput) fpUpdateRow(k, ri, 'desc', descInput.value);
+  };
+
+  try { recognition.start(); }
+  catch(e){ toast('❌ Erro ao iniciar reconhecimento de voz.', false); }
+}
+
+// Play para áudios nos cards da rota principal (idx = número do card)
+function fpPlayAudioCard(btn,idx,ai){
+  const audios=getAudios();
+  const k='g'+idx;
+  const a=(audios[k]||[])[ai];
+  if(!a){toast("⚠ Áudio não encontrado.",false);return;}
+  if(btn._ael&&!btn._ael.paused){btn._ael.pause();btn.textContent="▶ Ouvir";btn.classList.remove("playing");return;}
+  if(!btn._ael){try{const sm=(a.mime||"audio/webm").split(";")[0];const raw=atob(a.b64);const arr=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i);const url=URL.createObjectURL(new Blob([arr],{type:sm}));btn._ael=new Audio(url);btn._ael.onended=()=>{btn.textContent="▶ Ouvir";btn.classList.remove("playing");};btn._ael.onerror=()=>{btn.textContent="▶ Ouvir";btn.classList.remove("playing");toast("❌ Erro ao carregar áudio.",false);};}catch(e){toast("❌ Decoder: "+e.message,false);return;}}
+  btn._ael.play().then(()=>{btn.textContent="⏸ Pausar";btn.classList.add("playing");}).catch(e=>{toast("❌ Reprodução: "+e.message,false);});
+}
+
+function fpRefreshAudios(k){
+  const el = document.getElementById('fpaudios_'+k);
+  if(!el) return;
+  const audios = getAudios();
+  const aList  = audios[k] || [];
+  // Atualizar badge de áudios no header
+  const acnt = document.getElementById('fpacnt_'+k);
+  if(acnt) acnt.textContent = aList.length ? `🎙 ${aList.length} áudio${aList.length!==1?'s':''}` : '';
+  // Re-gerar os players
+  el.innerHTML = aList.map((a,ai)=>{
+    const dur = a.durSec
+      ? `${Math.floor(a.durSec/60).toString().padStart(2,'0')}:${(a.durSec%60).toString().padStart(2,'0')}` : '';
+    const date = new Date(a.ts).toLocaleDateString('pt-BR',
+      {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    return `<div class="fp-audio-section">
+      <span class="fp-audio-label">🎙 ${date}${dur?' · '+dur:''}</span>
+      <button class="fp-play-btn" onclick="fpPlayAudio(this,'${k}',${ai})">▶ Ouvir</button>
+      <button class="fp-audio-del" onclick="fpDeleteAudio('${k}',${ai})" title="Apagar gravação">🗑</button>
+    </div>`;
+  }).join('');
+}
+
+// Inicializar badge ao carregar
+// ─── MOBILE TAB NAVIGATION ─────────────────────────────────────
+let _mobTab = 'jogos';
+
+function isMobile(){ return window.innerWidth <= 767; }
+
+function setMobTab(tab){
+  if(!isMobile()) return;
+  _mobTab = tab;
+
+  // Abrir painéis especiais direto
+  if(tab === 'fichas'){ showFichasPanel(); _syncMobTab('fichas'); return; }
+  if(tab === 'scouts'){ showBD();          _syncMobTab('scouts'); return; }
+
+  // Alternar visibilidade das colunas/mapa
+  const colAll   = document.querySelector('.col-all');
+  const colRoute = document.querySelector('.col-route');
+  const mapEl    = document.getElementById('map');
+
+  colAll  ?.classList.toggle('mob-hidden', tab !== 'jogos');
+  colRoute?.classList.toggle('mob-hidden', tab !== 'rota');
+  mapEl   ?.classList.toggle('mob-hidden', tab !== 'mapa');
+
+  if(tab === 'mapa' && typeof mapL !== 'undefined') setTimeout(()=>mapL.invalidateSize(), 150);
+
+  _syncMobTab(tab);
+}
+
+function _syncMobTab(tab){
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+}
+
+// Atualizar badges do bottom nav
+function updateMobBadges(){
+  if(!isMobile()) return;
+  // Rota badge
+  const routeEl = document.getElementById('mobRotaBadge');
+  if(routeEl){
+    const n = document.getElementById('cntRoute')?.textContent||'0';
+    routeEl.textContent = n;
+    routeEl.classList.toggle('vis', n !== '0');
+  }
+  // Fichas badge
+  const fichasEl = document.getElementById('mobFichasBadge');
+  if(fichasEl){
+    const fb = document.getElementById('fichasBadge')?.textContent||'0';
+    fichasEl.textContent = fb;
+    fichasEl.classList.toggle('vis', fb !== '0');
+  }
+  // Scouts badge (fila)
+  const scoutsEl = document.getElementById('mobScoutsBadge');
+  if(scoutsEl){
+    const qb = document.getElementById('queueBadge')?.textContent||'0';
+    scoutsEl.textContent = qb;
+    scoutsEl.classList.toggle('vis', qb !== '0');
+  }
+}
+
+// Ao fechar fichas/scouts panel no mobile, volta para a aba que estava
+function closeFichasPanel(){
+  document.getElementById('fichasOverlay').classList.remove('vis');
+  if(isMobile()) _syncMobTab(_mobTab === 'fichas' ? 'jogos' : _mobTab);
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  updateFichasBadge();
+  // Init mobile: esconde colunas inativas + ajusta alturas
+  if(isMobile()){
+    setMobTab('jogos');
+    // Mede topbar e ajusta main
+    const adjustMobHeight = ()=>{
+      const tb = document.querySelector('.topbar');
+      const nav = document.querySelector('.mob-nav');
+      if(tb && nav){
+        const tbH = tb.getBoundingClientRect().height;
+        const navH = nav.getBoundingClientRect().height;
+        document.querySelectorAll('.col').forEach(col=>{
+          col.style.height = `calc(100dvh - ${tbH}px - ${navH}px)`;
+        });
+      }
+    };
+    adjustMobHeight();
+    window.addEventListener('resize', adjustMobHeight);
+  }
+  // Atualizar badges periodicamente
+  setInterval(updateMobBadges, 1500);
+  // Fechar drawer com Escape
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='Escape') fpCloseDrawer();
+  });
+});
+
+
+// ─── Seletor de partida no painel Fichas ──────────────────────────────
+// ═══ DRAWER: CADASTRO DE JOGADOR ══════════════════════════════════════════
+let _fpDrawerGameKey = null; // key do jogo selecionado no step1
+
+function fpOpenDrawer(){
+  const d = document.getElementById('fpDrawer');
+  if(!d) return;
+  const isVis = d.classList.contains('vis');
+  if(isVis){ d.classList.remove('vis'); return; }
+  // Resetar para step1
+  fpDrawerBack();
+  d.classList.add('vis');
+  fpDrawerFilter();
+  setTimeout(()=>document.getElementById('fpDrawerSearch')?.focus(), 80);
+}
+
+function fpCloseDrawer(){
+  document.getElementById('fpDrawer')?.classList.remove('vis');
+  _fpDrawerGameKey = null;
+}
+
+function fpDrawerFilter(){
+  const q   = (document.getElementById('fpDrawerSearch')?.value||'').toLowerCase().trim();
+  const list = document.getElementById('fpDrawerList');
+  if(!list) return;
+
+  const fichas = getFichas();
+  const matches = (jogos||[])
+    .map((j,i)=>({j,i}))
+    .filter(({j})=>{
+      if(!q) return true;
+      return (j.m||'').toLowerCase().includes(q) ||
+             (j.v||'').toLowerCase().includes(q) ||
+             (j.d||'').includes(q) ||
+             (CPNOMES[j.cp]||'').toLowerCase().includes(q) ||
+             (CNOMES[j.c]||'').toLowerCase().includes(q);
+    })
+    .sort((a,b)=>{
+      const aH = fichas[`g${a.i}`]?.length ? 1:0;
+      const bH = fichas[`g${b.i}`]?.length ? 1:0;
+      if(bH!==aH) return bH-aH;
+      return (b.j.d||'').localeCompare(a.j.d||'');
+    })
+    .slice(0,40);
+
+  if(!matches.length){
+    list.innerHTML = '<div class="fp-picker-empty">Nenhuma partida encontrada.</div>';
+    return;
+  }
+
+  const fichasData = getFichas();
+  list.innerHTML = matches.map(({j,i})=>{
+    const k   = `g${i}`;
+    const cnt = fichasData[k]?.length||0;
+    const cor = CORES[j.c]||CORES.ba;
+    const badge = cnt ? `<span class="fp-picker-badge">✓ ${cnt} jog.</span>` : '';
+    return `<div class="fp-picker-item" onclick="fpDrawerSelectGame('${k}')">
+      <div class="fp-picker-match">
+        <span style="display:inline-block;width:7px;height:7px;border-radius:50%;
+          background:${cor};margin-right:5px;vertical-align:middle;"></span>
+        ${j.m} × ${j.v} ${badge}
+      </div>
+      <div class="fp-picker-meta">
+        <span>${j.d?fd(j.d):'–'}</span>
+        <span>${j.h||''}</span>
+        <span>${CPNOMES[j.cp]||j.cp||''}</span>
+        <span>${CNOMES[j.c]||j.c||''}</span>
       </div>
     </div>`;
   }).join('');
 }
 
-function deleteRep(id){
-  if(!confirm('Deletar este relatório?'))return;
-  const arr=getReps().filter(r=>r.id!==id);
-  saveReps(arr);
-  renderRepList();
-  toast('Relatório deletado.',true);
+function fpDrawerSelectGame(k){
+  _fpDrawerGameKey = k;
+  const idx = parseInt(k.replace('g',''));
+  const j   = jogos[idx];
+  if(!j) return;
+
+  // Preencher info do jogo no step2
+  document.getElementById('fpDrawerGameName').textContent = `${j.m} × ${j.v}`;
+  document.getElementById('fpDrawerGameMeta').innerHTML =
+    `<span>${j.d?fd(j.d):''}</span><span>${j.h||''}</span>`+
+    `<span>${CPNOMES[j.cp]||j.cp||''}</span><span>${CNOMES[j.c]||j.c||''}</span>`;
+
+  // Limpar campos do jogador
+  ['fpDNum','fpDPos','fpDNome','fpDDesc'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+
+  // Ir para step2
+  document.getElementById('fpDrawerStep1').style.display='none';
+  document.getElementById('fpDrawerStep2').style.display='flex';
+  document.getElementById('fpDrawerStep2').style.flexDirection='column';
+  setTimeout(()=>document.getElementById('fpDPos')?.focus(), 80);
 }
 
-function exportRepJSON(id){
-  const rep=getReps().find(r=>r.id===id);
-  if(!rep)return;
-  const a=document.createElement('a');
-  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(rep,null,2));
-  a.download=`relatorio_${(rep.playerName||'jogador').replace(/\s+/g,'_')}_${rep.id}.json`;
-  a.click();
+function fpDrawerBack(){
+  _fpDrawerGameKey = null;
+  document.getElementById('fpDrawerSearch')&&(document.getElementById('fpDrawerSearch').value='');
+  const s1=document.getElementById('fpDrawerStep1');
+  const s2=document.getElementById('fpDrawerStep2');
+  if(s1) s1.style.display='flex', s1.style.flexDirection='column';
+  if(s2) s2.style.display='none';
 }
 
-// Inicializar
-document.addEventListener('DOMContentLoaded',()=>{updateRepBadge();});
+function fpDrawerSave(){
+  if(!_fpDrawerGameKey){ toast('Selecione um jogo primeiro.', false); return; }
+  const nome = document.getElementById('fpDNome')?.value.trim()||'';
+  if(!nome){ toast('⚠ Nome obrigatório.', false); document.getElementById('fpDNome')?.focus(); return; }
+  const num  = document.getElementById('fpDNum')?.value.trim()||'';
+  const pos  = document.getElementById('fpDPos')?.value.trim()||'';
+  const desc = document.getElementById('fpDDesc')?.value.trim()||'';
+
+  const k = _fpDrawerGameKey;
+  const fichas = getFichas();
+  if(!fichas[k]) fichas[k]=[];
+  fichas[k].push({num, pos, nome, desc});
+  saveFichas(fichas);
+  updateFichasBadge();
+
+  // Re-renderizar painel e scrollar até o card
+  renderFichasPanel();
+  setTimeout(()=>{
+    const card = document.getElementById('fpcard_'+k);
+    if(card) card.scrollIntoView({behavior:'smooth',block:'start'});
+  },120);
+
+  toast(`✓ ${nome} adicionado à ficha!`, true);
+
+  // Limpar campos para próximo jogador (mantém o jogo selecionado)
+  ['fpDNum','fpDPos','fpDNome','fpDDesc'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('fpDPos')?.focus();
+}
+
+// Fechar drawer ao clicar no scroll
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('fichasScroll')?.addEventListener('click', ()=>{
+    fpCloseDrawer();
+  });
+});
 
 </script>
-
-<!-- ═══ RELATÓRIOS — LISTA ════════════════════════════════════════════ -->
-<div id="repListOverlay" onclick="if(event.target===this)closeRepList()">
-  <div id="repListPanel">
-    <div class="rp-hdr">
-      <div class="rp-title">📝 Relatórios de Jogadores</div>
-      <button class="rp-close" onclick="closeRepList()">✕</button>
-    </div>
-    <div class="rep-list-head">
-      <input class="rep-filter-input" id="repSearch" placeholder="Buscar por nome, clube, posição…" oninput="renderRepList()">
-      <button class="rep-add-btn" onclick="openRepForm({})">＋ Novo Relatório</button>
-    </div>
-    <div class="rep-list-scroll" id="repListScroll"></div>
-  </div>
-</div>
-
-<!-- ═══ RELATÓRIOS — FORMULÁRIO ════════════════════════════════════════ -->
-<div id="repFormOverlay" onclick="if(event.target===this)closeRepForm()">
-  <div id="repFormPanel">
-    <div class="rp-hdr">
-      <div class="rp-title" id="repFormTitle">📝 Novo Relatório</div>
-      <button class="rp-close" onclick="closeRepForm()">✕</button>
-    </div>
-    <div style="overflow-y:auto;flex:1;padding-top:16px;">
-
-      <!-- PARTIDA -->
-      <div class="rp-section">
-        <div class="rp-section-title">⚽ Partida</div>
-        <div class="rp-row">
-          <div class="rp-field"><div class="rp-label">Data</div><input type="date" class="rp-input" id="rf_matchDate"></div>
-          <div class="rp-field"><div class="rp-label">Mandante</div><input type="text" class="rp-input" id="rf_matchHome" placeholder="ex: Talleres"></div>
-          <div class="rp-field"><div class="rp-label">Visitante</div><input type="text" class="rp-input" id="rf_matchAway" placeholder="ex: Belgrano"></div>
-        </div>
-        <div class="rp-row">
-          <div class="rp-field"><div class="rp-label">Competição</div><input type="text" class="rp-input" id="rf_matchComp" placeholder="ex: Apertura 2026"></div>
-          <div class="rp-field"><div class="rp-label">Cidade</div><input type="text" class="rp-input" id="rf_matchCity" placeholder="ex: Córdoba"></div>
-          <div class="rp-field"><div class="rp-label">Placar</div><input type="text" class="rp-input" id="rf_matchScore" placeholder="ex: 2 – 1"></div>
-        </div>
-      </div>
-
-      <!-- PERFIL DO JOGADOR -->
-      <div class="rp-section">
-        <div class="rp-section-title">👤 Perfil do Jogador</div>
-        <div class="rp-row">
-          <div class="rp-field" style="flex:2;min-width:200px;"><div class="rp-label">Nome Completo</div><input type="text" class="rp-input" id="rf_name" placeholder="Nome do jogador"></div>
-          <div class="rp-field"><div class="rp-label">Data Nasc.</div><input type="date" class="rp-input" id="rf_dob"></div>
-          <div class="rp-field"><div class="rp-label">Nac.</div><input type="text" class="rp-input" id="rf_nat" placeholder="ARG"></div>
-        </div>
-        <div class="rp-row">
-          <div class="rp-field"><div class="rp-label">Clube</div><input type="text" class="rp-input" id="rf_club" placeholder="Clube atual"></div>
-          <div class="rp-field"><div class="rp-label">Posição</div>
-            <select class="rp-select" id="rf_pos">
-              <option value="">–</option>
-              <option>GK</option><option>RB</option><option>CB</option><option>LB</option>
-              <option>RWB</option><option>LWB</option><option>CDM</option><option>CM</option>
-              <option>CAM</option><option>RM</option><option>LM</option><option>RW</option>
-              <option>LW</option><option>CF</option><option>ST</option>
-            </select>
-          </div>
-          <div class="rp-field"><div class="rp-label">Pé</div>
-            <select class="rp-select" id="rf_foot">
-              <option value="">–</option><option>Direito</option><option>Esquerdo</option><option>Ambidestro</option>
-            </select>
-          </div>
-        </div>
-        <div class="rp-row">
-          <div class="rp-field"><div class="rp-label">Altura (cm)</div><input type="number" class="rp-input" id="rf_height" placeholder="185"></div>
-          <div class="rp-field"><div class="rp-label">Físico</div>
-            <select class="rp-select" id="rf_body">
-              <option value="">–</option><option>Magro</option><option>Médio</option><option>Forte</option><option>Robusto</option>
-            </select>
-          </div>
-          <div class="rp-field"><div class="rp-label">Fim Contrato</div><input type="date" class="rp-input" id="rf_contract"></div>
-          <div class="rp-field"><div class="rp-label">Val. TM (€)</div><input type="text" class="rp-input" id="rf_tmval" placeholder="500k"></div>
-        </div>
-        <div class="rp-row">
-          <div class="rp-field"><div class="rp-label">Link Transfermarkt</div><input type="url" class="rp-input" id="rf_tmlink" placeholder="https://www.transfermarkt.com.br/..."></div>
-          <div class="rp-field"><div class="rp-label">Link BeSoccer</div><input type="url" class="rp-input" id="rf_besoccer" placeholder="https://www.besoccer.com/player/..."></div>
-        </div>
-      </div>
-
-      <!-- ATRIBUTOS TÉCNICOS -->
-      <div class="rp-section">
-        <div class="rp-section-title">⚙ Atributos Técnicos <span style="font-size:0.5rem;color:var(--muted);font-weight:400;letter-spacing:.05em">CLIQUE PARA AVALIAR 1–10 · CLIQUE MESMO DOT PARA LIMPAR</span></div>
-        <div class="attr-grid" id="attrGrid"></div>
-      </div>
-
-      <!-- ANÁLISE -->
-      <div class="rp-section">
-        <div class="rp-section-title">📋 Análise</div>
-        <div class="rp-row">
-          <div class="rp-field"><div class="rp-label">Pontos Fortes</div><textarea class="rp-textarea" id="rf_strengths" placeholder="Qualidades observadas…"></textarea></div>
-          <div class="rp-field"><div class="rp-label">Pontos a Desenvolver</div><textarea class="rp-textarea" id="rf_weaknesses" placeholder="Áreas de melhoria…"></textarea></div>
-        </div>
-        <div class="rp-field full"><div class="rp-label">Notas Gerais</div><textarea class="rp-textarea" id="rf_notes" placeholder="Contexto tático, comportamento, liderança…" style="min-height:80px;"></textarea></div>
-      </div>
-
-      <!-- RECOMENDAÇÃO -->
-      <div class="rp-section">
-        <div class="rp-section-title">🎯 Recomendação</div>
-        <div class="rp-row">
-          <div class="rp-field" style="flex:2;">
-            <div class="rp-label">Recomendação</div>
-            <select class="rp-select" id="rf_rec">
-              <option value="">–</option>
-              <option value="contratar">✅ Contratar</option>
-              <option value="monitorar">👁 Monitorar</option>
-              <option value="nao_recomendar">❌ Não Recomendar</option>
-              <option value="reobservar">🔄 Reobservar</option>
-            </select>
-          </div>
-          <div class="rp-field">
-            <div class="rp-label">Prioridade</div>
-            <select class="rp-select" id="rf_prio">
-              <option value="">–</option>
-              <option value="alta">🔴 Alta</option>
-              <option value="media">🟡 Média</option>
-              <option value="baixa">🟢 Baixa</option>
-            </select>
-          </div>
-          <div class="rp-field">
-            <div class="rp-label">Score Geral (0–10)</div>
-            <input type="number" min="0" max="10" step="0.1" class="rp-input" id="rf_score" placeholder="7.5">
-          </div>
-        </div>
-        <div class="rp-field" style="margin:0 0 0 0;"><div class="rp-label">Justificativa</div><textarea class="rp-textarea" id="rf_just" placeholder="Justifique a recomendação final…"></textarea></div>
-      </div>
-
-    </div><!-- /overflow -->
-    <div class="rp-footer">
-      <button class="rp-btn-cancel" onclick="closeRepForm()">CANCELAR</button>
-      <button class="rp-btn-save" onclick="saveReport()">SALVAR RELATÓRIO ✓</button>
-    </div>
-  </div>
-</div>
-
-</body>
-</html>
