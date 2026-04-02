@@ -98,6 +98,39 @@ body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;displa
 .btn-export.wpp:hover{background:rgba(37,211,102,0.18);border-color:#4ade80;}
 .btn-export.cal{background:rgba(61,127,255,0.08);border-color:rgba(61,127,255,0.3);color:#7aaeff;}
 .btn-export.cal:hover{background:rgba(61,127,255,0.18);border-color:#7aaeff;}
+.btn-export.save{background:rgba(212,168,67,0.1);border-color:rgba(212,168,67,0.35);color:var(--gold);font-weight:700;}
+.btn-export.save:hover{background:rgba(212,168,67,0.22);border-color:var(--gold);}
+/* Modal salvar rota */
+#saveRouteOverlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:5500;
+  display:none;align-items:center;justify-content:center;padding:20px;}
+#saveRouteOverlay.vis{display:flex;}
+#saveRouteBox{background:var(--panel);border:1px solid var(--border2);border-radius:10px;
+  padding:22px;width:min(440px,96vw);display:flex;flex-direction:column;gap:12px;}
+.sr-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.08em;
+  color:var(--gold);}
+.sr-label{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.sr-inp{width:100%;background:var(--panel2);border:1px solid var(--border2);border-radius:4px;
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.78rem;
+  padding:8px 10px;outline:none;}
+.sr-inp:focus{border-color:var(--gold);}
+.sr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.sr-footer{display:flex;gap:8px;margin-top:4px;}
+.sr-btn{flex:1;padding:9px;border-radius:4px;font-family:'Bebas Neue',sans-serif;
+  font-size:1rem;letter-spacing:.07em;cursor:pointer;border:none;transition:all .14s;}
+.sr-btn-cancel{background:var(--panel2);color:var(--muted2);}
+.sr-btn-cancel:hover{color:var(--text);}
+.sr-btn-save{background:var(--gold);color:#080a0e;}
+.sr-btn-save:hover{background:var(--gold2);}
+.sr-success{background:rgba(46,204,142,.1);border:1px solid rgba(46,204,142,.3);
+  border-radius:6px;padding:12px 14px;display:none;flex-direction:column;gap:8px;}
+.sr-success.vis{display:flex;}
+.sr-success-msg{font-size:.8rem;color:#5ee8b2;font-family:'JetBrains Mono',monospace;}
+.sr-open-cal{padding:7px 14px;border-radius:4px;background:rgba(29,78,120,.3);
+  border:1px solid rgba(125,211,252,.3);color:#7dd3fc;font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;font-weight:700;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;transition:all .13s;}
+.sr-open-cal:hover{background:rgba(29,78,120,.5);}
 
 /* ═══ GAME CARDS ══════════════════════════════════════════ */
 .game-list{padding:6px 8px;}
@@ -274,6 +307,72 @@ body.light .cal-day-panel{background:rgba(184,134,11,0.04);}
 /* ═══ CADASTRO ════════════════════════════════════════════ */
 #cadastroView{flex:1;display:none;flex-direction:column;overflow:hidden;background:var(--bg);}
 #cadastroView.active{display:flex;}
+/* ── Aba Viagens (dentro do planejador) ── */
+#viagensView{flex:1;display:none;flex-direction:column;overflow:hidden;background:var(--bg);}
+#viagensView.active{display:flex;}
+.vp-hdr{display:flex;align-items:center;gap:10px;padding:12px 18px;
+  background:var(--panel);border-bottom:1px solid var(--border2);flex-shrink:0;}
+.vp-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:var(--gold);}
+.vp-new-btn{padding:5px 14px;border-radius:4px;background:rgba(212,168,67,.15);
+  border:1px solid rgba(212,168,67,.35);color:var(--gold);font-family:'Bebas Neue',sans-serif;
+  font-size:.9rem;letter-spacing:.07em;cursor:pointer;transition:all .13s;}
+.vp-new-btn:hover{background:rgba(212,168,67,.28);}
+.vp-scroll{flex:1;overflow-y:auto;padding:14px 16px;scrollbar-width:thin;
+  scrollbar-color:var(--border2) transparent;}
+/* Cards de viagem no planner */
+.vpc{background:var(--panel);border:1px solid var(--border2);border-radius:8px;
+  margin-bottom:10px;overflow:hidden;}
+.vpc-hdr{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;
+  transition:background .12s;}
+.vpc-hdr:hover{background:var(--panel2);}
+.vpc-name{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.06em;
+  color:var(--text);flex:1;}
+.vpc-meta{font-family:'JetBrains Mono',monospace;font-size:.54rem;color:var(--muted);
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+.vpc-badge{padding:1px 7px;border-radius:8px;font-family:'JetBrains Mono',monospace;
+  font-size:.5rem;font-weight:700;letter-spacing:.05em;}
+.vpc-badge-plan{background:rgba(212,168,67,.12);color:var(--gold);border:1px solid rgba(212,168,67,.25);}
+.vpc-badge-and{background:rgba(46,204,142,.1);color:#5ee8b2;border:1px solid rgba(46,204,142,.2);}
+.vpc-badge-done{background:rgba(168,85,247,.1);color:#c084fc;border:1px solid rgba(168,85,247,.2);}
+.vpc-actions{display:flex;gap:5px;}
+.vpc-btn{padding:3px 9px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;cursor:pointer;border:1px solid var(--border2);background:var(--panel2);
+  color:var(--muted2);transition:all .13s;}
+.vpc-btn:hover{border-color:var(--gold);color:var(--gold);}
+.vpc-btn-del:hover{border-color:var(--red);color:var(--red);}
+.vpc-body{display:none;border-top:1px solid var(--border);}
+.vpc-body.open{display:block;}
+/* Jogos dentro da viagem */
+.vpj-row{display:grid;grid-template-columns:80px 1fr 90px 90px auto;
+  gap:6px;padding:8px 14px;align-items:center;border-bottom:1px solid var(--border);
+  font-size:.75rem;}
+.vpj-row:last-child{border-bottom:none;}
+.vpj-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);}
+.vpj-match{font-weight:700;color:var(--text);}
+.vpj-comp{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted2);}
+.vpj-city{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);}
+.vpj-ficha-btn{padding:3px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;font-weight:700;cursor:pointer;border:1px solid rgba(168,85,247,.3);
+  background:rgba(168,85,247,.08);color:#c084fc;transition:all .12s;white-space:nowrap;}
+.vpj-ficha-btn:hover,.vpj-ficha-btn.has{background:rgba(168,85,247,.22);}
+.vpj-fichas-panel{background:var(--panel2);border-top:1px solid var(--border);padding:10px 14px;}
+.vpj-ft{width:100%;border-collapse:collapse;font-size:.72rem;margin-bottom:8px;}
+.vpj-ft th{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted2);padding:3px 8px;border-bottom:1px solid var(--border);
+  text-align:left;}
+.vpj-ft td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,.03);}
+.vpj-ft tr:last-child td{border-bottom:none;}
+.vpj-ft input{background:transparent;border:none;outline:none;color:var(--text);
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;width:100%;padding:1px 2px;
+  border-radius:2px;transition:background .1s;}
+.vpj-ft input:focus{background:rgba(168,85,247,.1);}
+.vp-add-row{display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:3px;
+  border:1px dashed rgba(168,85,247,.3);background:transparent;color:rgba(168,85,247,.6);
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;cursor:pointer;
+  width:100%;transition:all .12s;}
+.vp-add-row:hover{background:rgba(168,85,247,.08);border-color:#c084fc;color:#c084fc;}
+.vp-empty{padding:40px;text-align:center;color:var(--muted);font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;}
 .cad-toolbar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;}
 .cad-search{flex:1;min-width:200px;background:var(--panel2);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:6px 10px;outline:none;}
 .cad-search:focus{border-color:var(--gold);}
@@ -989,7 +1088,14 @@ body.light .ml{background:rgba(255,255,255,0.96);}
       <button class="tb-queue-btn" onclick="showScoutQueue()" title="Jogadores na fila para o Scout System">📋 FILA <span class="queue-badge" id="queueBadge">0</span></button>
       <button class="tb-bd-btn" onclick="showBD()" title="Destaques da Liga — jogadores monitorados">⚽ DESTAQUES DA LIGA</button>
       <button class="tb-fichas-btn" onclick="showFichasPanel()" title="Todas as fichas de jogo salvas">📋 FICHAS <span class="fichas-badge" id="fichasBadge">0</span></button>
-      <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Claro/Escuro">🌙</button>
+      <a id="calLink" href="#" title="Sistema principal — Calendário de Competições"
+      style="padding:4px 9px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:0.62px;
+      border:1px solid rgba(125,211,252,.25);background:rgba(29,78,120,.2);color:#7dd3fc;
+      text-decoration:none;display:inline-flex;align-items:center;gap:4px;cursor:pointer;
+      font-size:0.62rem;font-weight:600;transition:all .14s;">
+      ← Calendário
+    </a>
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Claro/Escuro">🌙</button>
     </div>
   </div>
   <div class="tb-row2">
@@ -1016,6 +1122,7 @@ body.light .ml{background:rgba(255,255,255,0.96);}
 <div class="tabs">
   <button class="tab-btn active" id="tabPlan" onclick="switchTab('plan')">📋 Planejador</button>
   <button class="tab-btn" id="tabCad" onclick="switchTab('cad')">📂 Cadastro de Jogos</button>
+  <button class="tab-btn" id="tabViagens" onclick="switchTab('viagens')">✈ Viagens</button>
 </div>
 
 <!-- ═══ CADASTRO VIEW ════════════════════════════════════ -->
@@ -1051,6 +1158,17 @@ body.light .ml{background:rgba(255,255,255,0.96);}
       <tbody id="cadBody"></tbody>
     </table>
     <div id="cadEmpty" class="cad-empty" style="display:none;">Nenhum jogo encontrado.</div>
+  </div>
+</div>
+
+<!-- ═══ VIAGENS VIEW ══════════════════════════════════════════ -->
+<div id="viagensView">
+  <div class="vp-hdr">
+    <span class="vp-title">✈ Viagens Salvas</span>
+    <button class="vp-new-btn" onclick="openSaveRoute()">＋ Nova Viagem</button>
+  </div>
+  <div class="vp-scroll" id="viagensScroll">
+    <div class="vp-empty">Nenhuma viagem salva ainda.<br>Monte uma rota e clique em <b>💾 Salvar</b>.</div>
   </div>
 </div>
 
@@ -1091,7 +1209,19 @@ body.light .ml{background:rgba(255,255,255,0.96);}
     <div class="col-hdr">
       <span class="col-title">ROTA</span>
       <span class="col-cnt" id="cntRoute">0</span>
-      <span class="col-hint" id="routeKm" style="margin-left:auto;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.58rem;"></span>
+      <span class="col-hint" id="routeKm" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.58rem;"></span>
+      <div style="margin-left:auto;display:flex;gap:5px;align-items:center;">
+        <button class="tb-btn" onclick="openSaveRoute()" id="btnSaveRoute"
+          title="Salvar rota no Sistema de Calendário"
+          style="display:none;background:rgba(212,168,67,.12);border-color:rgba(212,168,67,.35);color:var(--gold);font-weight:700;padding:3px 8px;">
+          💾 Salvar
+        </button>
+        <button class="tb-btn" onclick="switchTab('viagens')" id="btnVerViagens"
+          title="Ver viagens salvas"
+          style="display:none;background:rgba(29,78,120,.15);border-color:rgba(125,211,252,.25);color:#7dd3fc;padding:3px 8px;">
+          ✈ Viagens
+        </button>
+      </div>
     </div>
     <div class="stats-bar" id="sb" style="display:none;">
       <div class="stat"><div class="stat-v" id="stj">0</div><div class="stat-l">Jogos</div></div>
@@ -1110,6 +1240,7 @@ body.light .ml{background:rgba(255,255,255,0.96);}
         <button class="btn-export wpp" onclick="exportWhatsApp()">💬 WhatsApp</button>
         <button class="btn-export cal" onclick="exportCalendar()">📅 Calendário</button>
       </div>
+
     </div>
     <div class="col-scroll">
       <div class="game-list" id="listRoute">
@@ -2645,6 +2776,7 @@ function toggleFav(idx){
   if(favoritos.has(idx)){
     favoritos.delete(idx);favoritosKeys.delete(key);
     routeOrder=routeOrder.filter(i=>i!==idx);
+    excl.delete(idx); // limpa exclusão ao desfavoritar
   } else {
     favoritos.add(idx);favoritosKeys.add(key);
     routeOrder.push(idx);
@@ -2661,6 +2793,11 @@ function renderRoute(){
   document.getElementById('sb').style.display=showPanels?'flex':'none';
   document.getElementById('ra').style.display=showPanels?'flex':'none';
   document.getElementById('eb').style.display=showPanels?'block':'none';
+  const _d=showPanels?'inline-flex':'none';
+  const _bs=document.getElementById('btnSaveRoute');
+  const _bv=document.getElementById('btnVerViagens');
+  if(_bs) _bs.style.display=_d;
+  if(_bv) _bv.style.display=_d;
   if(!favoritos.size){
     el.innerHTML='<div class="empty"><div class="empty-i">⭐</div><div class="empty-t">Favorite jogos ao lado<br>para montar sua rota.</div></div>';
     document.getElementById('routeKm').textContent='';
@@ -2764,7 +2901,8 @@ function otimizarRota(){
     while(g.length>0){let b=0;if(ll!==null){let md=Infinity;g.forEach((idx,p)=>{const d=hvs(ll,lg,jogos[idx].lat,jogos[idx].lng);if(d<md){md=d;b=p;}});}
       const ch=g.splice(b,1)[0];opt.push(ch);ll=jogos[ch].lat;lg=jogos[ch].lng;}
   });
-  const n=[...opt];excl.forEach(i=>{if(!n.includes(i))n.push(i);});
+  // Só re-adiciona ao routeOrder excluídos que ainda são favoritos
+  const n=[...opt];excl.forEach(i=>{if(!n.includes(i)&&favoritos.has(i))n.push(i);});
   routeOrder=n;renderRoute();renderMap();
 }
 
@@ -2779,10 +2917,15 @@ function switchTab(tab){
   activeTab=tab;
   document.getElementById('tabPlan').classList.toggle('active',tab==='plan');
   document.getElementById('tabCad').classList.toggle('active',tab==='cad');
+  document.getElementById('tabViagens')?.classList.toggle('active',tab==='viagens');
   const main=document.querySelector('.main');
   const cad=document.getElementById('cadastroView');
-  if(tab==='plan'){main.style.display='flex';cad.classList.remove('active');}
-  else{main.style.display='none';cad.classList.add('active');renderCadastro();}
+  const vg=document.getElementById('viagensView');
+  main.style.display=tab==='plan'?'flex':'none';
+  cad.classList.toggle('active',tab==='cad');
+  if(vg) vg.classList.toggle('active',tab==='viagens');
+  if(tab==='cad') renderCadastro();
+  if(tab==='viagens') renderViagensTab();
 }
 
 // ─── CADASTRO ───────────────────────────────────
@@ -2887,6 +3030,9 @@ function getScouts(teamName){
   return[];
 }
 // Competições de elenco reserva/sub (elencos diferentes do principal)
+// ── Link para o sistema de calendário ──
+const URL_CALENDARIO = './index.html'; // ajuste se estiver em outro repo/path
+
 const CP_RESERVA = new Set(['reserva','segunda'])
 // Row audio: SpeechRecognition (voz→texto, sem armazenar áudio)
 
@@ -4688,6 +4834,9 @@ function closeFichasPanel(){
 
 document.addEventListener('DOMContentLoaded', ()=>{
   updateFichasBadge();
+  // Link para o calendário
+  const calLinkEl = document.getElementById('calLink');
+  if(calLinkEl) calLinkEl.href = URL_CALENDARIO;
   // Init mobile: esconde colunas inativas + ajusta alturas
   if(isMobile()){
     setMobTab('jogos');
@@ -4858,4 +5007,460 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 });
 
+// ═══ SALVAR ROTA → VIAGENS (localStorage compartilhado) ═══════════════════
+function openSaveRoute(){
+  const actv = routeOrder.filter(i=>!excl.has(i));
+  if(!actv.length){ toast('Nenhum jogo na rota para salvar.', false); return; }
+
+  // Pré-preencher datas com o período da rota
+  const datas = actv.map(i=>jogos[i].d).filter(Boolean).sort();
+  document.getElementById('srNome').value = '';
+  document.getElementById('srDestino').value = 'Argentina';
+  document.getElementById('srResp').value = '';
+  document.getElementById('srInicio').value = datas[0]||'';
+  document.getElementById('srFim').value = datas[datas.length-1]||'';
+  document.getElementById('srStatus').value = 'planejada';
+  document.getElementById('srSuccess').classList.remove('vis');
+  document.getElementById('srForm').style.display = 'flex';
+  document.getElementById('saveRouteOverlay').classList.add('vis');
+  document.getElementById('srNome').focus();
+}
+
+function doSaveRoute(){
+  const nome = document.getElementById('srNome').value.trim();
+  if(!nome){ toast('Informe o nome da viagem.', false); document.getElementById('srNome').focus(); return; }
+
+  const actv = routeOrder.filter(i=>!excl.has(i));
+  const id = 'v_' + Date.now();
+
+  // Mapear jogos da rota para o formato Viagem
+  const jogosViagem = actv.map((idx,pos)=>{
+    const j = jogos[idx];
+    return {
+      id: 'j_' + idx,
+      pos: pos + 1,
+      data: j.d||'',
+      hora: j.h||'',
+      mandante: j.m||'',
+      visitante: j.v||'',
+      estadio: j.e||'',
+      competicao: CPNOMES[j.cp]||j.cp||'',
+      cidade: CNOMES[j.c]||j.c||''
+    };
+  });
+
+  const viagem = {
+    id,
+    nome,
+    destino: document.getElementById('srDestino').value.trim()||'Argentina',
+    inicio: document.getElementById('srInicio').value,
+    fim: document.getElementById('srFim').value,
+    responsavel: document.getElementById('srResp').value.trim(),
+    status: document.getElementById('srStatus').value,
+    objetivo: `Scout Argentina — ${CPNOMES[jogos[actv[0]]?.cp]||''}`,
+    jogos: jogosViagem,
+    fichas: {},
+    createdAt: new Date().toISOString()
+  };
+
+  // Salvar em scoutViagens (mesmo localStorage que o calendário usa)
+  try{
+    const existing = JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+    existing[id] = viagem;
+    localStorage.setItem('scoutViagens', JSON.stringify(existing));
+    // Mostrar sucesso
+    document.getElementById('srForm').style.display = 'none';
+    document.getElementById('srSuccess').classList.add('vis');
+    document.getElementById('srSuccessMsg').textContent =
+      `✓ "${nome}" salva com ${jogosViagem.length} jogo${jogosViagem.length!==1?'s':''}.`;
+    document.getElementById('srCalLink').href = URL_CALENDARIO + '#viagens';
+    if(activeTab==='viagens') renderViagensTab(); // atualiza aba se aberta
+  }catch(e){
+    toast('❌ Erro ao salvar: ' + e.message, false);
+  }
+}
+
+// ═══ ABA VIAGENS (dentro do planejador) ════════════════════════════════════
+let vpOpenCards = new Set();
+let vpOpenFichas = new Set();
+
+function renderViagensTab(){
+  const el = document.getElementById('viagensScroll');
+  if(!el) return;
+  let viagens = {};
+  try{ viagens = JSON.parse(localStorage.getItem('scoutViagens')||'{}'); }catch(e){}
+  const list = Object.values(viagens).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));
+  if(!list.length){
+    el.innerHTML = '<div class="vp-empty">Nenhuma viagem salva ainda.<br>Monte uma rota e clique em <b>💾 Salvar</b>.</div>';
+    return;
+  }
+  const BADGE = {
+    planejada:`<span class="vpc-badge vpc-badge-plan">Planejada</span>`,
+    em_andamento:`<span class="vpc-badge vpc-badge-and">Em andamento</span>`,
+    concluida:`<span class="vpc-badge vpc-badge-done">Concluída</span>`
+  };
+
+  el.innerHTML = list.map(v=>{
+    const isOpen = vpOpenCards.has(v.id);
+    const nJ = (v.jogos||[]).length;
+    // Conta fichas do storage unificado
+    const nF = (v.jogos||[]).reduce((sum,j)=>{
+      const k=vpFichaKey(j.id);
+      const f=k?getFichas()[k]:((v.fichas||{})[j.id]);
+      return sum+(f?f.length:0);
+    },0);
+    const badge = BADGE[v.status||'planejada']||'';
+
+    const jogosHTML = (v.jogos||[]).map(j=>{
+      const fk = v.id+'_'+j.id;
+      // Lê do mesmo storage que o Planejador (scoutARG_fichas) quando possível
+      const _vpk = vpFichaKey(j.id);
+      const fichasJ = _vpk ? (getFichas()[_vpk]||[]) : ((v.fichas||{})[j.id]||[]);
+      const fichasOpen = vpOpenFichas.has(fk);
+      const rows = fichasJ.map((r,ri)=>`
+        <tr>
+          <td><input value="${(r.num||'').replace(/"/g,'&quot;')}" placeholder="–"
+            style="width:36px;text-align:center;"
+            onchange="vpFichaUpdate('${v.id}','${j.id}',${ri},'num',this.value)"></td>
+          <td><input value="${(r.pos||'').replace(/"/g,'&quot;')}" placeholder="Pos."
+            style="width:60px;"
+            onchange="vpFichaUpdate('${v.id}','${j.id}',${ri},'pos',this.value)"></td>
+          <td><input value="${(r.nome||'').replace(/"/g,'&quot;')}" placeholder="Nome"
+            style="font-weight:600;"
+            onchange="vpFichaUpdate('${v.id}','${j.id}',${ri},'nome',this.value)"></td>
+          <td><input value="${(r.desc||'').replace(/"/g,'&quot;')}" placeholder="Observação…"
+            onchange="vpFichaUpdate('${v.id}','${j.id}',${ri},'desc',this.value)"></td>
+          <td><button onclick="vpFichaDelRow('${v.id}','${j.id}',${ri})"
+            style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.65rem;">✕</button></td>
+        </tr>`).join('');
+
+      return `<div class="vpj-row">
+        <span class="vpj-date">${j.data?j.data.slice(5).replace('-','/'):'–'}${j.hora?' '+j.hora:''}</span>
+        <span class="vpj-match">${j.mandante||'–'} × ${j.visitante||'–'}</span>
+        <span class="vpj-comp">${j.competicao||''}</span>
+        <span class="vpj-city">${j.cidade||''}</span>
+        <div style="display:flex;gap:4px;align-items:center;">
+          <button class="vpj-ficha-btn${fichasJ.length?' has':''}" onclick="vpToggleFichas('${v.id}','${j.id}')">
+            📋 ${fichasJ.length||'+'} fichas
+          </button>
+          <button onclick="vpDeleteJogo('${v.id}','${j.id}')" title="Remover jogo"
+            style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:2px 4px;transition:color .12s;"
+            onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--muted)'">✕</button>
+        </div>
+      </div>
+      ${fichasOpen?`<div class="vpj-fichas-panel">
+        <table class="vpj-ft">
+          <thead><tr><th style="width:44px;">Nº</th><th style="width:68px;">Pos.</th>
+            <th>Nome</th><th>Observação</th><th style="width:24px;"></th></tr></thead>
+          <tbody>${rows||'<tr><td colspan="5" style="padding:8px;color:var(--muted);text-align:center;font-size:.65rem;">Sem jogadores ainda.</td></tr>'}</tbody>
+        </table>
+        <button class="vp-add-row" onclick="vpFichaAddRow('${v.id}','${j.id}')">＋ Adicionar jogador</button>
+      </div>`:''}`;
+    }).join('');
+
+    return `<div class="vpc" id="vpc_${v.id}">
+      <div class="vpc-hdr" onclick="vpToggleCard('${v.id}')">
+        <div style="flex:1;min-width:0;">
+          <div class="vpc-name">✈ ${v.nome||'Viagem'} ${badge}</div>
+          <div class="vpc-meta">
+            <span>📍 ${v.destino||'–'}</span>
+            <span>📅 ${v.inicio||'–'} → ${v.fim||'–'}</span>
+            ${v.responsavel?`<span>👤 ${v.responsavel}</span>`:''}
+            <span>⚽ ${nJ} jogo${nJ!==1?'s':''}</span>
+            <span>📋 ${nF} ficha${nF!==1?'s':''}</span>
+          </div>
+        </div>
+        <div class="vpc-actions" onclick="event.stopPropagation()">
+          <button class="vpc-btn" onclick="vpOpenEdit('${v.id}')" title="Editar viagem">✎ Editar</button>
+          <button class="vpc-btn" onclick="vpOpenAddJogo('${v.id}')" style="border-color:rgba(168,85,247,.3);color:#c084fc;">＋ Jogo</button>
+          <button class="vpc-btn vpc-btn-del" onclick="vpDeleteViagem('${v.id}')">🗑</button>
+          <span style="color:var(--muted);font-size:.7rem;">${isOpen?'▲':'▼'}</span>
+        </div>
+      </div>
+      <div class="vpc-body${isOpen?' open':''}">
+        ${nJ?`<div style="border-top:1px solid var(--border);">${jogosHTML}</div>`
+          :`<div style="padding:12px 14px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.65rem;">Nenhum jogo nesta viagem.</div>`}
+        <div style="padding:7px 14px;border-top:1px solid var(--border);display:flex;gap:6px;align-items:center;">
+          <button class="vp-add-row" style="width:auto;padding:4px 12px;"
+            onclick="vpOpenAddJogo('${v.id}')">＋ Adicionar jogo</button>
+        </div>
+        ${v.objetivo?`<div style="padding:6px 14px 8px;font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);">🎯 ${v.objetivo}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function vpToggleCard(id){ vpOpenCards.has(id)?vpOpenCards.delete(id):vpOpenCards.add(id); renderViagensTab(); }
+function vpToggleFichas(vId,jId){ const k=vId+'_'+jId; vpOpenFichas.has(k)?vpOpenFichas.delete(k):vpOpenFichas.add(k); renderViagensTab(); }
+
+// Resolve se um jogo da viagem tem chave de ficha no Planejador
+// j.id = 'j_N' onde N é índice em jogos[] → chave scoutARG = 'gN'
+function vpFichaKey(jId){
+  const n = parseInt((jId||'').replace('j_',''));
+  return (!isNaN(n) && n < 10000) ? ('g'+n) : null;
+}
+function vpGetFichas(jId){
+  const k=vpFichaKey(jId);
+  if(k) return getFichas()[k]||[];
+  // fallback: fichas dentro da própria viagem (games do calendário)
+  return null; // caller handles null
+}
+
+function vpSaveViagem(v){
+  try{
+    const all=JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+    all[v.id]=v; localStorage.setItem('scoutViagens',JSON.stringify(all));
+  }catch(e){}
+}
+function vpFichaAddRow(vId,jId){
+  const k=vpFichaKey(jId);
+  if(k){
+    // Escreve no mesmo storage do Planejador
+    const fichas=getFichas();
+    if(!fichas[k]) fichas[k]=[];
+    fichas[k].push({num:'',pos:'',nome:'',desc:''});
+    saveFichas(fichas);
+  } else {
+    const all=JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+    const v=all[vId]; if(!v) return;
+    if(!v.fichas) v.fichas={};
+    if(!v.fichas[jId]) v.fichas[jId]=[];
+    v.fichas[jId].push({num:'',pos:'',nome:'',desc:''});
+    vpSaveViagem(v);
+  }
+  vpOpenFichas.add(vId+'_'+jId); renderViagensTab();
+}
+function vpFichaUpdate(vId,jId,ri,field,val){
+  const k=vpFichaKey(jId);
+  if(k){
+    const fichas=getFichas();
+    if(fichas[k]&&fichas[k][ri]) fichas[k][ri][field]=val;
+    saveFichas(fichas);
+  } else {
+    const all=JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+    const v=all[vId]; if(!v||!v.fichas||!v.fichas[jId]) return;
+    if(v.fichas[jId][ri]) v.fichas[jId][ri][field]=val;
+    vpSaveViagem(v);
+  }
+}
+function vpFichaDelRow(vId,jId,ri){
+  const k=vpFichaKey(jId);
+  if(k){
+    const fichas=getFichas();
+    if(fichas[k]) fichas[k].splice(ri,1);
+    saveFichas(fichas);
+  } else {
+    const all=JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+    const v=all[vId]; if(!v||!v.fichas||!v.fichas[jId]) return;
+    v.fichas[jId].splice(ri,1); vpSaveViagem(v);
+  }
+  renderViagensTab();
+}
+function vpDeleteViagem(id){
+  if(!confirm('Apagar esta viagem?')) return;
+  const all=JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+  delete all[id]; localStorage.setItem('scoutViagens',JSON.stringify(all));
+  vpOpenCards.delete(id); renderViagensTab();
+}
+function vpDeleteJogo(vId,jId){
+  if(!confirm('Remover este jogo da viagem?')) return;
+  const all=JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+  const v=all[vId]; if(!v) return;
+  v.jogos=(v.jogos||[]).filter(j=>j.id!==jId);
+  vpSaveViagem(v); renderViagensTab();
+}
+
+// ── Editar viagem: modal reutiliza o saveRoute modal com os dados preenchidos ──
+let _vpEditId = null;
+
+function vpOpenEdit(vId){
+  const all = JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+  const v = all[vId]; if(!v) return;
+  _vpEditId = vId;
+  document.getElementById('srNome').value = v.nome||'';
+  document.getElementById('srDestino').value = v.destino||'';
+  document.getElementById('srResp').value = v.responsavel||'';
+  document.getElementById('srInicio').value = v.inicio||'';
+  document.getElementById('srFim').value = v.fim||'';
+  document.getElementById('srStatus').value = v.status||'planejada';
+  document.getElementById('srSuccess').classList.remove('vis');
+  document.getElementById('srForm').style.display = 'flex';
+  document.getElementById('saveRouteOverlay').classList.add('vis');
+  document.getElementById('srNome').focus();
+  // Troca o comportamento do botão salvar para atualizar ao invés de criar
+  document.querySelector('#srForm .sr-btn-save').onclick = vpSaveEdit;
+}
+
+function vpSaveEdit(){
+  if(!_vpEditId) return;
+  const nome = document.getElementById('srNome').value.trim();
+  if(!nome){ toast('Informe o nome.', false); return; }
+  const all = JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+  const v = all[_vpEditId]; if(!v) return;
+  v.nome = nome;
+  v.destino = document.getElementById('srDestino').value.trim();
+  v.responsavel = document.getElementById('srResp').value.trim();
+  v.inicio = document.getElementById('srInicio').value;
+  v.fim = document.getElementById('srFim').value;
+  v.status = document.getElementById('srStatus').value;
+  all[_vpEditId] = v;
+  try{ localStorage.setItem('scoutViagens', JSON.stringify(all)); }catch(e){}
+  _vpEditId = null;
+  document.querySelector('#srForm .sr-btn-save').onclick = doSaveRoute; // restaura
+  closeSaveRoute();
+  renderViagensTab();
+  toast('✓ Viagem atualizada.', true);
+}
+
+// Ao fechar o modal, restaurar o botão salvar
+function closeSaveRoute(){
+  document.getElementById('saveRouteOverlay').classList.remove('vis');
+  _vpEditId = null;
+  const btn = document.querySelector('#srForm .sr-btn-save');
+  if(btn) btn.onclick = doSaveRoute;
+}
+
+// ── Modal para adicionar jogo dentro da aba Viagens ──
+let _vpAddJogoVId = null;
+
+function vpOpenAddJogo(vId){
+  _vpAddJogoVId = vId;
+  ['vpjData','vpjHora','vpjMandante','vpjVisitante','vpjComp','vpjCidade','vpjEstadio'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  // Mostrar nome da viagem e pré-preencher competição
+  try{
+    const all = JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+    const v = all[vId]||{};
+    const lbl = document.getElementById('vpjViagemLabel');
+    if(lbl) lbl.textContent = '✈ ' + (v.nome||'Viagem');
+    const jgs = v.jogos||[];
+    if(jgs.length){ const el=document.getElementById('vpjComp'); if(el) el.value=jgs[0].competicao||''; }
+  }catch(e){}
+  document.getElementById('vpJogoModal').style.display='flex';
+  setTimeout(()=>document.getElementById('vpjMandante')?.focus(), 80);
+}
+
+function vpCloseAddJogo(){
+  document.getElementById('vpJogoModal').style.display='none';
+  _vpAddJogoVId = null;
+}
+
+function vpSaveAddJogo(){
+  const mandante = document.getElementById('vpjMandante').value.trim();
+  const visitante = document.getElementById('vpjVisitante').value.trim();
+  if(!mandante||!visitante){ toast('Informe mandante e visitante.', false); return; }
+  const all = JSON.parse(localStorage.getItem('scoutViagens')||'{}');
+  const v = all[_vpAddJogoVId]; if(!v) return;
+  if(!v.jogos) v.jogos=[];
+  v.jogos.push({
+    id: 'j_' + Date.now(),
+    data: document.getElementById('vpjData').value,
+    hora: document.getElementById('vpjHora').value,
+    mandante, visitante,
+    competicao: document.getElementById('vpjComp').value.trim(),
+    cidade: document.getElementById('vpjCidade').value.trim(),
+    estadio: document.getElementById('vpjEstadio').value.trim()
+  });
+  all[_vpAddJogoVId]=v;
+  try{ localStorage.setItem('scoutViagens', JSON.stringify(all)); }catch(e){}
+  vpOpenCards.add(_vpAddJogoVId);
+  vpCloseAddJogo();
+  renderViagensTab();
+  toast('✓ Jogo adicionado à viagem.', true);
+}
+
 </script>
+
+<!-- ═══ MODAL SALVAR ROTA ═══════════════════════════════════════ -->
+<div id="saveRouteOverlay" onclick="if(event.target===this)closeSaveRoute()">
+  <div id="saveRouteBox">
+    <div class="sr-title">💾 Salvar Rota</div>
+    <div id="srForm" style="display:flex;flex-direction:column;gap:10px;">
+      <div>
+        <div class="sr-label">Nome da viagem *</div>
+        <input class="sr-inp" id="srNome" placeholder="Ex: Viagem Argentina — Abril 2026"
+          onkeydown="if(event.key==='Enter')doSaveRoute()">
+      </div>
+      <div class="sr-grid">
+        <div><div class="sr-label">Destino</div>
+          <input class="sr-inp" id="srDestino" placeholder="Argentina"></div>
+        <div><div class="sr-label">Responsável</div>
+          <input class="sr-inp" id="srResp" placeholder="Seu nome"></div>
+      </div>
+      <div class="sr-grid">
+        <div><div class="sr-label">Início</div>
+          <input class="sr-inp" id="srInicio" type="date"></div>
+        <div><div class="sr-label">Fim</div>
+          <input class="sr-inp" id="srFim" type="date"></div>
+      </div>
+      <div>
+        <div class="sr-label">Status</div>
+        <select class="sr-inp" id="srStatus">
+          <option value="planejada">Planejada</option>
+          <option value="em_andamento">Em andamento</option>
+          <option value="concluida">Concluída</option>
+        </select>
+      </div>
+      <div class="sr-footer">
+        <button class="sr-btn sr-btn-cancel" onclick="closeSaveRoute()">Cancelar</button>
+        <button class="sr-btn sr-btn-save" onclick="doSaveRoute()">💾 Salvar Viagem</button>
+      </div>
+    </div>
+    <div class="sr-success" id="srSuccess">
+      <div class="sr-success-msg" id="srSuccessMsg"></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <a class="sr-open-cal" id="srCalLink" href="#" target="_blank">✈ Abrir no Calendário → Viagens</a>
+        <button class="sr-btn sr-btn-cancel" style="flex:0;padding:7px 14px;font-size:.7rem;"
+          onclick="closeSaveRoute()">Fechar</button>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--muted);margin-top:2px;">
+        Disponível na aba ✈ Viagens do Sistema Principal.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL ADICIONAR JOGO (ABA VIAGENS) ══════════════════════ -->
+<div id="vpJogoModal" style="position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:5500;
+  display:none;align-items:center;justify-content:center;padding:20px;"
+  onclick="if(event.target===this)vpCloseAddJogo()">
+  <div id="vpJogoBox" style="background:var(--panel);border:1px solid var(--border2);border-radius:10px;
+    padding:22px;width:min(440px,96vw);display:flex;flex-direction:column;gap:10px;">
+    <div>
+      <div class="sr-title">＋ Adicionar Jogo</div>
+      <div id="vpjViagemLabel" style="font-family:'JetBrains Mono',monospace;font-size:.62rem;
+        color:var(--gold);opacity:.7;margin-top:2px;">–</div>
+    </div>
+    <div class="sr-grid">
+      <div><div class="sr-label">Mandante *</div>
+        <input class="sr-inp" id="vpjMandante" placeholder="Time da casa"
+          onkeydown="if(event.key==='Enter')document.getElementById('vpjVisitante').focus()"></div>
+      <div><div class="sr-label">Visitante *</div>
+        <input class="sr-inp" id="vpjVisitante" placeholder="Time visitante"
+          onkeydown="if(event.key==='Enter')document.getElementById('vpjData').focus()"></div>
+    </div>
+    <div class="sr-grid">
+      <div><div class="sr-label">Data</div>
+        <input class="sr-inp" id="vpjData" type="date"></div>
+      <div><div class="sr-label">Horário</div>
+        <input class="sr-inp" id="vpjHora" type="time"></div>
+    </div>
+    <div class="sr-grid">
+      <div><div class="sr-label">Competição</div>
+        <input class="sr-inp" id="vpjComp" placeholder="Ex: Apertura 2026"></div>
+      <div><div class="sr-label">Cidade</div>
+        <input class="sr-inp" id="vpjCidade" placeholder="Ex: Buenos Aires"></div>
+    </div>
+    <div>
+      <div class="sr-label">Estádio</div>
+      <input class="sr-inp" id="vpjEstadio" placeholder="Ex: Pedro Bidegain">
+    </div>
+    <div class="sr-footer">
+      <button class="sr-btn sr-btn-cancel" onclick="vpCloseAddJogo()">Cancelar</button>
+      <button class="sr-btn sr-btn-save" onclick="vpSaveAddJogo()">✓ Adicionar</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
