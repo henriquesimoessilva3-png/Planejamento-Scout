@@ -1066,6 +1066,11 @@ body.light .ml{background:rgba(255,255,255,0.96);}
 <div class="topbar">
   <div class="tb-row1">
     <div class="tb-logo">SCOUT SYSTEM</div>
+    <select id="ligaSel" onchange="trocarLiga(this.value)" title="Campeonato"
+      style="background:var(--panel2);border:1px solid var(--gold);border-radius:4px;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:4px 7px;outline:none;cursor:pointer;font-weight:600;">
+      <option value="ar">🇦🇷 Argentina</option>
+      <option value="mx">🇲🇽 Liga MX</option>
+    </select>
     <div class="tb-sep"></div>
     <div class="tb-dates">
       <div class="tb-dlbl">DE</div>
@@ -1100,21 +1105,10 @@ body.light .ml{background:rgba(255,255,255,0.96);}
   </div>
   <div class="tb-row2">
     <div class="tb-clabel">Regiões:</div>
-    <div class="chip city-ba active" data-city="ba" onclick="toggleChip(this)">🟡 Buenos Aires</div>
-    <div class="chip city-lp active" data-city="lp" onclick="toggleChip(this)">🔵 La Plata</div>
-    <div class="chip city-ro active" data-city="ro" onclick="toggleChip(this)">🟢 Rosário</div>
-    <div class="chip city-co" data-city="co" onclick="toggleChip(this)">🟣 Córdoba</div>
-    <div class="chip city-me" data-city="me" onclick="toggleChip(this)">🟠 Mendoza</div>
-    <div class="chip city-tu" data-city="tu" onclick="toggleChip(this)">🩵 Tucumán</div>
-    <div class="chip city-sf" data-city="sf" onclick="toggleChip(this)">🩷 Santa Fe</div>
+    <span id="cityChips" style="display:contents"></span>
     <div class="tb-sep2"></div>
     <div class="tb-clabel">Competições:</div>
-    <div class="chip active" data-comp="apertura" onclick="toggleChip(this)">Apertura 2026</div>
-    <div class="chip active" data-comp="clausura" onclick="toggleChip(this)">Clausura 2026</div>
-    <div class="chip" data-comp="reserva" onclick="toggleChip(this)">Proyección</div>
-    <div class="chip" data-comp="segunda" onclick="toggleChip(this)">1a Nacional</div>
-    <div class="chip" data-comp="copa" onclick="toggleChip(this)">Copa ARG</div>
-    <div class="chip" data-comp="conmebol" onclick="toggleChip(this)">Conmebol</div>
+    <span id="compChips" style="display:contents"></span>
   </div>
 </div>
 
@@ -1282,7 +1276,7 @@ body.light .ml{background:rgba(255,255,255,0.96);}
 <div class="toast" id="toast"></div>
 <!-- PRINT HEADER -->
 <div class="print-header" id="printHeader">
-  <h1>🗺 Scout · Rota Argentina</h1><p id="printMeta"></p>
+  <h1 id="printHdr">🗺 Scout · Rota Argentina</h1><p id="printMeta"></p>
 </div>
 
 <!-- MODAL -->
@@ -1325,8 +1319,8 @@ body.light .ml{background:rgba(255,255,255,0.96);}
 </div>
 
 <script>
-const CC={ba:{lat:-34.6118,lng:-58.4173},lp:{lat:-34.9210,lng:-57.9544},ro:{lat:-32.9587,lng:-60.6931},co:{lat:-31.4201,lng:-64.1888},me:{lat:-32.8908,lng:-68.8272},tu:{lat:-26.8243,lng:-65.2226},sf:{lat:-31.6295,lng:-60.7001}};
-const EC={
+const CC_AR={ba:{lat:-34.6118,lng:-58.4173},lp:{lat:-34.9210,lng:-57.9544},ro:{lat:-32.9587,lng:-60.6931},co:{lat:-31.4201,lng:-64.1888},me:{lat:-32.8908,lng:-68.8272},tu:{lat:-26.8243,lng:-65.2226},sf:{lat:-31.6295,lng:-60.7001}};
+const EC_AR={
   "La Bombonera":{lat:-34.6354,lng:-58.3696},"El Monumental":{lat:-34.5458,lng:-58.4498},
   "Pedro Bidegain":{lat:-34.6427,lng:-58.4391},"José Amalfitani":{lat:-34.6282,lng:-58.5661},
   "Tomás Ducó":{lat:-34.6427,lng:-58.4066},"Libertadores de América":{lat:-34.6636,lng:-58.3698},
@@ -1343,10 +1337,10 @@ const EC={
   "José Fierro":{lat:-26.8081,lng:-65.2176},
   "Brigadier López":{lat:-31.6271,lng:-60.7057},
 };
-const CORES={ba:"#d4a843",lp:"#3d7fff",ro:"#2ecc8e",co:"#a855f7",me:"#f97316",tu:"#06b6d4",sf:"#ec4899"};
-const CNOMES={ba:"Buenos Aires",lp:"La Plata",ro:"Rosário",co:"Córdoba",me:"Mendoza",tu:"Tucumán",sf:"Santa Fe"};
-const CPNOMES={apertura:"Apertura 2026",clausura:"Clausura 2026",reserva:"Proyección",segunda:"1a Nacional",copa:"Copa ARG",conmebol:"Conmebol"};
-const BASE=[
+const CORES_AR={ba:"#d4a843",lp:"#3d7fff",ro:"#2ecc8e",co:"#a855f7",me:"#f97316",tu:"#06b6d4",sf:"#ec4899"};
+const CNOMES_AR={ba:"Buenos Aires",lp:"La Plata",ro:"Rosário",co:"Córdoba",me:"Mendoza",tu:"Tucumán",sf:"Santa Fe"};
+const CPNOMES_AR={apertura:"Apertura 2026",clausura:"Clausura 2026",reserva:"Proyección",segunda:"1a Nacional",copa:"Copa ARG",conmebol:"Conmebol"};
+const BASE_AR=[
   // CÓRDOBA — Talleres
   {m:"Talleres",v:"Newell's",          d:"2026-01-24",h:"21:00",e:"Mario Alberto Kempes",   c:"co",cp:"apertura",r:"F1"},
   {m:"Talleres",v:"Gimnasia Mza",      d:"2026-02-21",h:"21:00",e:"Mario Alberto Kempes",   c:"co",cp:"apertura",r:"F5"},
@@ -1921,7 +1915,7 @@ const BASE=[
 // Fonte: PDFs fornecidos pelo usuário
 // Confirmações de clube via fontes públicas (jan-abr 2026)
 // ═══════════════════════════════════════════════
-const SCOUTS = {
+const SCOUTS_AR = {
   // ── Buenos Aires ──────────────────────────────────────
   "Argentinos": [
     {n:"T. Molina", pos:"Atacante", ano:1995, cont:"2029", pe:"D", listas:["pro", "reuniao"]},
@@ -2286,7 +2280,7 @@ const TEAM_ALIAS = {
   "Aldosivi":         ["Aldosivi"],
 };
 
-const DESTAQUES_ALL = [
+const DESTAQUES_ALL_AR = [
   {n:"F. Sartori",pos:"Atacante",ano:2002,cont:"2025",pe:"D",listas:["pro"],team:"Colón"},
   {n:"R. Castillo",pos:"Atacante",ano:1999,cont:"2028",pe:"D",listas:["pro"],team:"Newell's"},
   {n:"A. Cuello",pos:"Atacante",ano:2000,cont:"2027",pe:"D",listas:["pro","reuniao"],team:"Sarmiento"},
@@ -2536,6 +2530,244 @@ const DESTAQUES_ALL = [
   {n:"F. Cambeses",pos:"Goleiro",ano:1997,cont:"2027",pe:"D",listas:["reuniao"],team:"Belgrano"}
 ];
 
+// ===== MÉXICO — Liga MX Apertura 2026 (fixtures via Sofascore) =====
+const CC_MX={mex:{lat:19.4326,lng:-99.1332},gdl:{lat:20.6597,lng:-103.3496},mty:{lat:25.6866,lng:-100.3161},tij:{lat:32.5149,lng:-117.0382},pue:{lat:19.0414,lng:-98.2063},tor:{lat:25.5439,lng:-103.4068},leo:{lat:21.123,lng:-101.681},qro:{lat:20.5888,lng:-100.3899},pac:{lat:20.1011,lng:-98.7591},slp:{lat:22.1565,lng:-100.9855},ags:{lat:21.8818,lng:-102.2916},jua:{lat:31.6904,lng:-106.4245},tol:{lat:19.2826,lng:-99.6557}};
+const EC_MX={"Estadio Victoria":{lat:21.880656,lng:-102.275479},"Estadio Caliente":{lat:32.506123,lng:-116.993223},"Estadio Alfonso Lastras":{lat:22.1492,lng:-101.0244},"Estadio León":{lat:21.115446,lng:-101.657675},"Estadio Olímpico Benito Juárez":{lat:31.753086,lng:-106.467829},"Estadio Olímpico Universitario":{lat:19.331754,lng:-99.192285},"Estadio Akron":{lat:20.681927,lng:-103.462431},"Estadio BBVA":{lat:25.669296,lng:-100.243982},"Estadio La Corregidora":{lat:20.58806,lng:-100.38806},"Estadio Universitario":{lat:25.67507,lng:-100.31847},"Estadio Ciudad de los Deportes":{lat:19.4045,lng:-99.1873},"Estadio TSM Corona":{lat:25.54389,lng:-103.41898},"Estadio Hidalgo":{lat:20.11697,lng:-98.73329},"Estadio Jalisco":{lat:20.70477,lng:-103.327685},"Estadio Cuauhtémoc":{lat:19.077983,lng:-98.164338},"Estadio Azteca":{lat:19.303043,lng:-99.150485},"Estadio Nemesio Díez":{lat:19.287106,lng:-99.666564}};
+const CORES_MX={mex:"#d4a843",gdl:"#3d7fff",mty:"#2ecc8e",tij:"#a855f7",pue:"#f97316",tor:"#06b6d4",leo:"#ec4899",qro:"#eab308",pac:"#14b8a6",slp:"#f43f5e",ags:"#8b5cf6",jua:"#f59e0b",tol:"#22c55e"};
+const CNOMES_MX={mex:"Ciudad de México",gdl:"Guadalajara",mty:"Monterrey",tij:"Tijuana",pue:"Puebla",tor:"Torreón",leo:"León",qro:"Querétaro",pac:"Pachuca",slp:"San Luis Potosí",ags:"Aguascalientes",jua:"Ciudad Juárez",tol:"Toluca"};
+const CPNOMES_MX={apertura:"Apertura 2026"};
+const BASE_MX=[
+  // Jornada 1
+  {m:"Necaxa",v:"Atlante",d:"2026-07-16",h:"19:00",hbr:"22:00",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J1"},
+  {m:"Tijuana",v:"Tigres",d:"2026-07-16",h:"20:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J1"},
+  {m:"San Luis",v:"Cruz Azul",d:"2026-07-17",h:"19:00",hbr:"22:00",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J1"},
+  {m:"León",v:"Atlas",d:"2026-07-17",h:"19:00",hbr:"22:00",e:"Estadio León",c:"leo",cp:"apertura",r:"J1"},
+  {m:"Juárez",v:"Puebla",d:"2026-07-17",h:"21:00",hbr:"00:00+1",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J1"},
+  {m:"Pumas",v:"Pachuca",d:"2026-07-18",h:"17:00",hbr:"20:00",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J1"},
+  {m:"Guadalajara",v:"Toluca",d:"2026-07-18",h:"19:00",hbr:"22:00",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J1"},
+  {m:"Monterrey",v:"Santos",d:"2026-07-18",h:"19:00",hbr:"22:00",e:"Estadio BBVA",c:"mty",cp:"apertura",r:"J1"},
+  {m:"Querétaro",v:"América",d:"2026-07-18",h:"21:00",hbr:"00:00+1",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J1"},
+  // Jornada 2
+  {m:"Cruz Azul",v:"Puebla",d:"2026-07-21",h:"19:00",hbr:"22:00",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J2"},
+  {m:"Toluca",v:"Pumas",d:"2026-07-21",h:"21:00",hbr:"00:00+1",e:"Estadio Nemesio Díez",c:"tol",cp:"apertura",r:"J2"},
+  {m:"Tigres",v:"San Luis",d:"2026-07-24",h:"19:00",hbr:"22:00",e:"Estadio Universitario",c:"mty",cp:"apertura",r:"J2"},
+  {m:"Atlante",v:"América",d:"2026-07-24",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J2"},
+  {m:"Tijuana",v:"León",d:"2026-07-24",h:"20:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J2"},
+  {m:"Guadalajara",v:"Juárez",d:"2026-07-25",h:"17:00",hbr:"20:00",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J2"},
+  {m:"Santos",v:"Atlas",d:"2026-07-25",h:"21:00",hbr:"00:00+1",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J2"},
+  {m:"Necaxa",v:"Monterrey",d:"2026-07-26",h:"17:00",hbr:"20:00",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J2"},
+  {m:"Pachuca",v:"Querétaro",d:"2026-07-26",h:"19:00",hbr:"22:00",e:"Estadio Hidalgo",c:"pac",cp:"apertura",r:"J2"},
+  // Jornada 3
+  {m:"Puebla",v:"Guadalajara",d:"2026-07-31",h:"19:00",hbr:"22:00",e:"Estadio Cuauhtémoc",c:"pue",cp:"apertura",r:"J3"},
+  {m:"San Luis",v:"Tijuana",d:"2026-07-31",h:"21:00",hbr:"00:00+1",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J3"},
+  {m:"Juárez",v:"Pumas",d:"2026-07-31",h:"21:00",hbr:"00:00+1",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J3"},
+  {m:"Querétaro",v:"Tigres",d:"2026-08-01",h:"17:00",hbr:"20:00",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J3"},
+  {m:"Atlas",v:"Monterrey",d:"2026-08-01",h:"19:00",hbr:"22:00",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J3"},
+  {m:"León",v:"Pachuca",d:"2026-08-01",h:"19:00",hbr:"22:00",e:"Estadio León",c:"leo",cp:"apertura",r:"J3"},
+  {m:"Cruz Azul",v:"Atlante",d:"2026-08-01",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J3"},
+  {m:"América",v:"Santos",d:"2026-08-02",h:"17:00",hbr:"20:00",e:"Estadio Azteca",c:"mex",cp:"apertura",r:"J3"},
+  {m:"Toluca",v:"Necaxa",d:"2026-08-02",h:"19:00",hbr:"22:00",e:"Estadio Nemesio Díez",c:"tol",cp:"apertura",r:"J3"},
+  // Jornada 4
+  {m:"Atlante",v:"Toluca",d:"2026-08-15",h:"17:00",hbr:"20:00",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J4"},
+  {m:"Monterrey",v:"Juárez",d:"2026-08-15",h:"19:00",hbr:"22:00",e:"Estadio BBVA",c:"mty",cp:"apertura",r:"J4"},
+  {m:"Atlas",v:"Tigres",d:"2026-08-15",h:"21:00",hbr:"00:00+1",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J4"},
+  {m:"Pumas",v:"Querétaro",d:"2026-08-16",h:"12:00",hbr:"15:00",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J4"},
+  {m:"América",v:"San Luis",d:"2026-08-16",h:"17:00",hbr:"20:00",e:"Estadio Azteca",c:"mex",cp:"apertura",r:"J4"},
+  {m:"Santos",v:"Guadalajara",d:"2026-08-16",h:"19:00",hbr:"22:00",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J4"},
+  {m:"Tijuana",v:"Cruz Azul",d:"2026-08-16",h:"20:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J4"},
+  {m:"Necaxa",v:"León",d:"2026-08-17",h:"19:00",hbr:"22:00",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J4"},
+  {m:"Pachuca",v:"Puebla",d:"2026-08-17",h:"21:00",hbr:"00:00+1",e:"Estadio Hidalgo",c:"pac",cp:"apertura",r:"J4"},
+  // Jornada 5
+  {m:"Puebla",v:"Santos",d:"2026-08-21",h:"19:00",hbr:"22:00",e:"Estadio Cuauhtémoc",c:"pue",cp:"apertura",r:"J5"},
+  {m:"Juárez",v:"América",d:"2026-08-21",h:"21:00",hbr:"00:00+1",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J5"},
+  {m:"Guadalajara",v:"Tijuana",d:"2026-08-22",h:"17:00",hbr:"20:00",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J5"},
+  {m:"Querétaro",v:"Toluca",d:"2026-08-22",h:"17:00",hbr:"20:00",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J5"},
+  {m:"León",v:"Monterrey",d:"2026-08-22",h:"19:00",hbr:"22:00",e:"Estadio León",c:"leo",cp:"apertura",r:"J5"},
+  {m:"Cruz Azul",v:"Atlas",d:"2026-08-22",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J5"},
+  {m:"Tigres",v:"Atlante",d:"2026-08-22",h:"21:00",hbr:"00:00+1",e:"Estadio Universitario",c:"mty",cp:"apertura",r:"J5"},
+  {m:"San Luis",v:"Pachuca",d:"2026-08-23",h:"17:00",hbr:"20:00",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J5"},
+  {m:"Pumas",v:"Necaxa",d:"2026-08-23",h:"19:00",hbr:"22:00",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J5"},
+  // Jornada 6
+  {m:"Atlante",v:"León",d:"2026-08-28",h:"19:00",hbr:"22:00",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J6"},
+  {m:"Necaxa",v:"Cruz Azul",d:"2026-08-28",h:"19:00",hbr:"22:00",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J6"},
+  {m:"Tijuana",v:"Pumas",d:"2026-08-28",h:"20:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J6"},
+  {m:"Atlas",v:"Querétaro",d:"2026-08-29",h:"17:00",hbr:"20:00",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J6"},
+  {m:"Pachuca",v:"Guadalajara",d:"2026-08-29",h:"17:00",hbr:"20:00",e:"Estadio Hidalgo",c:"pac",cp:"apertura",r:"J6"},
+  {m:"América",v:"Puebla",d:"2026-08-29",h:"19:00",hbr:"22:00",e:"Estadio Azteca",c:"mex",cp:"apertura",r:"J6"},
+  {m:"Santos",v:"Tigres",d:"2026-08-29",h:"21:00",hbr:"00:00+1",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J6"},
+  {m:"Toluca",v:"Juárez",d:"2026-08-30",h:"18:00",hbr:"21:00",e:"Estadio Nemesio Díez",c:"tol",cp:"apertura",r:"J6"},
+  {m:"Monterrey",v:"San Luis",d:"2026-08-30",h:"20:00",hbr:"23:00",e:"Estadio BBVA",c:"mty",cp:"apertura",r:"J6"},
+  // Jornada 7
+  {m:"Puebla",v:"Toluca",d:"2026-09-04",h:"19:00",hbr:"22:00",e:"Estadio Cuauhtémoc",c:"pue",cp:"apertura",r:"J7"},
+  {m:"Juárez",v:"Pachuca",d:"2026-09-04",h:"21:00",hbr:"00:00+1",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J7"},
+  {m:"San Luis",v:"Guadalajara",d:"2026-09-05",h:"17:00",hbr:"20:00",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J7"},
+  {m:"Querétaro",v:"Monterrey",d:"2026-09-05",h:"17:00",hbr:"20:00",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J7"},
+  {m:"América",v:"Tijuana",d:"2026-09-05",h:"19:00",hbr:"22:00",e:"Estadio Azteca",c:"mex",cp:"apertura",r:"J7"},
+  {m:"Tigres",v:"Necaxa",d:"2026-09-05",h:"19:00",hbr:"22:00",e:"Estadio Universitario",c:"mty",cp:"apertura",r:"J7"},
+  {m:"Atlas",v:"Atlante",d:"2026-09-05",h:"21:00",hbr:"00:00+1",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J7"},
+  {m:"Pumas",v:"León",d:"2026-09-06",h:"12:00",hbr:"15:00",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J7"},
+  {m:"Cruz Azul",v:"Santos",d:"2026-09-06",h:"20:00",hbr:"23:00",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J7"},
+  // Jornada 8
+  {m:"Necaxa",v:"Puebla",d:"2026-09-11",h:"19:00",hbr:"22:00",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J8"},
+  {m:"Atlante",v:"Pachuca",d:"2026-09-11",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J8"},
+  {m:"Tijuana",v:"Querétaro",d:"2026-09-11",h:"20:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J8"},
+  {m:"Toluca",v:"Atlas",d:"2026-09-12",h:"00:00",hbr:"03:00",e:"Estadio Nemesio Díez",c:"tol",cp:"apertura",r:"J8"},
+  {m:"Cruz Azul",v:"América",d:"2026-09-12",h:"00:00",hbr:"03:00",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J8"},
+  {m:"León",v:"San Luis",d:"2026-09-12",h:"17:00",hbr:"20:00",e:"Estadio León",c:"leo",cp:"apertura",r:"J8"},
+  {m:"Guadalajara",v:"Pumas",d:"2026-09-13",h:"18:00",hbr:"21:00",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J8"},
+  {m:"Santos",v:"Juárez",d:"2026-09-13",h:"18:00",hbr:"21:00",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J8"},
+  {m:"Monterrey",v:"Tigres",d:"2026-09-13",h:"20:00",hbr:"23:00",e:"Estadio BBVA",c:"mty",cp:"apertura",r:"J8"},
+  // Jornada 9
+  {m:"Puebla",v:"Atlante",d:"2026-09-18",h:"19:00",hbr:"22:00",e:"Estadio Cuauhtémoc",c:"pue",cp:"apertura",r:"J9"},
+  {m:"Juárez",v:"Tigres",d:"2026-09-18",h:"21:00",hbr:"00:00+1",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J9"},
+  {m:"Atlas",v:"Pumas",d:"2026-09-19",h:"17:00",hbr:"20:00",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J9"},
+  {m:"San Luis",v:"Necaxa",d:"2026-09-19",h:"17:00",hbr:"20:00",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J9"},
+  {m:"Monterrey",v:"Cruz Azul",d:"2026-09-19",h:"19:00",hbr:"22:00",e:"Estadio BBVA",c:"mty",cp:"apertura",r:"J9"},
+  {m:"América",v:"Guadalajara",d:"2026-09-19",h:"21:00",hbr:"00:00+1",e:"Estadio Azteca",c:"mex",cp:"apertura",r:"J9"},
+  {m:"Toluca",v:"Santos",d:"2026-09-20",h:"18:00",hbr:"21:00",e:"Estadio Nemesio Díez",c:"tol",cp:"apertura",r:"J9"},
+  {m:"Pachuca",v:"Tijuana",d:"2026-09-20",h:"18:00",hbr:"21:00",e:"Estadio Hidalgo",c:"pac",cp:"apertura",r:"J9"},
+  {m:"Querétaro",v:"León",d:"2026-09-20",h:"20:00",hbr:"23:00",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J9"},
+  // Jornada 10
+  {m:"Atlante",v:"Monterrey",d:"2026-09-25",h:"19:00",hbr:"22:00",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J10"},
+  {m:"Tijuana",v:"Atlas",d:"2026-09-25",h:"20:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J10"},
+  {m:"Guadalajara",v:"Querétaro",d:"2026-09-26",h:"17:00",hbr:"20:00",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J10"},
+  {m:"Santos",v:"Pachuca",d:"2026-09-26",h:"19:00",hbr:"22:00",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J10"},
+  {m:"Tigres",v:"Puebla",d:"2026-09-26",h:"19:00",hbr:"22:00",e:"Estadio Universitario",c:"mty",cp:"apertura",r:"J10"},
+  {m:"Cruz Azul",v:"Toluca",d:"2026-09-26",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J10"},
+  {m:"Pumas",v:"San Luis",d:"2026-09-27",h:"12:00",hbr:"15:00",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J10"},
+  {m:"León",v:"Juárez",d:"2026-09-27",h:"19:00",hbr:"22:00",e:"Estadio León",c:"leo",cp:"apertura",r:"J10"},
+  {m:"Necaxa",v:"América",d:"2026-09-27",h:"21:00",hbr:"00:00+1",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J10"},
+  // Jornada 11
+  {m:"Puebla",v:"León",d:"2026-10-09",h:"19:00",hbr:"22:00",e:"Estadio Cuauhtémoc",c:"pue",cp:"apertura",r:"J11"},
+  {m:"Querétaro",v:"Atlante",d:"2026-10-09",h:"19:00",hbr:"22:00",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J11"},
+  {m:"Tigres",v:"Toluca",d:"2026-10-09",h:"21:00",hbr:"00:00+1",e:"Estadio Universitario",c:"mty",cp:"apertura",r:"J11"},
+  {m:"Juárez",v:"Tijuana",d:"2026-10-10",h:"17:00",hbr:"20:00",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J11"},
+  {m:"Atlas",v:"Guadalajara",d:"2026-10-10",h:"19:00",hbr:"22:00",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J11"},
+  {m:"América",v:"Monterrey",d:"2026-10-10",h:"21:00",hbr:"00:00+1",e:"Estadio Azteca",c:"mex",cp:"apertura",r:"J11"},
+  {m:"San Luis",v:"Santos",d:"2026-10-11",h:"17:00",hbr:"20:00",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J11"},
+  {m:"Pachuca",v:"Necaxa",d:"2026-10-11",h:"17:00",hbr:"20:00",e:"Estadio Hidalgo",c:"pac",cp:"apertura",r:"J11"},
+  {m:"Pumas",v:"Cruz Azul",d:"2026-10-11",h:"19:00",hbr:"22:00",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J11"},
+  // Jornada 12
+  {m:"Necaxa",v:"Atlas",d:"2026-10-16",h:"19:00",hbr:"22:00",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J12"},
+  {m:"Atlante",v:"Pumas",d:"2026-10-16",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J12"},
+  {m:"Tijuana",v:"Puebla",d:"2026-10-16",h:"20:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J12"},
+  {m:"Guadalajara",v:"Tigres",d:"2026-10-17",h:"17:00",hbr:"20:00",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J12"},
+  {m:"Santos",v:"Querétaro",d:"2026-10-17",h:"17:00",hbr:"20:00",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J12"},
+  {m:"Toluca",v:"San Luis",d:"2026-10-17",h:"19:00",hbr:"22:00",e:"Estadio Nemesio Díez",c:"tol",cp:"apertura",r:"J12"},
+  {m:"León",v:"América",d:"2026-10-17",h:"19:00",hbr:"22:00",e:"Estadio León",c:"leo",cp:"apertura",r:"J12"},
+  {m:"Cruz Azul",v:"Juárez",d:"2026-10-17",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J12"},
+  {m:"Monterrey",v:"Pachuca",d:"2026-10-18",h:"19:00",hbr:"22:00",e:"Estadio BBVA",c:"mty",cp:"apertura",r:"J12"},
+  // Jornada 13
+  {m:"San Luis",v:"Querétaro",d:"2026-10-20",h:"19:00",hbr:"22:00",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J13"},
+  {m:"Juárez",v:"Atlante",d:"2026-10-20",h:"19:00",hbr:"22:00",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J13"},
+  {m:"Guadalajara",v:"Necaxa",d:"2026-10-20",h:"21:00",hbr:"00:00+1",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J13"},
+  {m:"Tigres",v:"León",d:"2026-10-20",h:"21:00",hbr:"00:00+1",e:"Estadio Universitario",c:"mty",cp:"apertura",r:"J13"},
+  {m:"Atlas",v:"América",d:"2026-10-21",h:"19:00",hbr:"22:00",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J13"},
+  {m:"Toluca",v:"Tijuana",d:"2026-10-21",h:"19:00",hbr:"22:00",e:"Estadio Nemesio Díez",c:"tol",cp:"apertura",r:"J13"},
+  {m:"Puebla",v:"Monterrey",d:"2026-10-21",h:"19:00",hbr:"22:00",e:"Estadio Cuauhtémoc",c:"pue",cp:"apertura",r:"J13"},
+  {m:"Pachuca",v:"Cruz Azul",d:"2026-10-21",h:"21:00",hbr:"00:00+1",e:"Estadio Hidalgo",c:"pac",cp:"apertura",r:"J13"},
+  {m:"Santos",v:"Pumas",d:"2026-10-21",h:"21:00",hbr:"00:00+1",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J13"},
+  // Jornada 14
+  {m:"Necaxa",v:"Juárez",d:"2026-10-23",h:"19:00",hbr:"22:00",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J14"},
+  {m:"Atlante",v:"San Luis",d:"2026-10-23",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J14"},
+  {m:"León",v:"Toluca",d:"2026-10-24",h:"17:00",hbr:"20:00",e:"Estadio León",c:"leo",cp:"apertura",r:"J14"},
+  {m:"Monterrey",v:"Guadalajara",d:"2026-10-24",h:"19:00",hbr:"22:00",e:"Estadio BBVA",c:"mty",cp:"apertura",r:"J14"},
+  {m:"Pumas",v:"Tigres",d:"2026-10-24",h:"21:00",hbr:"00:00+1",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J14"},
+  {m:"Atlas",v:"Puebla",d:"2026-10-25",h:"17:00",hbr:"20:00",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J14"},
+  {m:"América",v:"Pachuca",d:"2026-10-25",h:"17:00",hbr:"20:00",e:"Estadio Azteca",c:"mex",cp:"apertura",r:"J14"},
+  {m:"Querétaro",v:"Cruz Azul",d:"2026-10-25",h:"19:00",hbr:"22:00",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J14"},
+  {m:"Tijuana",v:"Santos",d:"2026-10-25",h:"20:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J14"},
+  // Jornada 15
+  {m:"San Luis",v:"Atlas",d:"2026-10-30",h:"19:00",hbr:"22:00",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J15"},
+  {m:"Juárez",v:"Querétaro",d:"2026-10-30",h:"19:00",hbr:"22:00",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J15"},
+  {m:"Puebla",v:"Pumas",d:"2026-10-30",h:"21:00",hbr:"00:00+1",e:"Estadio Cuauhtémoc",c:"pue",cp:"apertura",r:"J15"},
+  {m:"Pachuca",v:"Tigres",d:"2026-10-31",h:"17:00",hbr:"20:00",e:"Estadio Hidalgo",c:"pac",cp:"apertura",r:"J15"},
+  {m:"Guadalajara",v:"Atlante",d:"2026-10-31",h:"19:00",hbr:"22:00",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J15"},
+  {m:"Monterrey",v:"Tijuana",d:"2026-10-31",h:"19:00",hbr:"22:00",e:"Estadio BBVA",c:"mty",cp:"apertura",r:"J15"},
+  {m:"América",v:"Toluca",d:"2026-10-31",h:"21:00",hbr:"00:00+1",e:"Estadio Azteca",c:"mex",cp:"apertura",r:"J15"},
+  {m:"Santos",v:"Necaxa",d:"2026-11-01",h:"17:00",hbr:"20:00",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J15"},
+  {m:"Cruz Azul",v:"León",d:"2026-11-01",h:"19:00",hbr:"22:00",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J15"},
+  // Jornada 16
+  {m:"San Luis",v:"Juárez",d:"2026-11-06",h:"19:00",hbr:"22:00",e:"Estadio Alfonso Lastras",c:"slp",cp:"apertura",r:"J16"},
+  {m:"Necaxa",v:"Tijuana",d:"2026-11-06",h:"19:00",hbr:"22:00",e:"Estadio Victoria",c:"ags",cp:"apertura",r:"J16"},
+  {m:"Atlante",v:"Santos",d:"2026-11-06",h:"21:00",hbr:"00:00+1",e:"Estadio Ciudad de los Deportes",c:"mex",cp:"apertura",r:"J16"},
+  {m:"Atlas",v:"Pachuca",d:"2026-11-07",h:"17:00",hbr:"20:00",e:"Estadio Jalisco",c:"gdl",cp:"apertura",r:"J16"},
+  {m:"Tigres",v:"Cruz Azul",d:"2026-11-07",h:"17:00",hbr:"20:00",e:"Estadio Universitario",c:"mty",cp:"apertura",r:"J16"},
+  {m:"Toluca",v:"Monterrey",d:"2026-11-07",h:"19:00",hbr:"22:00",e:"Estadio Nemesio Díez",c:"tol",cp:"apertura",r:"J16"},
+  {m:"Pumas",v:"América",d:"2026-11-07",h:"21:00",hbr:"00:00+1",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J16"},
+  {m:"Querétaro",v:"Puebla",d:"2026-11-08",h:"18:00",hbr:"21:00",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J16"},
+  {m:"León",v:"Guadalajara",d:"2026-11-08",h:"20:00",hbr:"23:00",e:"Estadio León",c:"leo",cp:"apertura",r:"J16"},
+  // Jornada 17
+  {m:"Puebla",v:"San Luis",d:"2026-11-20",h:"19:00",hbr:"22:00",e:"Estadio Cuauhtémoc",c:"pue",cp:"apertura",r:"J17"},
+  {m:"Tijuana",v:"Atlante",d:"2026-11-20",h:"19:00",hbr:"00:00+1",e:"Estadio Caliente",c:"tij",cp:"apertura",r:"J17"},
+  {m:"Juárez",v:"Atlas",d:"2026-11-20",h:"20:00",hbr:"00:00+1",e:"Estadio Olímpico Benito Juárez",c:"jua",cp:"apertura",r:"J17"},
+  {m:"Pachuca",v:"Toluca",d:"2026-11-21",h:"17:00",hbr:"20:00",e:"Estadio Hidalgo",c:"pac",cp:"apertura",r:"J17"},
+  {m:"Santos",v:"León",d:"2026-11-21",h:"17:00",hbr:"20:00",e:"Estadio TSM Corona",c:"tor",cp:"apertura",r:"J17"},
+  {m:"Pumas",v:"Monterrey",d:"2026-11-21",h:"19:00",hbr:"22:00",e:"Estadio Olímpico Universitario",c:"mex",cp:"apertura",r:"J17"},
+  {m:"Tigres",v:"América",d:"2026-11-21",h:"21:00",hbr:"00:00+1",e:"Estadio Universitario",c:"mty",cp:"apertura",r:"J17"},
+  {m:"Guadalajara",v:"Cruz Azul",d:"2026-11-22",h:"17:00",hbr:"20:00",e:"Estadio Akron",c:"gdl",cp:"apertura",r:"J17"},
+  {m:"Querétaro",v:"Necaxa",d:"2026-11-22",h:"19:00",hbr:"22:00",e:"Estadio La Corregidora",c:"qro",cp:"apertura",r:"J17"},
+];
+const CIDADES_MX=[{c:"mex"},{c:"gdl"},{c:"mty"},{c:"tij"},{c:"pue"},{c:"tor"},{c:"leo"},{c:"qro"},{c:"pac"},{c:"slp"},{c:"ags"},{c:"jua"},{c:"tol"}];
+
+
+// ═══════════════════════════════════════════════════════════════════
+// MULTI-LIGA — seletor de campeonato (Argentina / México)
+// ═══════════════════════════════════════════════════════════════════
+const LIGAS = {
+  ar:{ nome:"Argentina", flag:"🇦🇷", titulo:"Argentina",
+       map:{center:[-33.5,-64],zoom:5}, tz:"America/Argentina/Buenos_Aires", pais:"Argentina",
+       CC:CC_AR, EC:EC_AR, CORES:CORES_AR, CNOMES:CNOMES_AR, CPNOMES:CPNOMES_AR, BASE:BASE_AR, SCOUTS:SCOUTS_AR, DESTAQUES:DESTAQUES_ALL_AR,
+       cidades:[{c:"ba",on:1,e:"🟡"},{c:"lp",on:1,e:"🔵"},{c:"ro",on:1,e:"🟢"},{c:"co",on:0,e:"🟣"},{c:"me",on:0,e:"🟠"},{c:"tu",on:0,e:"🩵"},{c:"sf",on:0,e:"🩷"}],
+       comps:[{k:"apertura",on:1},{k:"clausura",on:1},{k:"reserva",on:0},{k:"segunda",on:0},{k:"copa",on:0},{k:"conmebol",on:0}] },
+  mx:{ nome:"México", flag:"🇲🇽", titulo:"Liga MX",
+       map:{center:[23.4,-102.3],zoom:5}, tz:"America/Mexico_City", pais:"México",
+       ctz:{tij:"America/Tijuana", jua:"America/Ciudad_Juarez"},
+       defaultRange:["2026-07-15","2026-12-01"],
+       CC:CC_MX, EC:EC_MX, CORES:CORES_MX, CNOMES:CNOMES_MX, CPNOMES:CPNOMES_MX, BASE:BASE_MX, SCOUTS:{}, DESTAQUES:[],
+       cidades:CIDADES_MX.map(o=>({c:o.c,on:1})),
+       comps:[{k:"apertura",on:1}] }
+};
+const LIGA = (function(){ try{ return (localStorage.getItem('liga')||'ar'); }catch(e){ return 'ar'; } })();
+const LG = LIGAS[LIGA] || LIGAS.ar;
+const CC=LG.CC, EC=LG.EC, CORES=LG.CORES, CNOMES=LG.CNOMES, CPNOMES=LG.CPNOMES, BASE=LG.BASE;
+const SCOUTS=LG.SCOUTS, DESTAQUES_ALL=LG.DESTAQUES;
+
+function trocarLiga(v){ try{ localStorage.setItem('liga', v); }catch(e){} location.reload(); }
+
+function aplicarLigaUI(){
+  try{ document.title = "Scout Viagem · "+LG.titulo; }catch(e){}
+  const ph=document.getElementById('printHdr'); if(ph) ph.textContent='🗺 Scout · '+LG.nome;
+  const sel=document.getElementById('ligaSel'); if(sel) sel.value=LIGA;
+  // CSS dinâmico de cores por cidade
+  let css='';
+  Object.keys(CORES).forEach(c=>{ const col=CORES[c];
+    css+=`.gt-${c}{background:${col}22;color:${col};border:1px solid ${col}55;font-weight:700;}`;
+    css+=`.chip.city-${c}.active{background:${col}1f;border-color:${col}66;color:${col};}`;
+  });
+  let st=document.getElementById('ligaCss'); if(!st){ st=document.createElement('style'); st.id='ligaCss'; document.head.appendChild(st); } st.textContent=css;
+  // chips de cidade
+  const cc=document.getElementById('cityChips');
+  if(cc) cc.innerHTML = LG.cidades.map(o=>{
+    const nome=CNOMES[o.c]||o.c, col=CORES[o.c]||'#888';
+    const dot = o.e || `<span style="color:${col};font-size:1.1em;line-height:0;">●</span>`;
+    return `<div class="chip city-${o.c}${o.on?' active':''}" data-city="${o.c}" onclick="toggleChip(this)">${dot} ${nome}</div>`;
+  }).join('');
+  // chips de competição
+  const pc=document.getElementById('compChips');
+  if(pc) pc.innerHTML = LG.comps.map(o=>`<div class="chip${o.on?' active':''}" data-comp="${o.k}" onclick="toggleChip(this)">${CPNOMES[o.k]||o.k}</div>`).join('');
+  // legenda do mapa
+  const ml=document.getElementById('ml');
+  if(ml) ml.innerHTML = LG.cidades.map(o=>`<div class="lgi"><div class="lgd" style="background:${CORES[o.c]||'#888'}"></div>${CNOMES[o.c]||o.c}</div>`).join('');
+  // selects do formulário "+ Jogo"
+  const fc=document.getElementById('fc');
+  if(fc) fc.innerHTML = LG.cidades.map(o=>`<option value="${o.c}">${CNOMES[o.c]||o.c}</option>`).join('');
+  const fcp=document.getElementById('fcp');
+  if(fcp) fcp.innerHTML = LG.comps.map(o=>`<option value="${o.k}">${CPNOMES[o.k]||o.k}</option>`).join('');
+}
+aplicarLigaUI();
+
+
 // ═══════════════════════════════════════════════
 // ESTADO
 // ═══════════════════════════════════════════════
@@ -2554,7 +2786,7 @@ let calYear=0,calMonth=0; // current calendar view
 let selectedDay=null; // 'YYYY-MM-DD' filter
 let gamesByDay={}; // populated after filtrar()
 
-const mapL=L.map('map',{center:[-33.5,-64],zoom:5,zoomControl:false});
+const mapL=L.map('map',{center:LG.map.center,zoom:LG.map.zoom,zoomControl:false});
 darkTile=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'©CartoDB',maxZoom:19}).addTo(mapL);
 L.control.zoom({position:'topright'}).addTo(mapL);
 
@@ -2599,6 +2831,7 @@ function filtrar(){
 
 // ─── HELPERS ────────────────────────────────────
 function ctag(c){const m={ro:'gt-ro',lp:'gt-lp',co:'gt-co',me:'gt-me',tu:'gt-tu',sf:'gt-sf'};return m[c]||'gt-ba';}
+function ht(j){return (j.h||'')+(j.hbr&&j.hbr!==j.h?' · '+j.hbr+' BR':'');}
 function fd(d){if(!d)return'?';const[y,m,day]=d.split('-');return`${day}/${m}`;}
 
 // ─── RENDER: TODOS OS JOGOS ────────────
@@ -2640,7 +2873,7 @@ function renderAll(){
             <div class="gbody" onclick="focusGame({idx:${idx}})">
               <div class="gm-row"><span class="rnum" style="background:${CORES[j.c]||CORES.ba};color:#fff;">${isFav?'★':'·'}</span><span class="gm">${sp}${j.m} <span class="gvs">×</span> ${j.v}</span></div>
               <div class="ginfo">
-                <span class="gt gt-d">${fd(j.d)} ${j.h||''}</span>
+                <span class="gt gt-d">${fd(j.d)} ${ht(j)}</span>
                 <span class="gt gt-c">${CPNOMES[j.cp]||j.cp}</span>
                 <span class="gt ${ctag(j.c)}">${CNOMES[j.c]||j.c}</span>
                 ${j.r?`<span class="rbadge">${j.r.split('·')[0].trim()}</span>`:''}
@@ -2749,7 +2982,7 @@ function renderCalDayPanel(){
       <div class="cal-panel-info">
         <div class="cal-panel-match">${isSpecial?'⚡ ':''}${j.m} × ${j.v}</div>
         <div class="cal-panel-meta">
-          <span>${j.h||'?'}</span>
+          <span>${ht(j)||'?'}</span>
           <span class="gt ${ctag(j.c)}" style="font-size:0.5rem;padding:1px 4px;">${CNOMES[j.c]||j.c}</span>
           ${j.e?`<span>🏟 ${j.e}</span>`:''}
         </div>
@@ -2822,7 +3055,7 @@ function renderRoute(){
           <div class="gbody" onclick="focusGame({idx:${idx}})">
             <div class="gm-row"><span class="rnum" style="background:${isEx?'var(--muted)':cor};color:#fff;">${rn}</span><span class="gm">${sp}${j.m} <span class="gvs">×</span> ${j.v}</span></div>
             <div class="ginfo">
-              <span class="gt gt-d">${fd(j.d)} ${j.h||''}</span>
+              <span class="gt gt-d">${fd(j.d)} ${ht(j)}</span>
               <span class="gt gt-c">${CPNOMES[j.cp]||j.cp}</span>
               <span class="gt ${ctag(j.c)}">${CNOMES[j.c]||j.c}</span>
               ${j.r?`<span class="rbadge">${j.r.split('·')[0].trim()}</span>`:''}
@@ -2858,7 +3091,7 @@ function renderMap(){
   actv.forEach((idx,pos)=>{
     const j=jogos[idx],cor=CORES[j.c]||CORES.ba,n=pos+1;
     const icon=L.divIcon({html:`<div class="cm" style="background:${cor}"><span>${n}</span></div>`,iconSize:[28,28],iconAnchor:[14,28],className:''});
-    const mk=L.marker([j.lat,j.lng],{icon}).addTo(mapL).bindPopup(`<div class="pt">${j.m} × ${j.v}</div><div class="pm"><b>${fd(j.d)} ${j.h||''}</b><br>${j.e||''}<br>${CPNOMES[j.cp]||j.cp}${j.r?'<br>'+j.r:''}</div>`);
+    const mk=L.marker([j.lat,j.lng],{icon}).addTo(mapL).bindPopup(`<div class="pt">${j.m} × ${j.v}</div><div class="pm"><b>${fd(j.d)} ${ht(j)}</b><br>${j.e||''}<br>${CPNOMES[j.cp]||j.cp}${j.r?'<br>'+j.r:''}</div>`);
     mk.on('click',()=>hiAll(idx));mkrs[idx]=mk;lls.push([j.lat,j.lng]);
   });
   if(lls.length>1){rline=L.polyline(lls,{color:'#d4a843',weight:2,opacity:0.65,dashArray:'6,8'}).addTo(mapL);mapL.fitBounds(rline.getBounds(),{padding:[40,40]});}
@@ -3000,7 +3233,7 @@ async function buscarHotel(){
   const btn=document.getElementById('hotelBtn'),st=document.getElementById('hotelStatus');
   btn.textContent='⏳';st.style.display='none';
   try{
-    const res=await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q+', Argentina')}`,{headers:{'Accept-Language':'pt-BR'}});
+    const res=await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q+', '+LG.pais)}`,{headers:{'Accept-Language':'pt-BR'}});
     const data=await res.json();
     if(!data||!data.length)throw new Error('não encontrado');
     const r=data[0];
@@ -3272,7 +3505,7 @@ function exportWhatsApp(){
     txt+=`*${ds}, ${day}/${m}*\n`;
     porDia[dia].forEach(({j,pos})=>{
       const em=emojiCidade[j.c]||'📍';const sp=j.r&&(j.r.includes('DÉRBI')||j.r.includes('CLÁSSICO')||j.r.includes('SUPER'))?'⚡':'';
-      txt+=`${pos}. ${sp}${j.m} × ${j.v}\n   ${em} ${CNOMES[j.c]||j.c} · ${j.h||'?'}\n${j.e?`   🏟 ${j.e}\n`:''}`;
+      txt+=`${pos}. ${sp}${j.m} × ${j.v}\n   ${em} ${CNOMES[j.c]||j.c} · ${ht(j)||'?'}\n${j.e?`   🏟 ${j.e}\n`:''}`;
     });txt+='\n';
   });
   txt+=`━━━━━━━━━━━━━━━━━━━━\n_Scout System · Eagle Football_`;
@@ -3285,14 +3518,14 @@ function exportCalendar(){
   const actv=routeOrder.filter(i=>!excl.has(i));if(!actv.length){toast('Nenhum jogo na rota.',false);return;}
   function icsD(d,h){if(!d)return null;const[y,mo,dy]=d.split('-');const[hr,mn]=(h||'12:00').split(':');return`${y}${mo}${dy}T${hr}${mn}00`;}
   function icsDE(d,h){if(!d)return null;const[y,mo,dy]=d.split('-');const[hr,mn]=(h||'12:00').split(':');return`${y}${mo}${dy}T${String(parseInt(hr)+2).padStart(2,'0')}${mn}00`;}
-  let ics=`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Scout System//Eagle Football//PT\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:Scout Argentina 2026\r\nX-WR-TIMEZONE:America/Argentina/Buenos_Aires\r\n`;
+  let ics=`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Scout System//Eagle Football//PT\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:Scout ${LG.nome} 2026\r\nX-WR-TIMEZONE:${LG.tz}\r\n`;
   actv.forEach((idx,pos)=>{
     const j=jogos[idx];const dt=icsD(j.d,j.h);if(!dt)return;
     const sp=j.r&&(j.r.includes('DÉRBI')||j.r.includes('CLÁSSICO')||j.r.includes('SUPER'))?'⚡ ':'⚽ ';
-    ics+=`BEGIN:VEVENT\r\nUID:scout-${j.d||'x'}-${j.m.replace(/\s/g,'')}-${j.v.replace(/\s/g,'')}@eagle\r\nDTSTART;TZID=America/Argentina/Buenos_Aires:${dt}\r\nDTEND;TZID=America/Argentina/Buenos_Aires:${icsDE(j.d,j.h)}\r\nSUMMARY:${sp}${j.m} × ${j.v}\r\nLOCATION:${j.e?j.e+', ':''}${CNOMES[j.c]||j.c}, Argentina\r\nDESCRIPTION:${CPNOMES[j.cp]||j.cp}${j.r?' · '+j.r:''}\\n#${pos+1} na rota\r\nSTATUS:TENTATIVE\r\nEND:VEVENT\r\n`;
+    ics+=`BEGIN:VEVENT\r\nUID:scout-${j.d||'x'}-${j.m.replace(/\s/g,'')}-${j.v.replace(/\s/g,'')}@eagle\r\nDTSTART;TZID=${(LG.ctz&&LG.ctz[j.c])||LG.tz}:${dt}\r\nDTEND;TZID=${(LG.ctz&&LG.ctz[j.c])||LG.tz}:${icsDE(j.d,j.h)}\r\nSUMMARY:${sp}${j.m} × ${j.v}\r\nLOCATION:${j.e?j.e+', ':''}${CNOMES[j.c]||j.c}, ${LG.pais}\r\nDESCRIPTION:${CPNOMES[j.cp]||j.cp}${j.r?' · '+j.r:''}\\n#${pos+1} na rota\r\nSTATUS:TENTATIVE\r\nEND:VEVENT\r\n`;
   });
   ics+=`END:VCALENDAR`;
-  const a=document.createElement('a');a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);a.download='scout_argentina_2026.ics';a.click();
+  const a=document.createElement('a');a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);a.download='scout_'+LIGA+'_2026.ics';a.click();
   toast(`✓ ${actv.length} jogos exportados!`);
 }
 
@@ -3312,8 +3545,8 @@ function toggleTheme(){
 
 // ─── INIT ──────────────────────────────────────
 const hj=new Date(),f30=new Date();f30.setDate(hj.getDate()+30);
-document.getElementById('di').value=hj.toISOString().split('T')[0];
-document.getElementById('df').value=f30.toISOString().split('T')[0];
+document.getElementById('di').value=(LG.defaultRange?LG.defaultRange[0]:hj.toISOString().split('T')[0]);
+document.getElementById('df').value=(LG.defaultRange?LG.defaultRange[1]:f30.toISOString().split('T')[0]);
 updateQueueBadge();
 filtrar();
 
@@ -4928,7 +5161,7 @@ function fpDrawerFilter(){
       </div>
       <div class="fp-picker-meta">
         <span>${j.d?fd(j.d):'–'}</span>
-        <span>${j.h||''}</span>
+        <span>${ht(j)}</span>
         <span>${CPNOMES[j.cp]||j.cp||''}</span>
         <span>${CNOMES[j.c]||j.c||''}</span>
       </div>
@@ -4945,7 +5178,7 @@ function fpDrawerSelectGame(k){
   // Preencher info do jogo no step2
   document.getElementById('fpDrawerGameName').textContent = `${j.m} × ${j.v}`;
   document.getElementById('fpDrawerGameMeta').innerHTML =
-    `<span>${j.d?fd(j.d):''}</span><span>${j.h||''}</span>`+
+    `<span>${j.d?fd(j.d):''}</span><span>${ht(j)}</span>`+
     `<span>${CPNOMES[j.cp]||j.cp||''}</span><span>${CNOMES[j.c]||j.c||''}</span>`;
 
   // Limpar campos do jogador
