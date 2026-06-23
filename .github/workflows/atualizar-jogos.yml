@@ -1,4 +1,4 @@
-name: Atualizar jogos (Liga MX)
+name: Atualizar jogos (Liga MX + Argentina)
 
 on:
   schedule:
@@ -20,15 +20,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Atualizar datas/horarios da Liga MX (fonte ESPN)
+      - name: Atualizar Liga MX (fonte ESPN)
         run: python scripts/update_fixtures.py index.html
+      - name: Atualizar Primera Argentina (Promiedos + ESPN, dupla confirmacao)
+        run: python scripts/update_fixtures_ar.py index.html
       - name: Publicar se houver mudanca
         run: |
           if [ -n "$(git status --porcelain index.html)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add index.html
-            git commit -m "Atualiza horarios da Liga MX via ESPN [skip ci]"
+            git commit -m "Atualiza datas/horarios (Liga MX: ESPN; Argentina: Promiedos+ESPN) [skip ci]"
             git push
             echo "Publicado."
           else
