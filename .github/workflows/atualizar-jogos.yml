@@ -1,0 +1,36 @@
+name: Atualizar jogos (Liga MX)
+
+on:
+  schedule:
+    - cron: '0 12 * * 1'   # toda segunda, 12:00 UTC (~09:00 de Brasilia)
+  workflow_dispatch:        # botao manual "Run workflow"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atualizar-jogos
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Atualizar datas/horarios da Liga MX (fonte ESPN)
+        run: python scripts/update_fixtures.py index.html
+      - name: Publicar se houver mudanca
+        run: |
+          if [ -n "$(git status --porcelain index.html)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html
+            git commit -m "Atualiza horarios da Liga MX via ESPN [skip ci]"
+            git push
+            echo "Publicado."
+          else
+            echo "Sem mudancas - ja estava atualizado."
+          fi
